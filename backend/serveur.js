@@ -18,4 +18,7 @@ app.use(cors(corsOptions));
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
+const test = require("./test").test;
+app.post("/test", (request, result) => {test(request, result);});
+
 app.listen(port, host, () => {console.log (`Listening to http://${host}:${port}`);});
