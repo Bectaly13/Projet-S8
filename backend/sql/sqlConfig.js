@@ -1,5 +1,5 @@
 module.exports = {
-    sqlHost: "127.0.0.1",
+    sqlHost: "qmaxfrhpwsteam.mysql.db",
     sqlDatabase: "qmaxfrhpwsteam",
     charset: "utf8",
     sqlLogin: "qmaxfrhpwsteam",
