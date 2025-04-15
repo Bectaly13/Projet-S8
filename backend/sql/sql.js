@@ -2,7 +2,7 @@ const config = require("./sqlConfig");
 const mysqlConnect = require("./sqlConnect");
 
 async function getNom(numero) {
-    const requete = `SELECT *
+    const requete = `SELECT label
         FROM userTypes
         WHERE userTypeId = ?`;
     const data = [numero];
