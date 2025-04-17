@@ -12,20 +12,6 @@ function connect(){
   });
 }
 
-function disconnect(){
-    db.end();
-}
-
-function status() {
-    db.ping((err) => {
-        if (err) {
-            console.log("État de la connexion : déconnecté", err.message);
-        } else {
-            console.log("État de la connexion : connecté");
-        }
-    });
-}
-
 function query(requete, data) {
     return new Promise((resolve, reject) => {
         db.query(
@@ -43,5 +29,3 @@ connect();
 
 module.exports.query = query;
 module.exports.connect = connect;
-module.exports.disconnect = disconnect;
-module.exports.status = status;
