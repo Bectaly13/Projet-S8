@@ -1,4 +1,5 @@
 const mysqlConnect = require("../sqlConnect");
+const dom = require("../sqlConfig").dom;
 
 async function getNom(numero) {
     const requete = `SELECT name
