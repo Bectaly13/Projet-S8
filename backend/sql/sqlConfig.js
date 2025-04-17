@@ -10,7 +10,7 @@ module.exports = {
       sqlPassword: ""
     }
   : {
-      sqlHost: "qmaxfrhpwsteam.mysql.db",
+      sqlHost: "phpmyadmin.cluster006.hosting.ovh.net",
       sqlDatabase: "qmaxfrhpwsteam",
       charset: "utf8",
       sqlLogin: "qmaxfrhpwsteam",
