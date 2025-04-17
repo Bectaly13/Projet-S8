@@ -10,11 +10,11 @@ async function getDomainName(request, result) {
             return sendMessage(result, await sql.getNom(data["numero"]));
         }
         else {
-            return sendError(result, "domain NOT FOUND", 400);
+            return sendError(result, "domain NOT FOUND");
         }
     }
     else {
-        return sendError(result, "numero field NOT FOUND", 400);
+        return sendError(result, "numero field NOT GIVEN");
     }
 }
 
