@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 
-export interface PhpData {
-  status : 'ok' | 'error';
-  data : any;
+export interface BackendResponse {
+  status: number;
+  data: any; 
 }
 
 @Injectable({
@@ -15,9 +15,12 @@ export class MessageService {
 
   constructor(private httpClient : HttpClient) { }
 
-  sendMessage (url : string, data : any) : Observable<PhpData> {
+  sendMessage (url : string, data : any) : Observable<BackendResponse> {
     const fullUrl = this.backendUrl + url;
 
-    return this.httpClient.post<PhpData>(fullUrl, data, {withCredentials: true});
+    return this.httpClient.post(fullUrl, data, {withCredentials: true, observe: 'response'}).pipe(map((res: HttpResponse<any>) => ({
+      status: res.status,
+      data: res.body.data
+    })));
   }
 }

@@ -3,12 +3,12 @@ const sql = require("./sql/sql");
 
 async function test(request, result) {
     const data = request.body;
-    console.log("body :", data);
+    console.log("test.js :", data);
     if("numero" in data) {
         return sendMessage(result, await sql.getNom(data["numero"]));
     }
     else {
-        return sendError(result, "erreur pas numero");
+        return sendError(result, "numero field NOT FOUND", 400);
     }
 }
 
