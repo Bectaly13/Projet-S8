@@ -5,9 +5,9 @@ async function getDomainName(request, result) {
     const data = request.body;
     console.log("getDomainName.js :", data);
     if("numero" in data) {
-        const res = await sql.getNom(data["numero"]);
+        const res = await sql.getDomainName(data["numero"]);
         if(res.length) {
-            return sendMessage(result, await sql.getNom(data["numero"]));
+            return sendMessage(result, res);
         }
         else {
             return sendError(result, "domain NOT FOUND");

@@ -1,7 +1,7 @@
 const mysqlConnect = require("../sqlConnect");
 const dom = require("../sqlConfig").dom;
 
-async function getNom(numero) {
+async function getDomainName(numero) {
     const requete = `SELECT name
         FROM ${dom}
         WHERE domainId = ?`;
@@ -9,4 +9,4 @@ async function getNom(numero) {
     return mysqlConnect.query(requete, data);
 }
 
-module.exports.getNom = getNom;
+module.exports.getDomainName = getDomainName;
