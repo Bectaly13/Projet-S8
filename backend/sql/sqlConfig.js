@@ -18,8 +18,4 @@ module.exports = {
     }
 };
 
-module.exports.sqlHost = config.sqlHost;
-module.exports.sqlDatabase = config.sqlDatabase;
-module.exports.charset = config.charset;
-module.exports.sqlLogin = config.sqlLogin;
-module.exports.sqlPassword = config.sqlPassword;
+module.exports.config = config;
