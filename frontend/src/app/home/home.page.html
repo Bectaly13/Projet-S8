@@ -6,6 +6,13 @@
 
 <ion-content [fullscreen]="true">
   <p>
-    {{label}}
+    Numéro de domaine :
   </p>
+  <p>
+    <input type="number" [(ngModel)]="domainInput">
+  </p>
+  <p>
+    Nom de domaine : {{domainName}}
+  </p>
+  <button (click)="getDomainName()">Trouver le domaine</button>
 </ion-content>

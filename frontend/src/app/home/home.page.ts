@@ -14,19 +14,24 @@ import { ErrorService } from '../services/error.service';
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class HomePage implements OnInit {
-  label: string = "placeholder";
+  domainName: string = "";
+  domainInput: string = "";
 
   constructor(private message: MessageService,
               private error: ErrorService) { }
 
   ngOnInit() {
-    this.message.sendMessage("test", {numero: 1}).subscribe(res => {
-      console.log(res);
+
+  }
+
+  getDomainName() {
+    this.message.sendMessage("getDomainName", {numero: this.domainInput}).subscribe(res => {
       if(res.status == 200) {
-        this.label = res.data[0]["name"];
+        this.domainName = res.data[0]["name"];
       }
       else {
-        this.label = this.error.errorMessage(res);
+        this.domainName = "";
+        console.log(this.error.errorMessage(res));
       }
     })
   }

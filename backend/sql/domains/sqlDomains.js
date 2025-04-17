@@ -1,4 +1,4 @@
-const mysqlConnect = require("./sqlConnect");
+const mysqlConnect = require("../sqlConnect");
 
 async function getNom(numero) {
     const requete = `SELECT name
