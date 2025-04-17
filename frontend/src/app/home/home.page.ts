@@ -20,10 +20,10 @@ export class HomePage implements OnInit {
               private error: ErrorService) { }
 
   ngOnInit() {
-    this.message.sendMessage("test", {numeero: 1}).subscribe(res => {
+    this.message.sendMessage("test", {numero: 1}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        this.label = res.data[0]["label"];
+        this.label = res.data[0]["name"];
       }
       else {
         this.label = this.error.errorMessage(res);

@@ -1,14 +1,14 @@
-const config = require('./sqlConfig').config;
+const sql = require('./sqlConfig');
 const mysql = require('mysql2');
 
 let db=0;
 
 function connect(){
     db = mysql.createConnection({
-        host     : config.sqlHost,
-        user     : config.sqlLogin,   
-        password : config.sqlPassword,       
-        database : config.sqlDatabase
+        host     : sql.config.sqlHost,
+        user     : sql.config.sqlLogin,   
+        password : sql.config.sqlPassword,       
+        database : sql.config.sqlDatabase
   });
 }
 
@@ -28,4 +28,3 @@ function query(requete, data) {
 connect();
 
 module.exports.query = query;
-module.exports.connect = connect;
