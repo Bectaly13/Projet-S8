@@ -39,7 +39,7 @@ export class ChaptersPage implements ViewWillEnter {
         this.chapters = res.data.map(
           (item: {chapterId: number, name: string}) => ({
             chapterId : item.chapterId,
-            name: item.name
+            name: item.name.split(") ")[1] ?? item.name
           })
         )
       }
