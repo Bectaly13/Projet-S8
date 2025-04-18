@@ -20,7 +20,7 @@ export interface Sector {
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonButton]
 })
 export class SectorsPage implements ViewWillEnter {
-  sectors: Sector[] = [];
+  sectors!: Sector[];
 
   constructor(private message: MessageService,
               private error: ErrorService,
@@ -43,8 +43,10 @@ export class SectorsPage implements ViewWillEnter {
     })
   }
 
-  goToDomain(index: number) {
-    this.router.navigateByUrl("domains?sectorId=" + index);
+  goToDomains(index: number) {
+    this.router.navigate(["domains"], {queryParams: {
+      sectorId: index
+    }});
   }
 
 }
