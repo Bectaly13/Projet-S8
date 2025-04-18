@@ -43,9 +43,10 @@ export class SectorsPage implements ViewWillEnter {
     })
   }
 
-  goToDomains(index: number) {
+  goToDomains(index: number, sector: string) {
     this.router.navigate(["domains"], {queryParams: {
-      sectorId: index
+      sectorId: index,
+      sector: sector
     }});
   }
 

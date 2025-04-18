@@ -32,16 +32,7 @@ export class DomainsPage implements ViewWillEnter {
 
   ionViewWillEnter() {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
-
-    this.message.sendMessage("getSectorName", {sectorId: this.sectorId}).subscribe(res => {
-      console.log(res);
-      if(res.status == 200) {
-        this.sector = res.data[0]["name"];
-      }
-      else {
-        this.error.errorMessage(res);
-      }
-    });
+    this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
 
     this.message.sendMessage("getDomains", {sectorId : this.sectorId}).subscribe(res => {
       console.log(res);
