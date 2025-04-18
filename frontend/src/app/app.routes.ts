@@ -26,4 +26,8 @@ export const routes: Routes = [
     path: 'faq',
     loadComponent: () => import('./faq/faq.page').then( m => m.FaqPage)
   },
+  {
+    path: 'start-mcq',
+    loadComponent: () => import('./start-mcq/start-mcq.page').then( m => m.StartMCQPage)
+  },
 ];
