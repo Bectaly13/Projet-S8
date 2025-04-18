@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter } from '@ionic/angular/standalone';
+import { ActivatedRoute } from '@angular/router';
+
+import { MessageService } from '../services/message.service';
+import { ErrorService } from '../services/error.service';
 
 @Component({
   selector: 'app-study',
@@ -10,11 +14,31 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/stan
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
-export class StudyPage implements OnInit {
+export class StudyPage implements ViewWillEnter {
+  sectorId!: number;
+  chapterId!: number;
 
-  constructor() { }
+  mcq_size: number = 10;
+  question_index: number = 1;
 
-  ngOnInit() {
+  questionIds!: number[];
+
+  constructor(private route: ActivatedRoute,
+              private message: MessageService,
+              private error: ErrorService) { }
+
+  ionViewWillEnter(): void {
+    this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
+    this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
+
+    this.message.sendMessage("getStudyQuestions", {sectorId: this.sectorId, chapterId: this.chapterId}).subscribe(res => {
+      console.log(res);
+      if(res.status == 200) {
+
+      }
+      else {
+        this.error.errorMessage(res);
+      }
+    })
   }
-
 }
