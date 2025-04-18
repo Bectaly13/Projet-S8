@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>chapters</ion-title>
+    <ion-title>Choix du chapitre</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -10,4 +10,12 @@
       <ion-title size="large">chapters</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-list>
+    @for(chapter of chapters; track $index) {
+      <ion-item>
+        <ion-button>{{chapter.name}}</ion-button>
+      </ion-item>
+    }
+  </ion-list>
 </ion-content>

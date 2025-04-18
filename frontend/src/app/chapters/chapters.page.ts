@@ -1,20 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonList, IonItem, IonButton } from '@ionic/angular/standalone';
+import { ActivatedRoute } from '@angular/router';
+
+import { MessageService } from '../services/message.service';
+import { ErrorService } from '../services/error.service';
+
+export interface Chapter {
+  chapterId: number;
+  name: string;
+}
 
 @Component({
   selector: 'app-chapters',
   templateUrl: './chapters.page.html',
   styleUrls: ['./chapters.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonButton]
 })
-export class ChaptersPage implements OnInit {
+export class ChaptersPage implements ViewWillEnter {
+  sectorId!: number;
+  domainId!: number;
 
-  constructor() { }
+  chapters!: Chapter[];
 
-  ngOnInit() {
+  constructor(private route: ActivatedRoute,
+              private message: MessageService,
+              private error: ErrorService) { }
+
+  ionViewWillEnter(): void {
+    this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
+    this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
+
+    this.message.sendMessage("getChapters", {domainId: this.domainId}).subscribe(res => {
+      console.log(res);
+      if(res.status == 200) {
+        this.chapters = res.data.map(
+          (item: {chapterId: number, name: string}) => ({
+            chapterId : item.chapterId,
+            name: item.name
+          })
+        )
+      }
+      else {
+        this.error.errorMessage(res);
+      }
+    })
   }
-
 }
