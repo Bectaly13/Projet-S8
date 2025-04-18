@@ -1,5 +1,5 @@
 const {sendError, sendMessage} = require("./message");
-const sql = require("./sql/domains/sqlDomains");
+const sql = require("./sql/sqlDomains");
 
 async function getDomains(request, result) {
     const data = request.body;
