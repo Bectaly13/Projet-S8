@@ -2,7 +2,7 @@ import { Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton, IonButton } from '@ionic/angular/standalone';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-start-mcq',
@@ -17,13 +17,21 @@ export class StartMCQPage implements ViewWillEnter {
   chapterId!: number;
   chapter!: string;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+              private router: Router) { }
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
+  }
+
+  goToStudy() {
+    this.router.navigate(["study"], {queryParams: {
+      sectorId: this.sectorId,
+      chapterId: this.chapterId
+    }})
   }
 
 }

@@ -30,4 +30,8 @@ export const routes: Routes = [
     path: 'start-mcq',
     loadComponent: () => import('./start-mcq/start-mcq.page').then( m => m.StartMCQPage)
   },
+  {
+    path: 'study',
+    loadComponent: () => import('./study/study.page').then( m => m.StudyPage)
+  },
 ];
