@@ -11,7 +11,7 @@ async function getValidStudyIds(request, result) {
                 return sendMessage(result, res);
             }
             else {
-                return sendError(result, "Couldn't find any valid question", 404);
+                return sendError(result, "Couldn't find any valid ID", 404);
             }
         }
         else {
