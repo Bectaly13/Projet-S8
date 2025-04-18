@@ -1,12 +1,12 @@
 const {sendError, sendMessage} = require("./message");
 const sql = require("./sql/sqlQuestions");
 
-async function getValidStudyIds(request, result) {
+async function getValidStudyQuestions(request, result) {
     const data = request.body;
-    console.log("getValidStudyIds.js :", data);
+    console.log("getValidStudyQuestions.js :", data);
     if("chapterId" in data) {
         if("sectorId" in data) {
-            const res = await sql.getValidStudyIds(data["chapterId"], data["sectorId"]);
+            const res = await sql.getValidStudyQuestions(data["chapterId"], data["sectorId"]);
             if(res.length) {
                 return sendMessage(result, res);
             }
@@ -23,4 +23,4 @@ async function getValidStudyIds(request, result) {
     }
 }
 
-module.exports.getValidStudyIds = getValidStudyIds;
+module.exports.getValidStudyQuestions = getValidStudyQuestions;

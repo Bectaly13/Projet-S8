@@ -30,7 +30,7 @@ app.post("/getDomains", (request, result) => {getDomains(request, result);});
 const getChapters = require("./getChapters").getChapters;
 app.post("/getChapters", (request, result) => {getChapters(request, result);});
 
-const getValidStudyIds = require("./getValidStudyIds").getValidStudyIds;
-app.post("/getValidStudyIds", (request, result) => {getValidStudyIds(request, result);});
+const getValidStudyQuestions = require("./getValidStudyQuestions").getValidStudyQuestions;
+app.post("/getValidStudyQuestions", (request, result) => {getValidStudyQuestions(request, result);});
 
 app.listen(port, host, () => {console.log (`Listening to http://${host}:${port}`);});

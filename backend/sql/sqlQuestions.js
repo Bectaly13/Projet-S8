@@ -4,8 +4,8 @@ const skl = require("./sqlConfig").skl;
 const qgr = require("./sqlConfig").qgr;
 const qsl = require("./sqlConfig").qsl;
 
-async function getValidStudyIds(chapterId, sectorId) {
-    let validStudyIds = [];
+async function getvalidStudyQuestions(chapterId, sectorId) {
+    let validStudyQuestions = [];
 
     let query = `SELECT DISTINCT ${qgr}.questionGroupId
         FROM ${qgr}
@@ -28,11 +28,11 @@ async function getValidStudyIds(chapterId, sectorId) {
         let result = await mysqlConnect.query(query, data);
 
         for(let j = 0; j<result.length; j++) {
-            validStudyIds.push(result[j]);
+            validStudyQuestions.push(result[j]);
         }
     }
 
-    return validStudyIds;
+    return validStudyQuestions;
 }
 
-module.exports.getValidStudyIds = getValidStudyIds;
+module.exports.getvalidStudyQuestions = getvalidStudyQuestions;
