@@ -36,7 +36,7 @@ export class DomainsPage implements ViewWillEnter {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
 
-    this.message.sendMessage("getDomains", {sectorId : this.sectorId}).subscribe(res => {
+    this.message.sendMessage("getDomains", {}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
         this.domains = res.data.map(
