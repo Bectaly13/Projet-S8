@@ -21,7 +21,7 @@
   <ion-list>
     @for(chapter of chapters; track $index) {
       <ion-item>
-        <ion-button>{{chapter.name}}</ion-button>
+        <ion-button (click)="goToMCQ(chapter.chapterId, chapter.name)">{{chapter.name}}</ion-button>
       </ion-item>
     }
   </ion-list>

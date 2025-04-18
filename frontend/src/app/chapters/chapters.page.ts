@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonList, IonItem, IonButton, IonButtons, IonBackButton } from '@ionic/angular/standalone';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
@@ -28,7 +28,8 @@ export class ChaptersPage implements ViewWillEnter {
 
   constructor(private route: ActivatedRoute,
               private message: MessageService,
-              private error: ErrorService) { }
+              private error: ErrorService,
+              private router: Router) { }
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
@@ -49,5 +50,14 @@ export class ChaptersPage implements ViewWillEnter {
         this.error.errorMessage(res);
       }
     })
+  }
+
+  goToMCQ(index: number, chapter: string) {
+    this.router.navigate(['/start-mcq'], {queryParams: {
+      sectorId: this.sectorId,
+      domain: this.domain,
+      chapterId: index,
+      chapter: chapter
+    }});
   }
 }

@@ -1,6 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>startMCQ</ion-title>
+    <ion-title>Commencer QCM</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -10,4 +13,14 @@
       <ion-title size="large">startMCQ</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <p>
+    Domaine : {{domain}}
+  </p>
+  <p>
+    Chapitre : {{chapter}}
+  </p>
+
+  <ion-button>J'apprends</ion-button>
+  <ion-button>Je révise</ion-button>
 </ion-content>
