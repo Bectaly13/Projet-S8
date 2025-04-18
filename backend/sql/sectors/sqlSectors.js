@@ -2,21 +2,21 @@ const mysqlConnect = require("../sqlConnect");
 const sct = require("../sqlConfig").sct;
 
 async function getSectors() {
-    const requete = `SELECT sectorId, name
+    const query = `SELECT sectorId, name
         FROM ${sct}
         ORDER BY sectorId`;
         
     const data = [];
-    return mysqlConnect.query(requete, data);
+    return mysqlConnect.query(query, data);
 }
 
 async function getSectorName(sectorId) {
-    const requete = `SELECT name
+    const query = `SELECT name
         FROM ${sct}
         WHERE sectorId = ?`;
     
     const data = [sectorId];
-    return mysqlConnect.query(requete, data);
+    return mysqlConnect.query(query, data);
 }
 
 module.exports.getSectors = getSectors;
