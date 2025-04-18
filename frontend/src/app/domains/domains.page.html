@@ -1,9 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Choix du domaine</ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -15,6 +12,9 @@
   </ion-header>
 
   <p>Ma filière : {{sector}}</p>
+  <p>
+    <ion-button (click)="goToSectors()">Changer de filière</ion-button>
+  </p>
 
   <ion-list>
     @for(domain of domains; track $index) {

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton, IonList, IonItem, IonButton, IonFooter } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonList, IonItem, IonButton, IonFooter } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
@@ -19,7 +19,7 @@ export interface Domain {
   templateUrl: './domains.page.html',
   styleUrls: ['./domains.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonList, IonItem, IonButton, IonFooter, NavbarComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonButton, IonFooter, NavbarComponent]
 })
 export class DomainsPage implements ViewWillEnter {
   sectorId!: number;
@@ -57,5 +57,9 @@ export class DomainsPage implements ViewWillEnter {
       domainId: index,
       sectorId: this.sectorId
     }});
+  }
+
+  goToSectors() {
+    this.router.navigate(["sectors"]);
   }
 }

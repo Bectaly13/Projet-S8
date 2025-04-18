@@ -18,7 +18,6 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
-    console.log("ngoninit");
   }
 
   goToDomains() {
