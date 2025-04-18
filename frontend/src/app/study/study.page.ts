@@ -18,8 +18,8 @@ export class StudyPage implements ViewWillEnter {
   sectorId!: number;
   chapterId!: number;
 
-  mcq_size: number = 10;
-  question_index: number = 1;
+  mcqSize: number = 5;
+  questionIndex: number = 1;
 
   questionIds!: number[];
 
@@ -31,7 +31,7 @@ export class StudyPage implements ViewWillEnter {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
 
-    this.message.sendMessage("getStudyQuestions", {sectorId: this.sectorId, chapterId: this.chapterId}).subscribe(res => {
+    this.message.sendMessage("getValidStudyIds", {sectorId: this.sectorId, chapterId: this.chapterId}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
 
