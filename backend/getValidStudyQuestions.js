@@ -6,12 +6,17 @@ async function getValidStudyQuestions(request, result) {
     console.log("getValidStudyQuestions.js :", data);
     if("chapterId" in data) {
         if("sectorId" in data) {
-            const res = await sql.getValidStudyQuestions(data["chapterId"], data["sectorId"]);
-            if(res.length) {
-                return sendMessage(result, res);
+            if("mcqSize" in data) {
+                const res = await sql.getValidStudyQuestions(data["chapterId"], data["sectorId"]);
+                if(res.length >= data["mcqSize"]) {
+                    return sendMessage(result, res);
+                }
+                else {
+                    return sendError(result, "Couldn't find enough valid study questions", 404);
+                }
             }
             else {
-                return sendError(result, "Couldn't find any valid ID", 404);
+                return sendError(result, "MCQ size is required");
             }
         }
         else {
