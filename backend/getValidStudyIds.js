@@ -6,7 +6,7 @@ async function getValidStudyIds(request, result) {
     console.log("getValidStudyIds.js :", data);
     if("chapterId" in data) {
         if("sectorId" in data) {
-            const res = await sql.getValidStudyIds(data["chapterId"], data["sectorId"], data["mcqSize"]);
+            const res = await sql.getValidStudyIds(data["chapterId"], data["sectorId"]);
             if(res.length) {
                 return sendMessage(result, res);
             }
