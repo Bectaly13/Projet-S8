@@ -10,6 +10,20 @@
       <ion-title size="large">faq</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-list>
+    @for(header of headers; track $index) {
+      <ion-item>
+        <ion-button (click)="openText($index)">{{header}}</ion-button>
+      </ion-item>
+    }
+  </ion-list>
+
+  <a href="mailto:{{mail}}?subject={{subject}}">
+    <ion-button>
+      Nous contacter
+    </ion-button>
+  </a>  
 </ion-content>
 
 <ion-footer>
