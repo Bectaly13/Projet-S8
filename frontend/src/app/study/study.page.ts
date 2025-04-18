@@ -31,7 +31,7 @@ export class StudyPage implements ViewWillEnter {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
 
-    this.message.sendMessage("getValidStudyIds", {sectorId: this.sectorId, chapterId: this.chapterId, mcqSize : this.mcqSize}).subscribe(res => {
+    this.message.sendMessage("getValidStudyQuestions", {sectorId: this.sectorId, chapterId: this.chapterId, mcqSize : this.mcqSize}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
 
