@@ -31,7 +31,7 @@ export class SectorsPage implements ViewWillEnter {
       console.log(res);
       if(res.status == 200) {
         this.sectors = res.data.map(
-          (item: { sectorId: number, name: string }) => ({
+          (item: Sector) => ({
             sectorId: item.sectorId,
             name: item.name
           })

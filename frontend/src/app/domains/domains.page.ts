@@ -40,7 +40,7 @@ export class DomainsPage implements ViewWillEnter {
       console.log(res);
       if(res.status == 200) {
         this.domains = res.data.map(
-          (item: {domainId: number, name: string}) => ({
+          (item: Domain) => ({
             domainId: item.domainId,
             name: item.name
           })
