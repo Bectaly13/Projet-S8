@@ -24,4 +24,7 @@ app.post("/getSectors", (request, result) => {getSectors(request, result);});
 const getSectorName = require("./getSectorName").getSectorName;
 app.post("/getSectorName", (request, result) => {getSectorName(request, result);});
 
+const getDomains = require("./getDomains").getDomains;
+app.post("/getDomains", (request, result) => {getDomains(request, result);});
+
 app.listen(port, host, () => {console.log (`Listening to http://${host}:${port}`);});

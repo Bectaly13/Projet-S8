@@ -1,0 +1,16 @@
+const {sendError, sendMessage} = require("./message");
+const sql = require("./sql/domains/sqlDomains");
+
+async function getDomains(request, result) {
+    const data = request.body;
+    console.log("getDomains.js :", data);
+    const res = await sql.getDomains();
+    if(res.length) {
+        return sendMessage(result, res);
+    }
+    else {
+        return sendError(result, "No domains found");
+    }
+}
+
+module.exports.getDomains = getDomains;
