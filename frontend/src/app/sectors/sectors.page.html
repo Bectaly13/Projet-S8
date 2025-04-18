@@ -18,7 +18,7 @@
   <ion-list>
     @for(sector of sectors; track $index) {
       <ion-item>
-        <ion-button>{{sectors[$index]}}</ion-button>
+        <ion-button (click)="goToDomain(sectors[$index].sectorId)">{{sectors[$index].name}}</ion-button>
       </ion-item>
     }
   </ion-list>
