@@ -18,7 +18,7 @@ app.use(cors(corsOptions));
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-const getDomainName = require("./getDomainName").getDomainName;
-app.post("/getDomainName", (request, result) => {getDomainName(request, result);});
+const getSectors = require("./getSectors").getSectors;
+app.post("/getSectors", (request, result) => {getSectors(request, result);});
 
 app.listen(port, host, () => {console.log (`Listening to http://${host}:${port}`);});

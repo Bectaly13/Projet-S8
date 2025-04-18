@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Choix de la filière</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">sectors</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <h1>Bienvenue dans QMax !</h1>
+
+  <p>Je suis en...</p>
+
+  <ion-list>
+    @for(sector of sectors; track $index) {
+      <ion-item>
+        <ion-button>{{sectors[$index]}}</ion-button>
+      </ion-item>
+    }
+  </ion-list>
+</ion-content>
