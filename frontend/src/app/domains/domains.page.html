@@ -19,7 +19,7 @@
   <ion-list>
     @for(domain of domains; track $index) {
       <ion-item>
-        <ion-button (click)="goToChapters(domains[$index].domainId)">{{domain.name}}</ion-button>
+        <ion-button (click)="goToChapters(domain.domainId, domain.name)">{{domain.name}}</ion-button>
       </ion-item>
     }
   </ion-list>

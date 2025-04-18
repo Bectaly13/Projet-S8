@@ -52,10 +52,11 @@ export class DomainsPage implements ViewWillEnter {
     })
   }
 
-  goToChapters(index: number) {
+  goToChapters(index: number, domain: string) {
     this.router.navigate(["chapters"], {queryParams: {
       domainId: index,
-      sectorId: this.sectorId
+      domain: domain,
+      sectorId: this.sectorId,
     }});
   }
 

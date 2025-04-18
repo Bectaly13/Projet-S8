@@ -22,6 +22,7 @@ export interface Chapter {
 export class ChaptersPage implements ViewWillEnter {
   sectorId!: number;
   domainId!: number;
+  domain!: string;
 
   chapters!: Chapter[];
 
@@ -32,6 +33,7 @@ export class ChaptersPage implements ViewWillEnter {
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
+    this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
 
     this.message.sendMessage("getChapters", {domainId: this.domainId}).subscribe(res => {
       console.log(res);
