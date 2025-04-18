@@ -21,4 +21,7 @@ app.use(cookieParser());
 const getSectors = require("./getSectors").getSectors;
 app.post("/getSectors", (request, result) => {getSectors(request, result);});
 
+const getSectorName = require("./getSectorName").getSectorName;
+app.post("/getSectorName", (request, result) => {getSectorName(request, result);});
+
 app.listen(port, host, () => {console.log (`Listening to http://${host}:${port}`);});
