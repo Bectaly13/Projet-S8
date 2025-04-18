@@ -13,4 +13,10 @@
       <ion-title size="large">study</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  @for(question of questions; track $index) {
+    <p>
+      {{question.level}}
+    </p>
+  }
 </ion-content>
