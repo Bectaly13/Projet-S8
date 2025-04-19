@@ -9,7 +9,6 @@ import { ErrorService } from '../services/error.service';
 
 export interface Question {
   questionId: number;
-  questionGroupId: number;
   explanation: string;
   level: 1 | 2 | 3 | 4;
   mixingType: "RANDOM" | "TWO_BY_TWO" | "FIXED";
@@ -51,7 +50,6 @@ export class StudyPage implements ViewWillEnter {
         this.validQuestions = res.data.map(
           (item : Question) => ({
             questionId: item.questionId,
-            questionGroupId: item.questionGroupId,
             explanation: item.explanation,
             level: item.level,
             mixingType: item.mixingType

@@ -19,7 +19,7 @@ async function getValidStudyQuestions(chapterId, sectorId) {
     let validQuestionGroupIds =  await mysqlConnect.query(query, data);
 
     for(let i = 0; i<validQuestionGroupIds.length; i++) {
-        query = `SELECT questionId, questionGroupId, explanation, level, mixingType
+        query = `SELECT questionId, explanation, level, mixingType
             FROM ${qst}
             WHERE questionGroupId = ?
             ORDER BY level`;
