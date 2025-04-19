@@ -33,4 +33,10 @@ app.post("/getChapters", (request, result) => {getChapters(request, result);});
 const getValidStudyQuestions = require("./getValidStudyQuestions").getValidStudyQuestions;
 app.post("/getValidStudyQuestions", (request, result) => {getValidStudyQuestions(request, result);});
 
+const getQuestionChoices = require("./getQuestionChoices").getQuestionChoices;
+app.post("/getQuestionChoices", (request, result) => {getQuestionChoices(request, result);});
+
+const getQuestionImages = require("./getQuestionImages").getQuestionImages;
+app.post("/getQuestionImages", (request, result) => {getQuestionImages(request, result);});
+
 app.listen(port, host, () => {console.log (`Listening to http://${host}:${port}`);});
