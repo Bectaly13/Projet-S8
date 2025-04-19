@@ -15,8 +15,16 @@
   </ion-header>
 
   @for(question of questions; track $index) {
+    <p>Question {{$index + 1}}</p>
     <p>
-      {{question.level}}
+      @for(choice of choices[$index]; track choice) {
+        <p>{{choice.wordingBefore}}</p>
+        <p>{{choice.choiceOrder}}. {{choice.choiceText}}</p>
+        <p>{{choice.wordingAfter}}</p>
+      }
+    </p>
+    <p>
+      Correction : {{question.explanation}}
     </p>
   }
 </ion-content>

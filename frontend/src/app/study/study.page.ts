@@ -30,7 +30,6 @@ export class StudyPage implements ViewWillEnter {
 
   validQuestions!: Question[];
   questions!: Question[];
-  questionIds!: number[];
 
   choices: any[] = [];
 
@@ -58,10 +57,8 @@ export class StudyPage implements ViewWillEnter {
 
         this.questions = [...this.validQuestions].sort(() => Math.random() - 0.5).slice(0, this.mcqSize).sort((a, b) => a.level - b.level);
 
-        this.questionIds = this.questions.map(q => q.questionId);
-
         for(let i = 0; i<this.questions.length; i++) {
-          this.message.sendMessage("getQuestionChoices", {questionId: this.questions[i]["questionId"]}).subscribe(res => {
+          this.message.sendMessage("getQuestionChoices", {questionId: this.questions[i].questionId}).subscribe(res => {
             console.log(res);
             if(res.status == 200) {
               this.choices[i] = res.data;
@@ -73,7 +70,7 @@ export class StudyPage implements ViewWillEnter {
         };
 
         for(let i = 0; i<this.questions.length; i++) {
-          this.message.sendMessage("getQuestionImages", {questionId: this.questions[i]["questionId"]}).subscribe(res => {
+          this.message.sendMessage("getQuestionImages", {questionId: this.questions[i].questionId}).subscribe(res => {
             console.log(res);
             if(res.status == 200) {
               this.images[i] = res.data;
