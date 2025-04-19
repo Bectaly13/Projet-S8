@@ -46,14 +46,7 @@ export class StudyPage implements ViewWillEnter {
     this.message.sendMessage("getValidStudyQuestions", {sectorId: this.sectorId, chapterId: this.chapterId, mcqSize : this.mcqSize}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        this.validQuestions = res.data.map(
-          (item : Question) => ({
-            questionId: item.questionId,
-            explanation: item.explanation,
-            level: item.level,
-            mixingType: item.mixingType
-          })
-        );
+        this.validQuestions = res.data;
 
         this.questions = [...this.validQuestions].sort(() => Math.random() - 0.5).slice(0, this.mcqSize).sort((a, b) => a.level - b.level);
 

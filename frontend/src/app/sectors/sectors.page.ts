@@ -30,12 +30,7 @@ export class SectorsPage implements ViewWillEnter {
     this.message.sendMessage("getSectors", {}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        this.sectors = res.data.map(
-          (item: Sector) => ({
-            sectorId: item.sectorId,
-            name: item.name
-          })
-        );
+        this.sectors = res.data;
       }
       else {
         console.log(this.error.errorMessage(res));

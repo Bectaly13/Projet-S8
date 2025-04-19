@@ -39,12 +39,7 @@ export class DomainsPage implements ViewWillEnter {
     this.message.sendMessage("getDomains", {}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        this.domains = res.data.map(
-          (item: Domain) => ({
-            domainId: item.domainId,
-            name: item.name
-          })
-        );
+        this.domains = res.data;
       }
       else {
         this.error.errorMessage(res);
