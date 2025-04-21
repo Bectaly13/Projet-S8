@@ -23,6 +23,8 @@ export interface Question {
 })
 export class MCQPage implements ViewWillEnter {
   title!: string;
+  backendFileName!: string;
+  data!: any;
 
   mail: string = "appli.qmax@gmail.com";
 
@@ -58,55 +60,39 @@ export class MCQPage implements ViewWillEnter {
 
     if(this.chapterId) {
       this.title = "Je révise";
-
-      this.message.sendMessage("getValidStudyQuestions", {sectorId: this.sectorId, chapterId: this.chapterId, mcqSize : this.mcqSize}).subscribe(res => {
-        console.log(res);
-        if(res.status == 200) {
-          this.validQuestions = res.data;
-  
-          this.questions = [...this.validQuestions].sort(() => Math.random() - 0.5).slice(0, this.mcqSize).sort((a, b) => a.level - b.level);
-  
-          for(let i = 0; i<this.questions.length; i++) {
-            this.getQuestionChoices(i);
-          };
-  
-          for(let i = 0; i<this.questions.length; i++) {
-            this.getQuestionImages(i);
-          };
-        }
-        else {
-          this.error.errorMessage(res);
-        }
-      })
+      this.backendFileName = "getValidStudyQuestions";
+      this.data = {sectorId: this.sectorId, chapterId: this.chapterId, mcqSize : this.mcqSize};
     }
 
     else if(this.skillId) {
       this.title = "J'apprends";
-
-      this.message.sendMessage("getValidLearnQuestions", {sectorId: this.sectorId, skillId: this.skillId, mcqSize : this.mcqSize}).subscribe(res => {
-        console.log(res);
-        if(res.status == 200) {
-          this.validQuestions = res.data;
-  
-          this.questions = [...this.validQuestions].sort(() => Math.random() - 0.5).slice(0, this.mcqSize).sort((a, b) => a.level - b.level);
-  
-          for(let i = 0; i<this.questions.length; i++) {
-            this.getQuestionChoices(i);
-          };
-  
-          for(let i = 0; i<this.questions.length; i++) {
-            this.getQuestionImages(i);
-          };
-        }
-        else {
-          this.error.errorMessage(res);
-        }
-      })
+      this.backendFileName = "getValidLearnQuestions";
+      this.data = {sectorId: this.sectorId, skillId: this.skillId, mcqSize : this.mcqSize};
     }
 
     else {
       console.log("Erreur : aucun mode de travail transmis");
-    }   
+    }
+
+    this.message.sendMessage(this.backendFileName, this.data).subscribe(res => {
+      console.log(res);
+      if(res.status == 200) {
+        this.validQuestions = res.data;
+
+        this.questions = [...this.validQuestions].sort(() => Math.random() - 0.5).slice(0, this.mcqSize).sort((a, b) => a.level - b.level);
+
+        for(let i = 0; i<this.questions.length; i++) {
+          this.getQuestionChoices(i);
+        };
+
+        for(let i = 0; i<this.questions.length; i++) {
+          this.getQuestionImages(i);
+        };
+      }
+      else {
+        this.error.errorMessage(res);
+      }
+    })
   }
 
   getQuestionChoices(i: number) {
