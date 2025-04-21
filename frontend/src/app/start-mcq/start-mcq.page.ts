@@ -28,7 +28,7 @@ export class StartMCQPage implements ViewWillEnter {
   }
 
   startMCQ() {
-    this.router.navigate(["study"], {queryParams: {
+    this.router.navigate(["mcq"], {queryParams: {
       sectorId: this.sectorId,
       chapterId: this.chapterId
     }})

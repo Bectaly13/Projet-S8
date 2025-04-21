@@ -15,13 +15,13 @@ export interface Question {
 }
 
 @Component({
-  selector: 'app-study',
-  templateUrl: './study.page.html',
-  styleUrls: ['./study.page.scss'],
+  selector: 'app-mcq',
+  templateUrl: './mcq.page.html',
+  styleUrls: ['./mcq.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonCheckbox, IonButton]
 })
-export class StudyPage implements ViewWillEnter {
+export class MCQPage implements ViewWillEnter {
   title!: string;
 
   sectorId!: number;

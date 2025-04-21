@@ -31,8 +31,8 @@ export const routes: Routes = [
     loadComponent: () => import('./start-mcq/start-mcq.page').then( m => m.StartMCQPage)
   },
   {
-    path: 'study',
-    loadComponent: () => import('./study/study.page').then( m => m.StudyPage)
+    path: 'mcq',
+    loadComponent: () => import('./mcq/mcq.page').then( m => m.MCQPage)
   },
   {
     path: 'skills',
