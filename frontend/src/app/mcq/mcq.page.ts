@@ -24,6 +24,8 @@ export interface Question {
 export class MCQPage implements ViewWillEnter {
   title!: string;
 
+  mail: string = "appli.qmax@gmail.com";
+
   sectorId!: number;
   chapterId!: number;
   skillId!: number;

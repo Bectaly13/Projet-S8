@@ -52,6 +52,14 @@
           <ion-button (click)="nextQuestion()">Suivant</ion-button>
         }
       }
+
+      <p>
+        <a href="mailto:{{mail}}?subject=Commentaire sur la question {{question.questionId}}">
+          <ion-button>
+            ?
+          </ion-button>
+        </a> 
+      </p>
     }
   }
 </ion-content>
