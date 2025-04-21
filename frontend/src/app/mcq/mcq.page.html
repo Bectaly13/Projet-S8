@@ -21,7 +21,7 @@
         @for(choice of choices[$index]; track choice) {
           <p>{{choice.wordingBefore}}</p>
           <p>
-            <ion-checkbox [(ngModel)]="toggledChoices[choice.choiceOrder - 1]" [disabled]="isCheckboxLocked"></ion-checkbox> {{choiceLabels[choice.choiceOrder - 1]}}. {{choice.choiceText}}
+            <ion-checkbox [(ngModel)]="toggledChoices[choice.choiceOrder - 1]" [disabled]="showAnswer"></ion-checkbox> {{choiceLabels[choice.choiceOrder - 1]}}. {{choice.choiceText}}
           </p>
           <p>{{choice.wordingAfter}}</p>
         }

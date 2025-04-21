@@ -30,8 +30,7 @@ export class MCQPage implements ViewWillEnter {
 
   mcqSize: number = 5;
   questionIndex: number = 1;
-  showAnswer: number = 0;
-  isCheckboxLocked: string = "false";
+  showAnswer: boolean = false;
   choiceLabels: string[] = ["A", "B", "C", "D"];
   toggledChoices: Boolean[] = [false, false, false, false];
   solution: string = "";
@@ -206,10 +205,10 @@ export class MCQPage implements ViewWillEnter {
     }
 
     if(this.solution == "") {
-      this.solution = "aucune de ces réponses"
+      this.solution = "aucune de ces réponses";
     }
 
-    for(let i=0; i<choices.length; i++) { // update answer status
+    for(let i=0; i<answers.length; i++) { // update answer status
       if(this.toggledChoices[i] != answers[i]) {
         this.answerStatus = "incorrecte";
         break;
@@ -220,16 +219,15 @@ export class MCQPage implements ViewWillEnter {
       this.score ++;
     }
 
-    this.showAnswer = 1;
-    this.isCheckboxLocked = "true";
+    this.showAnswer = true;
   }
 
   nextQuestion() {
     this.questionIndex ++;
-    this.showAnswer = 0;
+    this.showAnswer = false;
     this.solution = "";
     this.toggledChoices = [false, false, false, false];
-    this.isCheckboxLocked = "false";
+    this.answerStatus = "correcte";
   }
 
   showScore() {
