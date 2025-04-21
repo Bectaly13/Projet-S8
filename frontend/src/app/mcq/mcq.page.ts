@@ -89,14 +89,14 @@ export class MCQPage implements ViewWillEnter {
         for(let i = 0; i<this.questions.length; i++) {
           this.getQuestionImages(i);
         };
+
+        return 0;
       }
       else {
         this.error.errorMessage(res);
         return 1;
       }
     })
-
-    return 0;
   }
 
   getQuestionChoices(i: number) {
