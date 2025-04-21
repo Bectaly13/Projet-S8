@@ -53,7 +53,7 @@ export class MCQPage implements ViewWillEnter {
               private error: ErrorService,
               private router: Router) { }
 
-  ionViewWillEnter(): void {
+  ionViewWillEnter(): number {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.skillId = Number(this.route.snapshot.queryParamMap.get("skillId"));
@@ -71,7 +71,8 @@ export class MCQPage implements ViewWillEnter {
     }
 
     else {
-      console.log("Erreur : aucun mode de travail transmis");
+      console.error("Error : no study mode given");
+      return 1;
     }
 
     this.message.sendMessage(this.backendFileName, this.data).subscribe(res => {
@@ -91,8 +92,11 @@ export class MCQPage implements ViewWillEnter {
       }
       else {
         this.error.errorMessage(res);
+        return 1;
       }
     })
+
+    return 0;
   }
 
   getQuestionChoices(i: number) {
