@@ -39,4 +39,7 @@ app.post("/getQuestionChoices", (request, result) => {getQuestionChoices(request
 const getQuestionImages = require("./getQuestionImages").getQuestionImages;
 app.post("/getQuestionImages", (request, result) => {getQuestionImages(request, result);});
 
+const getSkills = require("./getSkills").getSkills;
+app.post("/getSkills", (request, result) => {getSkills(request, result);});
+
 app.listen(port, host, () => {console.log (`Listening to http://${host}:${port}`);});

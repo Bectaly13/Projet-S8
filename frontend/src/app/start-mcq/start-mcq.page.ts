@@ -34,4 +34,12 @@ export class StartMCQPage implements ViewWillEnter {
     }})
   }
 
+  goToSkills() {
+    this.router.navigate(["skills"], {queryParams: {
+      sectorId: this.sectorId,
+      domain: this.domain,
+      chapterId: this.chapterId,
+      chapter: this.chapter
+    }})
+  }
 }

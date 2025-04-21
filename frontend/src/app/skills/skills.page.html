@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Commencer QCM</ion-title>
+    <ion-title>Choix de la compétence</ion-title>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -10,7 +10,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">startMCQ</ion-title>
+      <ion-title size="large">skills</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -21,6 +21,11 @@
     Chapitre : {{chapter}}
   </p>
 
-  <ion-button (click)="goToSkills()">J'apprends</ion-button>
-  <ion-button (click)="goToStudy()">Je révise</ion-button>
+  <ion-list>
+    @for(skill of skills; track $index) {
+      <ion-item>
+        <ion-button (click)="goToLearn(skill.skillId)">{{skill.name}}</ion-button>
+      </ion-item>
+    }
+  </ion-list>
 </ion-content>
