@@ -39,7 +39,7 @@ export const routes: Routes = [
     loadComponent: () => import('./skills/skills.page').then( m => m.SkillsPage)
   },
   {
-    path: 'learn',
-    loadComponent: () => import('./learn/learn.page').then( m => m.LearnPage)
+    path: 'score',
+    loadComponent: () => import('./score/score.page').then( m => m.ScorePage)
   },
 ];

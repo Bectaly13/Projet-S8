@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton } from '@ionic/angular/standalone';
-import { ActivatedRoute } from '@angular/router';
+import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton, IonCheckbox, IonButton } from '@ionic/angular/standalone';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
@@ -19,14 +19,24 @@ export interface Question {
   templateUrl: './study.page.html',
   styleUrls: ['./study.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonCheckbox, IonButton]
 })
 export class StudyPage implements ViewWillEnter {
+  title!: string;
+
   sectorId!: number;
   chapterId!: number;
+  skillId!: number;
 
   mcqSize: number = 5;
   questionIndex: number = 1;
+  showAnswer: number = 0;
+  isCheckboxLocked: string = "false";
+  choiceLabels: string[] = ["A", "B", "C", "D"];
+  toggledChoices: Boolean[] = [false, false, false, false];
+  solution: string = "";
+  answerStatus: string = "correcte";
+  score: number = 0;
 
   validQuestions!: Question[];
   questions!: Question[];
@@ -37,79 +47,121 @@ export class StudyPage implements ViewWillEnter {
 
   constructor(private route: ActivatedRoute,
               private message: MessageService,
-              private error: ErrorService) { }
+              private error: ErrorService,
+              private router: Router) { }
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
+    this.skillId = Number(this.route.snapshot.queryParamMap.get("skillId"));
 
-    this.message.sendMessage("getValidStudyQuestions", {sectorId: this.sectorId, chapterId: this.chapterId, mcqSize : this.mcqSize}).subscribe(res => {
+    if(this.chapterId) {
+      this.title = "Je révise";
+
+      this.message.sendMessage("getValidStudyQuestions", {sectorId: this.sectorId, chapterId: this.chapterId, mcqSize : this.mcqSize}).subscribe(res => {
+        console.log(res);
+        if(res.status == 200) {
+          this.validQuestions = res.data;
+  
+          this.questions = [...this.validQuestions].sort(() => Math.random() - 0.5).slice(0, this.mcqSize).sort((a, b) => a.level - b.level);
+  
+          for(let i = 0; i<this.questions.length; i++) {
+            this.getQuestionChoices(i);
+          };
+  
+          for(let i = 0; i<this.questions.length; i++) {
+            this.getQuestionImages(i);
+          };
+        }
+        else {
+          this.error.errorMessage(res);
+        }
+      })
+    }
+
+    else if(this.skillId) {
+      this.title = "J'apprends";
+
+      this.message.sendMessage("getValidLearnQuestions", {sectorId: this.sectorId, skillId: this.skillId, mcqSize : this.mcqSize}).subscribe(res => {
+        console.log(res);
+        if(res.status == 200) {
+          this.validQuestions = res.data;
+  
+          this.questions = [...this.validQuestions].sort(() => Math.random() - 0.5).slice(0, this.mcqSize).sort((a, b) => a.level - b.level);
+  
+          for(let i = 0; i<this.questions.length; i++) {
+            this.getQuestionChoices(i);
+          };
+  
+          for(let i = 0; i<this.questions.length; i++) {
+            this.getQuestionImages(i);
+          };
+        }
+        else {
+          this.error.errorMessage(res);
+        }
+      })
+    }
+
+    else {
+      console.log("Erreur : aucun mode de travail transmis");
+    }   
+  }
+
+  getQuestionChoices(i: number) {
+    this.message.sendMessage("getQuestionChoices", {questionId: this.questions[i].questionId}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        this.validQuestions = res.data;
+        this.choices[i] = res.data;
 
-        this.questions = [...this.validQuestions].sort(() => Math.random() - 0.5).slice(0, this.mcqSize).sort((a, b) => a.level - b.level);
+        const mixingType = this.questions[i].mixingType;
 
-        for(let i = 0; i<this.questions.length; i++) {
-          this.message.sendMessage("getQuestionChoices", {questionId: this.questions[i].questionId}).subscribe(res => {
-            console.log(res);
-            if(res.status == 200) {
-              this.choices[i] = res.data;
+        if (mixingType === "RANDOM") {
+          const fieldsToShuffle = this.choices[i].map((c: any) => ({
+            choiceText: c.choiceText,
+            isCorrect: c.isCorrect
+          }));
+          const shuffled: any[] = this.shuffle(fieldsToShuffle);
+          for (let j = 0; j < this.choices[i].length; j++) {
+            this.choices[i][j].choiceText = shuffled[j].choiceText;
+            this.choices[i][j].isCorrect = shuffled[j].isCorrect;
+          }
+        }
 
-              const mixingType = this.questions[i].mixingType;
+        else if (mixingType === "TWO_BY_TWO") {
+          const group1 = this.choices[i].slice(0, 2).map((c: any) => ({
+            choiceText: c.choiceText,
+            isCorrect: c.isCorrect
+          }));
+          const group2 = this.choices[i].length > 2 ? this.choices[i].slice(2, 4).map((c: any) => ({
+            choiceText: c.choiceText,
+            isCorrect: c.isCorrect
+          })) : [];
 
-              if (mixingType === "RANDOM") {
-                const fieldsToShuffle = this.choices[i].map((c: any) => ({
-                  choiceText: c.choiceText,
-                  isCorrect: c.isCorrect
-                }));
-                const shuffled: any[] = this.shuffle(fieldsToShuffle);
-                for (let j = 0; j < this.choices[i].length; j++) {
-                  this.choices[i][j].choiceText = shuffled[j].choiceText;
-                  this.choices[i][j].isCorrect = shuffled[j].isCorrect;
-                }
-              }
+          const shuffled1: any[] = this.shuffle(group1);
+          const shuffled2: any[] = this.shuffle(group2);
 
-              else if (mixingType === "TWO_BY_TWO") {
-                const group1 = this.choices[i].slice(0, 2).map((c: any) => ({
-                  choiceText: c.choiceText,
-                  isCorrect: c.isCorrect
-                }));
-                const group2 = this.choices[i].length > 2 ? this.choices[i].slice(2, 4).map((c: any) => ({
-                  choiceText: c.choiceText,
-                  isCorrect: c.isCorrect
-                })) : [];
+          for (let j = 0; j < shuffled1.length; j++) {
+            this.choices[i][j].choiceText = shuffled1[j].choiceText;
+            this.choices[i][j].isCorrect = shuffled1[j].isCorrect;
+          }
+          for (let j = 0; j < shuffled2.length; j++) {
+            this.choices[i][j + 2].choiceText = shuffled2[j].choiceText;
+            this.choices[i][j + 2].isCorrect = shuffled2[j].isCorrect;
+          }
+        }
+      }
+      else {
+        this.error.errorMessage(res);
+      }
+    })
+  }
 
-                const shuffled1: any[] = this.shuffle(group1);
-                const shuffled2: any[] = this.shuffle(group2);
-
-                for (let j = 0; j < shuffled1.length; j++) {
-                  this.choices[i][j].choiceText = shuffled1[j].choiceText;
-                  this.choices[i][j].isCorrect = shuffled1[j].isCorrect;
-                }
-                for (let j = 0; j < shuffled2.length; j++) {
-                  this.choices[i][j + 2].choiceText = shuffled2[j].choiceText;
-                  this.choices[i][j + 2].isCorrect = shuffled2[j].isCorrect;
-                }
-              }
-            }
-            else {
-              this.error.errorMessage(res);
-            }
-          })
-        };
-
-        for(let i = 0; i<this.questions.length; i++) {
-          this.message.sendMessage("getQuestionImages", {questionId: this.questions[i].questionId}).subscribe(res => {
-            console.log(res);
-            if(res.status == 200) {
-              this.images[i] = res.data;
-            }
-            else {
-              this.error.errorMessage(res);
-            }
-          })
-        };
+  getQuestionImages(i: number) {
+    this.message.sendMessage("getQuestionImages", {questionId: this.questions[i].questionId}).subscribe(res => {
+      console.log(res);
+      if(res.status == 200) {
+        this.images[i] = res.data;
       }
       else {
         this.error.errorMessage(res);
@@ -119,10 +171,71 @@ export class StudyPage implements ViewWillEnter {
 
   shuffle<T>(array: T[]): T[] {
     const shuffled = [...array];
+
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
+
     return shuffled;
   } 
+
+  checkAnswer(choices: any) {
+    let answers: Boolean[] = [];
+    let lastTrueIndex: number = 0;
+
+    for(let i=0; i<choices.length; i++) { // get correct answers
+      if(choices[i].isCorrect) {
+        answers.push(true);
+        lastTrueIndex = i;
+      }
+      else {
+        answers.push(false);
+      }
+    }
+
+    for(let i=0; i<lastTrueIndex + 1; i++) { // prepare solution string
+      if(answers[i]) {
+        if(i == lastTrueIndex) {
+          this.solution += this.choiceLabels[choices[i].choiceOrder - 1];
+        }
+        else {
+          this.solution += this.choiceLabels[choices[i].choiceOrder - 1] + ", ";
+        }
+      }
+    }
+
+    if(this.solution == "") {
+      this.solution = "aucune de ces réponses"
+    }
+
+    for(let i=0; i<choices.length; i++) { // update answer status
+      if(this.toggledChoices[i] != answers[i]) {
+        this.answerStatus = "incorrecte";
+        break;
+      }
+    }
+
+    if(this.answerStatus == "correcte") { // update score
+      this.score ++;
+    }
+
+    this.showAnswer = 1;
+    this.isCheckboxLocked = "true";
+  }
+
+  nextQuestion() {
+    this.questionIndex ++;
+    this.showAnswer = 0;
+    this.solution = "";
+    this.toggledChoices = [false, false, false, false];
+    this.isCheckboxLocked = "false";
+  }
+
+  showScore() {
+    this.router.navigate(["score"], {queryParams: {
+      score: this.score,
+      mcqSize: this.mcqSize
+    }})
+  }
 }

@@ -49,8 +49,8 @@ export class SkillsPage implements ViewWillEnter {
     })
   }
 
-  goToLearn(skillId: number) {
-    this.router.navigate(["learn"], {queryParams: {
+  startMCQ(skillId: number) {
+    this.router.navigate(["study"], {queryParams: {
       sectorId: this.sectorId,
       skillId: skillId
     }})

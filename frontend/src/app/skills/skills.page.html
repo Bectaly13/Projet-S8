@@ -24,7 +24,7 @@
   <ion-list>
     @for(skill of skills; track $index) {
       <ion-item>
-        <ion-button (click)="goToLearn(skill.skillId)">{{skill.name}}</ion-button>
+        <ion-button (click)="startMCQ(skill.skillId)">{{skill.name}}</ion-button>
       </ion-item>
     }
   </ion-list>
