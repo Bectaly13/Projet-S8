@@ -78,41 +78,52 @@ export class DomainsPage implements ViewWillEnter {
     this.isWideScreen = window.innerWidth > 500;
   }
 
-  rippleEffect(event: MouseEvent, domain: any) {
-    // Crée l'effet du ripple
-    this.triggerRipple(event, domain);  // Appelle la fonction pour le ripple
+  handlePress(event: PointerEvent, domain: any) {
+    this.rippleEffect(event, domain);
+  
+    const button = event.currentTarget as HTMLElement;
+    button.classList.add('bounce');
+  
+    setTimeout(() => {
+      button.classList.remove('bounce');
+    }, 600); // durée de l'effet
   }
   
-  triggerRipple(event: MouseEvent, domain: any) {
-    const button = event.target as HTMLElement;
+  rippleEffect(event: MouseEvent, domain: any) {
+    const button = event.currentTarget as HTMLElement;
     const ripple = document.createElement('span');
-    
-    // Récupère la couleur dynamique du color-dot
+  
     const bgColor = this.takeBgColor(domain.domainId);
   
-    // Détermine la taille du ripple
     const rect = button.getBoundingClientRect();
     const size = Math.max(button.offsetWidth, button.offsetHeight);
     const x = event.clientX - rect.left - size / 2;
     const y = event.clientY - rect.top - size / 2;
   
-    // Applique la taille et la position au ripple
     ripple.style.width = ripple.style.height = `${size}px`;
     ripple.style.left = `${x}px`;
     ripple.style.top = `${y}px`;
-  
-    // Applique la couleur de fond dynamique avec une opacité de 0.1
-    ripple.style.backgroundColor = `${bgColor}10`;  // Opacité 0.1
+    ripple.style.position = 'absolute';
+    ripple.style.borderRadius = '50%';
+    ripple.style.backgroundColor = `var(${bgColor})`;
+    ripple.style.opacity = '0.2';
+    ripple.style.transform = 'scale(0)';
+    ripple.style.pointerEvents = 'none';
+    ripple.style.transition = 'transform 1s ease-out, opacity 0.6s ease-out';
   
     ripple.classList.add('ripple');
   
-    // Ajoute le ripple au bouton
     button.appendChild(ripple);
   
-    // Retirer l'élément après l'animation
+    // Force le reflow pour démarrer l'animation
+    requestAnimationFrame(() => {
+      ripple.style.transform = 'scale(5)';
+      ripple.style.opacity = '0';
+    });
+  
     setTimeout(() => {
       ripple.remove();
-    }, 600); // Retirer après 600ms
+    }, 600);
   }
 
 

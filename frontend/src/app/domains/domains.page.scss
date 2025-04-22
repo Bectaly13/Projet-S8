@@ -1,5 +1,32 @@
+// Déclaration des variables
+
 $maxwidth_smartphone: 500px;
 $minwidth_smartphone: 333px;
+
+//Pour les infos filières
+
+
+.sector-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Centre verticalement les éléments */
+  width: 100%; /* Pour s'assurer que le conteneur occupe toute la largeur */
+  padding: 15px;
+}
+
+.sector-text {
+  font-size: clamp(8px, 4vw, 16px);
+}
+
+.sector-button {
+  margin: 0;
+}
+
+#sector-switcher {
+  --background: var(--vert-qmax);
+}
+
+// Pour la liste
 
 #list_domains {
   display: grid;
@@ -31,18 +58,8 @@ $minwidth_smartphone: 333px;
 }
 
 
-.button_list_domains {
-  position: relative; /* Pour le positionnement du ripple */
-  overflow: hidden; /* Pour ne pas que le ripple dépasse */
-}
 
-.ripple {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(212, 0, 0, 0.523); /* Augmenter l'opacité pour le rendre plus visible */
-  transform: scale(0); /* Commence à une petite échelle */
-  animation: ripple-animation 0.6s ease-out; /* Animation */
-}
+// Animations boutons
 
 @keyframes ripple-animation {
   0% {
@@ -57,6 +74,22 @@ $minwidth_smartphone: 333px;
 
 .button_list_domains:active .ripple {
   animation: ripple-animation 0.6s ease-out; /* Animation quand on appuie */
+}
+
+@keyframes bounceScale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.96); // shrink
+  }
+  100% {
+    transform: scale(1); // return to normal
+  }
+}
+
+.button_list_domains.bounce {
+  animation: bounceScale 600ms ease;
 }
 
 .color-dot {
@@ -88,7 +121,7 @@ $minwidth_smartphone: 333px;
 }
 
 
-// Desktop mode
+// Media queries pour le mode paysage
 
 @media screen and (min-width: #{$maxwidth_smartphone}) {
   #list_domains {

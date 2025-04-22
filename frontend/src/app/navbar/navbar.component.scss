@@ -1,0 +1,11 @@
+.navbar-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Assure-toi que le conteneur occupe toute la largeur disponible */
+  }
+  
+  .center-button {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1; /* Permet à ce bouton de prendre l'espace disponible */
+  }
