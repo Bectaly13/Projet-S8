@@ -1,0 +1,49 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter } from '@ionic/angular/standalone';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-score',
+  templateUrl: './score.page.html',
+  styleUrls: ['./score.page.scss'],
+  standalone: true,
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+})
+export class ScorePage implements ViewWillEnter {
+  score!: number;
+  mcqSize!: number;
+
+  messages: string[] = [
+    "Ça ne va pas du tout !", // correct answers ratio in [limits[0] ; limits[1][
+    "Pas mal, mais tu peux mieux faire !", // correct answers ration in [limits[1] ; limits[2][
+    "Tu es sur la bonne voie !",
+    "Tu as tout bon !" // correct answers ratio = 1 (perfect)
+  ];
+  limits: number[] = [
+    0,
+    0.3,
+    0.6,
+    1
+  ];
+
+  message!: string;
+
+  constructor(private route: ActivatedRoute) { }
+
+  ionViewWillEnter(): void {
+    this.score = Number(this.route.snapshot.queryParamMap.get("score"));
+    this.mcqSize = Number(this.route.snapshot.queryParamMap.get("mcqSize"));
+
+    const ratio = this.score/this.mcqSize;
+
+    for(let i=this.limits.length - 1; i>=0; i--) {
+      if(ratio >= this.limits[i]) {
+        this.message = this.messages[i];
+        break;
+      }
+    }
+  }
+
+}

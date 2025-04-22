@@ -35,4 +35,35 @@ async function getValidStudyQuestions(chapterId, sectorId) {
     return validStudyQuestions;
 }
 
+async function getValidLearnQuestions(skillId, sectorId) {
+    let validLearnQuestions = [];
+
+    let query = `SELECT DISTINCT ${qgr}.questionGroupId
+        FROM ${qgr}
+        JOIN ${qst} ON ${qgr}.questionGroupId = ${qst}.questionGroupId
+        JOIN ${qsl} ON ${qst}.questionId = ${qsl}.questionId
+        WHERE ${qgr}.skillId = ?
+        AND ${qsl}.sectorId = ?`;
+    
+    let data = [skillId, sectorId];
+    let validQuestionGroupIds =  await mysqlConnect.query(query, data);
+
+    for(let i = 0; i<validQuestionGroupIds.length; i++) {
+        query = `SELECT questionId, explanation, level, mixingType
+            FROM ${qst}
+            WHERE questionGroupId = ?
+            ORDER BY level`;
+        
+        data = [validQuestionGroupIds[i]["questionGroupId"]];
+        let result = await mysqlConnect.query(query, data);
+
+        for(let j = 0; j<result.length; j++) {
+            validLearnQuestions.push(result[j]);
+        }
+    }
+
+    return validLearnQuestions;
+}
+
 module.exports.getValidStudyQuestions = getValidStudyQuestions;
+module.exports.getValidLearnQuestions = getValidLearnQuestions;

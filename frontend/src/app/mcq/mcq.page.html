@@ -1,0 +1,65 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>{{title}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">mcq</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  @for(question of questions; track $index) {
+    @if(questionIndex == $index + 1) {
+      <p>Question {{$index + 1}}/{{mcqSize}}</p>
+      <p>
+        @for(choice of choices[$index]; track choice) {
+          <p>{{choice.wordingBefore}}</p>
+          <p>
+            <ion-checkbox [(ngModel)]="toggledChoices[choice.choiceOrder - 1]" [disabled]="showAnswer"></ion-checkbox> {{choiceLabels[choice.choiceOrder - 1]}}. {{choice.choiceText}}
+          </p>
+          <p>{{choice.wordingAfter}}</p>
+        }
+      </p>
+
+      @if(!showAnswer) {
+        <ion-button (click)="checkAnswer(choices[$index])">Valider</ion-button>
+      }
+      @else {
+        <p>
+          Réponse {{answerStatus}} !
+        </p>
+
+        @if(answerStatus == "incorrecte") {
+          <p>
+            Solution : {{solution}}
+          </p>
+        }
+
+        <p>
+          Explication : {{question.explanation}}
+        </p>
+
+        @if(questionIndex == mcqSize) {
+          <ion-button (click)="showScore()">Voir mes résultats</ion-button>
+        }        
+        @else {
+          <ion-button (click)="nextQuestion()">Suivant</ion-button>
+        }
+      }
+
+      <p>
+        <a href="mailto:{{mail}}?subject=Commentaire sur la question {{question.questionId}}">
+          <ion-button>
+            ?
+          </ion-button>
+        </a> 
+      </p>
+    }
+  }
+</ion-content>

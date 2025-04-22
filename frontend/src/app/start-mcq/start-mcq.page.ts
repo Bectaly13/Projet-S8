@@ -27,11 +27,19 @@ export class StartMCQPage implements ViewWillEnter {
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
   }
 
-  goToStudy() {
-    this.router.navigate(["study"], {queryParams: {
+  startMCQ() {
+    this.router.navigate(["mcq"], {queryParams: {
       sectorId: this.sectorId,
       chapterId: this.chapterId
     }})
   }
 
+  goToSkills() {
+    this.router.navigate(["skills"], {queryParams: {
+      sectorId: this.sectorId,
+      domain: this.domain,
+      chapterId: this.chapterId,
+      chapter: this.chapter
+    }})
+  }
 }
