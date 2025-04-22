@@ -12,14 +12,10 @@
 
 
 // Imports customisés pour les styles CSS de l'app
+@use './theme/fonts/fonts.scss';
 
-@use './fonts.scss';
-@use './theme/variables.scss' as *;
 
-body {
-    font-family: $font-family-base;
-    // font-size: large;
-  }
+
 
 
 

@@ -4,12 +4,23 @@
 
 
 //Polices
-$font-family-base: 'Poppins', sans-serif !important;
-$vert-qmax: #19c621;
+
+
 
 
 
 :root {
+
+    // Polices
+    --ion-font-family: 'Poppins', sans-serif;
+
+    //Couleurs de l'IHM
+
+    --vert-qmax: #19c621;
+    --blanc-casse: #f1f1f1;
+    --gris-moyen: #dedede;
+    --gris-fonce: #646464;
+
     // Couleurs des domaines
     --ion-color-color1: #ff3b30;
     --ion-color-color1-rgb: 255, 59, 48;
