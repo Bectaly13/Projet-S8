@@ -23,6 +23,7 @@ export class ChaptersPage implements ViewWillEnter {
   sectorId!: number;
   domainId!: number;
   domain!: string;
+  imageName!: string;
 
   chapters!: Chapter[];
 
@@ -35,6 +36,7 @@ export class ChaptersPage implements ViewWillEnter {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
+    this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
 
     this.message.sendMessage("getChapters", {domainId: this.domainId}).subscribe(res => {
       console.log(res);
@@ -57,7 +59,8 @@ export class ChaptersPage implements ViewWillEnter {
       sectorId: this.sectorId,
       domain: this.domain,
       chapterId: index,
-      chapter: chapter
+      chapter: chapter,
+      imageName: this.imageName
     }});
   }
 }
