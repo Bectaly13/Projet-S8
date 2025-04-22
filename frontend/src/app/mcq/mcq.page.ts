@@ -165,7 +165,15 @@ export class MCQPage implements ViewWillEnter {
     }
 
     return shuffled;
-  } 
+  }
+  
+  parseText(text: string): string {
+    return text.replace(/url\((.*?)\)/g, (match, fileName) => {
+      const file = fileName.trim();
+      const url = "assets/questions/"
+      return `<br><img src="${url}${file}"/><br>`;
+    });
+  }
 
   checkAnswer(choices: any) {
     let answers: Boolean[] = [];
