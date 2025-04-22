@@ -1,0 +1,99 @@
+$maxwidth_smartphone: 500px;
+
+*, ::before, ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+#pagedomains {
+  position: relative;
+}
+
+
+.fade-on-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 200px;
+  width: 100%;
+  background: linear-gradient(to bottom, rgb(249, 113, 113), rgba(249, 113, 113));
+  z-index: 100000; // plus que ion-toolbar
+  pointer-events: none;
+}
+
+
+.fade-on-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 20px;
+  width: 100%;
+  background: linear-gradient(to top, white, rgba(255,255,255,0));
+  z-index: 100000;
+  pointer-events: none;
+}
+
+.fade-on-header,
+.fade-on-footer {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+:host-context(.fade-hidden) .fade-on-header,
+:host-context(.fade-hidden) .fade-on-footer {
+  opacity: 0;
+}
+
+
+.item_list_domains {
+    --border-width: 0;
+    --border: none;
+    justify-content: left;
+}
+
+
+.button_list_domains {
+    background: #f1f1f1;
+    color: #000000;
+    box-shadow: none;
+    width: 100vw;
+    margin: 3vw;
+    height: 80px;
+    border-radius: 10px;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.color-dot {
+    // background-color: #19c821; // vert QMax -> à changer pour chaque domaine dans une version future : faire un service pour gérer les couleurs des domaines
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+}
+
+
+
+
+
+@media screen and (min-width: #{$maxwidth_smartphone}) {
+    .button_list_domains {
+        height: 100px;
+        width: 100px;
+        display: inline-block;
+        // justify-content: center;
+
+    }
+}
+
+  
