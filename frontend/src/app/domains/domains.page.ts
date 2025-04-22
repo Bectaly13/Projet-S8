@@ -53,6 +53,7 @@ export class DomainsPage implements ViewWillEnter {
       domainId: index,
       domain: domain,
       sectorId: this.sectorId,
+      sector: this.sector,
       imageName: imageName
     }});
   }

@@ -29,7 +29,11 @@ export class MCQPage implements ViewWillEnter {
   mail: string = "appli.qmax@gmail.com";
 
   sectorId!: number;
+  sector!: string;
+  domain!: string;
   chapterId!: number;
+  chapter!: string;
+  imageName!: string;
   skillId!: number;
 
   mcqSize: number = 5;
@@ -55,19 +59,23 @@ export class MCQPage implements ViewWillEnter {
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
+    this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
+    this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
+    this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
+    this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
     this.skillId = Number(this.route.snapshot.queryParamMap.get("skillId"));
 
-    if(this.chapterId) {
-      this.title = "Je révise";
-      this.backendFileName = "getValidStudyQuestions";
-      this.data = {sectorId: this.sectorId, chapterId: this.chapterId, mcqSize : this.mcqSize};
-    }
-
-    else if(this.skillId) {
+    if(this.skillId) {
       this.title = "J'apprends";
       this.backendFileName = "getValidLearnQuestions";
       this.data = {sectorId: this.sectorId, skillId: this.skillId, mcqSize : this.mcqSize};
+    }
+
+    else if(this.chapterId) {
+      this.title = "Je révise";
+      this.backendFileName = "getValidStudyQuestions";
+      this.data = {sectorId: this.sectorId, chapterId: this.chapterId, mcqSize : this.mcqSize};
     }
 
     else {
@@ -144,6 +152,17 @@ export class MCQPage implements ViewWillEnter {
     })
   }
 
+  shuffle<T>(array: T[]): T[] {
+    const shuffled = [...array];
+
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+
+    return shuffled;
+  }
+
   getQuestionImages(i: number) {
     this.message.sendMessage("getQuestionImages", {questionId: this.questions[i].questionId}).subscribe(res => {
       console.log(res);
@@ -155,22 +174,12 @@ export class MCQPage implements ViewWillEnter {
       }
     })
   }
-
-  shuffle<T>(array: T[]): T[] {
-    const shuffled = [...array];
-
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-
-    return shuffled;
-  }
   
   parseText(text: string): string {
     return text.replace(/url\((.*?)\)/g, (match, fileName) => {
       const file = fileName.trim();
-      const url = "assets/questions/"
+      const url = "assets/questions/";
+
       return `<br><img src="${url}${file}"/><br>`;
     });
   }
@@ -229,7 +238,13 @@ export class MCQPage implements ViewWillEnter {
   showScore() {
     this.router.navigate(["score"], {queryParams: {
       score: this.score,
-      mcqSize: this.mcqSize
+      mcqSize: this.mcqSize,
+      sectorId: this.sectorId,
+      sector: this.sector,
+      domain: this.domain,
+      chapterId: this.chapterId,
+      chapter: this.chapter,
+      imageName: this.imageName
     }})
   }
 }

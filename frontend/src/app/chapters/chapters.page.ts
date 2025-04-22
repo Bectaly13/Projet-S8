@@ -21,6 +21,7 @@ export interface Chapter {
 })
 export class ChaptersPage implements ViewWillEnter {
   sectorId!: number;
+  sector!: string;
   domainId!: number;
   domain!: string;
   imageName!: string;
@@ -34,6 +35,7 @@ export class ChaptersPage implements ViewWillEnter {
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
+    this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
     this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
@@ -57,6 +59,7 @@ export class ChaptersPage implements ViewWillEnter {
   goToMCQ(index: number, chapter: string) {
     this.router.navigate(['/start-mcq'], {queryParams: {
       sectorId: this.sectorId,
+      sector: this.sector,
       domain: this.domain,
       chapterId: index,
       chapter: chapter,
