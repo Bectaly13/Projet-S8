@@ -131,4 +131,9 @@ export class DomainsPage implements ViewWillEnter {
   //   console.log('fades', { top: this.showFadeTop, bottom: this.showFadeBottom });
     
   // }
+// }
+// crollHeight, clientHeight });
+//   //   console.log('fades', { top: this.showFadeTop, bottom: this.showFadeBottom });
+    
+//   // }
 }
