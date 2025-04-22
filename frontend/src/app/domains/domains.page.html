@@ -22,10 +22,13 @@
   <ion-list id="list_domains">
     @for(domain of domains; track $index) {
       <ion-item lines="none" class="item_list_domains">
-        <button class="button_list_domains" (click)="goToChapters(domain.domainId, domain.name, domain.imageName)">
-          <!-- <img src="../../assets/placeholder_logo.png" /> <!-- au cas où on veut une image -->
+        <button class="button_list_domains" (click)="rippleEffect($event, domain); goToChapters(domain.domainId, domain.name, domain.imageName)">
           <div class="color-dot" [style.background-color]="'var(' + takeBgColor(domain.domainId) + ')'"></div>
-          <label class="label-domain">{{domain.name}}</label>
+          <label class="label-domain">{{ domain.name }}</label>
+        
+          @if (!isWideScreen) {
+            <img class="arrow-domains" src="../../assets/fleche/fleche_droite_transparent.png" />
+          }
         </button>
       </ion-item>
     }

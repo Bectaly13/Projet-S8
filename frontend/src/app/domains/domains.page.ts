@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonList, IonItem, IonButton, IonFooter } from '@ionic/angular/standalone';
@@ -65,11 +65,55 @@ export class DomainsPage implements ViewWillEnter {
 
   // Fonctions pour les styles css
 
+  //gère la couleur des domaines
   takeBgColor(domainId: number): string {
     const index = domainId % 23 || 1;
     return `--ion-color-color${index}`;
   }
 
+  // Vérifie la taille de la fenêtre
+  isWideScreen = window.innerWidth > 500;
+  @HostListener('window:resize')
+  onResize() {
+    this.isWideScreen = window.innerWidth > 500;
+  }
+
+  rippleEffect(event: MouseEvent, domain: any) {
+    // Crée l'effet du ripple
+    this.triggerRipple(event, domain);  // Appelle la fonction pour le ripple
+  }
+  
+  triggerRipple(event: MouseEvent, domain: any) {
+    const button = event.target as HTMLElement;
+    const ripple = document.createElement('span');
+    
+    // Récupère la couleur dynamique du color-dot
+    const bgColor = this.takeBgColor(domain.domainId);
+  
+    // Détermine la taille du ripple
+    const rect = button.getBoundingClientRect();
+    const size = Math.max(button.offsetWidth, button.offsetHeight);
+    const x = event.clientX - rect.left - size / 2;
+    const y = event.clientY - rect.top - size / 2;
+  
+    // Applique la taille et la position au ripple
+    ripple.style.width = ripple.style.height = `${size}px`;
+    ripple.style.left = `${x}px`;
+    ripple.style.top = `${y}px`;
+  
+    // Applique la couleur de fond dynamique avec une opacité de 0.1
+    ripple.style.backgroundColor = `${bgColor}10`;  // Opacité 0.1
+  
+    ripple.classList.add('ripple');
+  
+    // Ajoute le ripple au bouton
+    button.appendChild(ripple);
+  
+    // Retirer l'élément après l'animation
+    setTimeout(() => {
+      ripple.remove();
+    }, 600); // Retirer après 600ms
+  }
 
 
   // showFadeTop = false;
