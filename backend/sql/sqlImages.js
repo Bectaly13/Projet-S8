@@ -2,7 +2,7 @@ const mysqlConnect = require("./sqlConnect");
 const img = require("./sqlConfig").img;
 
 async function getQuestionImages(questionId) {
-    const query = `SELECT path
+    const query = `SELECT path, originalFileName
         FROM ${img}
         WHERE questionId = ?`;
     
