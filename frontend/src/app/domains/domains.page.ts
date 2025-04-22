@@ -71,20 +71,17 @@ export class DomainsPage implements ViewWillEnter {
   }
 
 
-
-  // showFadeTop = false;
-  // showFadeBottom = true;
-
-  // onScroll(event: CustomEvent) {
-  //   const scrollTop = event.detail.scrollTop;
-  //   const scrollHeight = event.detail.scrollHeight;
-  //   const clientHeight = event.detail.offsetHeight;
-
-  //   this.showFadeTop = scrollTop > 10;
-  //   this.showFadeBottom = scrollTop + clientHeight < scrollHeight - 10;
-
-  //   console.log('scroll', { scrollTop, scrollHeight, clientHeight });
-  //   console.log('fades', { top: this.showFadeTop, bottom: this.showFadeBottom });
-    
-  // }
+  /*
+  showFadeTop = false;
+  showFadeBottom = true;
+  onScroll(event: CustomEvent) {
+    const scrollTop = event.detail.scrollTop;
+    const scrollHeight = event.detail.scrollHeight;
+    const clientHeight = event.detail.offsetHeight;
+    this.showFadeTop = scrollTop > 10;
+    this.showFadeBottom = scrollTop + clientHeight < scrollHeight - 10;
+    console.log('scroll', { scrollTop, scrollHeight, clientHeight });
+    console.log('fades', { top: this.showFadeTop, bottom: this.showFadeBottom });
+  }
+  */
 }
