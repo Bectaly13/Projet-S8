@@ -58,4 +58,31 @@ export class DomainsPage implements ViewWillEnter {
   goToSectors() {
     this.router.navigate(["sectors"]);
   }
+
+
+
+  // Fonctions pour les styles css
+
+  takeBgColor(domainId: number): string {
+    const index = domainId % 23 || 1;
+    return `--ion-color-color${index}`;
+  }
+
+
+
+  showFadeTop = false;
+  showFadeBottom = true;
+
+  onScroll(event: CustomEvent) {
+    const scrollTop = event.detail.scrollTop;
+    const scrollHeight = event.detail.scrollHeight;
+    const clientHeight = event.detail.offsetHeight;
+
+    this.showFadeTop = scrollTop > 10;
+    this.showFadeBottom = scrollTop + clientHeight < scrollHeight - 10;
+
+    console.log('scroll', { scrollTop, scrollHeight, clientHeight });
+    console.log('fades', { top: this.showFadeTop, bottom: this.showFadeBottom });
+    
+  }
 }
