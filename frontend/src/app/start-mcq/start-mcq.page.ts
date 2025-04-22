@@ -16,6 +16,7 @@ export class StartMCQPage implements ViewWillEnter {
   domain!: string;
   chapterId!: number;
   chapter!: string;
+  imageName!: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router) { }
@@ -25,6 +26,7 @@ export class StartMCQPage implements ViewWillEnter {
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
+    this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
   }
 
   startMCQ() {
