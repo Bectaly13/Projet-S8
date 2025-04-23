@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
 
+import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
+
 export interface Question {
   questionId: number;
   explanation: string;
@@ -19,7 +21,7 @@ export interface Question {
   templateUrl: './mcq.page.html',
   styleUrls: ['./mcq.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonCheckbox, IonButton]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonCheckbox, IonButton, ProgressBarComponent]
 })
 export class MCQPage implements ViewWillEnter {
   title!: string;
@@ -27,6 +29,7 @@ export class MCQPage implements ViewWillEnter {
   data!: any;
 
   mail: string = "appli.qmax@gmail.com";
+  choiceLabels: string[] = ["A", "B", "C", "D"];
 
   sectorId!: number;
   sector!: string;
@@ -39,11 +42,10 @@ export class MCQPage implements ViewWillEnter {
   mcqSize: number = 5;
   questionIndex: number = 1;
   showAnswer: boolean = false;
-  choiceLabels: string[] = ["A", "B", "C", "D"];
   toggledChoices: Boolean[] = [false, false, false, false];
   solution: string = "";
   answerStatus: string = "correcte";
-  score: number = 0;
+  score!: number;
 
   validQuestions!: Question[];
   questions!: Question[];
@@ -65,6 +67,8 @@ export class MCQPage implements ViewWillEnter {
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
     this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
     this.skillId = Number(this.route.snapshot.queryParamMap.get("skillId"));
+
+    this.score = 0;
 
     if(this.skillId) {
       this.title = "J'apprends";
@@ -236,6 +240,12 @@ export class MCQPage implements ViewWillEnter {
   }
 
   showScore() {
+    this.questionIndex = 1;
+    this.showAnswer = false;
+    this.solution = "";
+    this.toggledChoices = [false, false, false, false];
+    this.answerStatus = "correcte";
+
     this.router.navigate(["score"], {queryParams: {
       score: this.score,
       mcqSize: this.mcqSize,
