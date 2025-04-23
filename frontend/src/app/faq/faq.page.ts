@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter, IonButton, IonList, IonItem, AlertController } from '@ionic/angular/standalone';
+import { Browser } from '@capacitor/browser';
 
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -84,4 +85,7 @@ export class FaqPage {
     })
   }
 
+  async openBrowser(link: string) {
+    await Browser.open({url: link});
+  }
 }
