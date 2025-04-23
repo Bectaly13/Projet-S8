@@ -34,7 +34,6 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
 
   mail: string = "appli.qmax@gmail.com";
   choiceLabels: string[] = ["A", "B", "C", "D"];
-  color: string = "#00E600";
 
   sectorId!: number;
   sector!: string;
