@@ -9,6 +9,12 @@ import { ErrorService } from '../services/error.service';
 
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 
+declare global {
+  interface Window {
+    MathJax: any;
+  }
+}
+
 export interface Question {
   questionId: number;
   explanation: string;
@@ -57,7 +63,7 @@ export class MCQPage implements ViewWillEnter {
   constructor(private route: ActivatedRoute,
               private message: MessageService,
               private error: ErrorService,
-              private router: Router) { }
+              private router: Router) { }       
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
@@ -100,6 +106,8 @@ export class MCQPage implements ViewWillEnter {
         for(let i = 0; i<this.questions.length; i++) {
           this.getQuestionImages(i);
         };
+
+        this.renderMath();
       }
       else {
         this.error.errorMessage(res);
@@ -184,8 +192,21 @@ export class MCQPage implements ViewWillEnter {
       const file = fileName.trim();
       const url = "assets/questions/";
 
-      return `<br><img src="${url}${file}"/><br>`;
+      return `<br><img src="${url}${file}" class="question-image"/><br>`;
     });
+  }
+
+  renderMath() {
+    setTimeout(() => {
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetClear?.();
+        window.MathJax.typesetPromise()
+          .then(() => {})
+          .catch((err: any) => console.error('Erreur MathJax :', err));
+      } else {
+        console.warn('MathJax non chargé');
+      }
+    }, 0);     
   }
 
   checkAnswer(choices: any) {
@@ -229,6 +250,8 @@ export class MCQPage implements ViewWillEnter {
     }
 
     this.showAnswer = true;
+
+    this.renderMath();
   }
 
   nextQuestion() {
@@ -237,6 +260,8 @@ export class MCQPage implements ViewWillEnter {
     this.solution = "";
     this.toggledChoices = [false, false, false, false];
     this.answerStatus = "correcte";
+
+    this.renderMath();
   }
 
   showScore() {
