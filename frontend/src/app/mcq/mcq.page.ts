@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton, IonCheckbox, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton, IonCheckbox, IonButton, ViewDidEnter } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
@@ -29,7 +29,7 @@ export interface Question {
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonCheckbox, IonButton, ProgressBarComponent]
 })
-export class MCQPage implements ViewWillEnter {
+export class MCQPage implements ViewWillEnter, ViewDidEnter {
   title!: string;
   backendFileName!: string;
   data!: any;
@@ -63,7 +63,11 @@ export class MCQPage implements ViewWillEnter {
   constructor(private route: ActivatedRoute,
               private message: MessageService,
               private error: ErrorService,
-              private router: Router) { }       
+              private router: Router) { }   
+  
+  ionViewDidEnter(): void {
+      this.renderMath();
+  }
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
@@ -106,8 +110,6 @@ export class MCQPage implements ViewWillEnter {
         for(let i = 0; i<this.questions.length; i++) {
           this.getQuestionImages(i);
         };
-
-        this.renderMath();
       }
       else {
         this.error.errorMessage(res);
@@ -197,7 +199,6 @@ export class MCQPage implements ViewWillEnter {
   }
 
   renderMath() {
-    setTimeout(() => {
       if (window.MathJax && window.MathJax.typesetPromise) {
         window.MathJax.typesetClear?.();
         window.MathJax.typesetPromise()
@@ -205,8 +206,7 @@ export class MCQPage implements ViewWillEnter {
           .catch((err: any) => console.error('Erreur MathJax :', err));
       } else {
         console.warn('MathJax non chargé');
-      }
-    }, 550);     
+      } 
   }
 
   checkAnswer(choices: any) {
