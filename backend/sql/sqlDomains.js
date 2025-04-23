@@ -2,7 +2,7 @@ const mysqlConnect = require("./sqlConnect");
 const dom = require("./sqlConfig").dom;
 
 async function getDomains() {
-    const query = `SELECT domainId, name, imageName
+    const query = `SELECT domainId, name
         FROM ${dom}
         WHERE subjectId = 1
         ORDER BY domainId`;

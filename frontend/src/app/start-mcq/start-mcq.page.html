@@ -24,9 +24,5 @@
   <ion-button (click)="goToSkills()">J'apprends</ion-button>
   <ion-button (click)="startMCQ()">Je révise</ion-button>
 
-  @if(imageName && imageName != "null") {
-    <p>
-      <img class="domain-image" [src]="imagePath">
-    </p>
-  }
+  <img [src]="domainsImageName">
 </ion-content>

@@ -12,7 +12,6 @@ import { NavbarComponent } from '../navbar/navbar.component';
 export interface Domain {
   domainId: number;
   name: string;
-  imageName: string;
 }
 
 @Component({
@@ -48,13 +47,12 @@ export class DomainsPage implements ViewWillEnter {
     })
   }
 
-  goToChapters(index: number, domain: string, imageName: string) {
+  goToChapters(index: number, domain: string) {
     this.router.navigate(["chapters"], {queryParams: {
       domainId: index,
       domain: domain,
       sectorId: this.sectorId,
-      sector: this.sector,
-      imageName: imageName
+      sector: this.sector
     }});
   }
 

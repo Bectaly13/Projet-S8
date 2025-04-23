@@ -15,11 +15,11 @@ export class StartMCQPage implements ViewWillEnter {
   sectorId!: number;
   sector!: string;
   domain!: string;
+  domainId!: number;
   chapterId!: number;
   chapter!: string;
-  imageName!: string;
-  url: string = "assets/domains/";
-  imagePath!: string;
+  domainsImageUrl: string = "assets/domains/";
+  domainsImageName!: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router) { }
@@ -28,11 +28,11 @@ export class StartMCQPage implements ViewWillEnter {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
+    this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
-    this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
 
-    this.imagePath = this.url + this.imageName;
+    this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
   }
 
   startMCQ() {
@@ -40,9 +40,9 @@ export class StartMCQPage implements ViewWillEnter {
       sectorId: this.sectorId,
       sector: this.sector,
       domain: this.domain,
+      domainId: this.domainId,
       chapterId: this.chapterId,
       chapter: this.chapter,
-      imageName: this.imageName
     }})
   }
 
@@ -51,9 +51,9 @@ export class StartMCQPage implements ViewWillEnter {
       sectorId: this.sectorId,
       sector: this.sector,
       domain: this.domain,
+      domainId: this.domainId,
       chapterId: this.chapterId,
       chapter: this.chapter,
-      imageName: this.imageName
     }})
   }
 }

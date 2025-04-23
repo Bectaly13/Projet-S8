@@ -17,9 +17,9 @@ export class ScorePage implements ViewWillEnter {
   sectorId!: number;
   sector!: string;
   domain!: string;
+  domainId!: number;
   chapterId!: number;
   chapter!: string;
-  imageName!: string;
 
   messages: string[] = [
     "Ça ne va pas du tout !", // correct answers ratio in [limits[0] ; limits[1][
@@ -33,8 +33,10 @@ export class ScorePage implements ViewWillEnter {
     0.6,
     1
   ];
+  scoreImageUrl: string = "assets/score/";
 
   message!: string;
+  scoreImageName!: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router) { }
@@ -45,15 +47,16 @@ export class ScorePage implements ViewWillEnter {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
+    this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
-    this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
 
     const ratio = this.score/this.mcqSize;
 
     for(let i=this.limits.length - 1; i>=0; i--) {
       if(ratio >= this.limits[i]) {
         this.message = this.messages[i];
+        this.scoreImageName = this.scoreImageUrl + "score" + String(i) + ".jpg";
         break;
       }
     }
@@ -64,9 +67,9 @@ export class ScorePage implements ViewWillEnter {
       sectorId: this.sectorId,
       sector: this.sector,
       domain: this.domain,
+      domainId: this.domainId,
       chapterId: this.chapterId,
-      chapter: this.chapter,
-      imageName: this.imageName
+      chapter: this.chapter
     }})
   }
 

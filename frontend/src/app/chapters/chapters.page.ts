@@ -24,7 +24,9 @@ export class ChaptersPage implements ViewWillEnter {
   sector!: string;
   domainId!: number;
   domain!: string;
-  imageName!: string;
+
+  domainsImageUrl: string = "assets/domains/";
+  domainsImageName!: string;
 
   chapters!: Chapter[];
 
@@ -38,7 +40,8 @@ export class ChaptersPage implements ViewWillEnter {
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
-    this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
+
+    this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
 
     this.message.sendMessage("getChapters", {domainId: this.domainId}).subscribe(res => {
       console.log(res);
@@ -61,9 +64,9 @@ export class ChaptersPage implements ViewWillEnter {
       sectorId: this.sectorId,
       sector: this.sector,
       domain: this.domain,
+      domainId: this.domainId,
       chapterId: index,
       chapter: chapter,
-      imageName: this.imageName
     }});
   }
 }
