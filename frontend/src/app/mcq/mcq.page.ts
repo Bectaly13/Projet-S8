@@ -206,7 +206,7 @@ export class MCQPage implements ViewWillEnter {
       } else {
         console.warn('MathJax non chargé');
       }
-    }, 0);     
+    }, 550);     
   }
 
   checkAnswer(choices: any) {
