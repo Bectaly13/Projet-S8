@@ -199,14 +199,14 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   }
 
   renderMath() {
-      if (window.MathJax && window.MathJax.typesetPromise) {
-        window.MathJax.typesetClear?.();
-        window.MathJax.typesetPromise()
-          .then(() => {})
-          .catch((err: any) => console.error('Erreur MathJax :', err));
-      } else {
-        console.warn('MathJax non chargé');
-      } 
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetClear?.();
+      window.MathJax.typesetPromise()
+        .then(() => {})
+        .catch((err: any) => console.error('Erreur MathJax :', err));
+    } else {
+      console.warn('MathJax non chargé');
+    } 
   }
 
   checkAnswer(choices: any) {
