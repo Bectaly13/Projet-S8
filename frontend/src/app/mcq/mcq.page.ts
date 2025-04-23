@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton, IonCheckbox, IonButton, ViewDidEnter } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton, IonCheckbox, IonButton, ViewDidEnter, IonProgressBar } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
-
-import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 
 declare global {
   interface Window {
@@ -27,7 +25,7 @@ export interface Question {
   templateUrl: './mcq.page.html',
   styleUrls: ['./mcq.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonCheckbox, IonButton, ProgressBarComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonCheckbox, IonButton, IonProgressBar]
 })
 export class MCQPage implements ViewWillEnter, ViewDidEnter {
   title!: string;
@@ -36,6 +34,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
 
   mail: string = "appli.qmax@gmail.com";
   choiceLabels: string[] = ["A", "B", "C", "D"];
+  color: string = "#00E600";
 
   sectorId!: number;
   sector!: string;
@@ -199,14 +198,16 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   }
 
   renderMath() {
-    if (window.MathJax && window.MathJax.typesetPromise) {
-      window.MathJax.typesetClear?.();
-      window.MathJax.typesetPromise()
-        .then(() => {})
-        .catch((err: any) => console.error('Erreur MathJax :', err));
-    } else {
-      console.warn('MathJax non chargé');
-    } 
+    setTimeout(() => {
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetClear?.();
+        window.MathJax.typesetPromise()
+          .then(() => {})
+          .catch((err: any) => console.error('Erreur MathJax :', err));
+      } else {
+        console.warn('MathJax non chargé');
+      } 
+    }, 0);
   }
 
   checkAnswer(choices: any) {

@@ -4,9 +4,8 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-  </ion-toolbar>
-
-  <app-progress-bar [index]="questionIndex" [size]="mcqSize"/>
+    <ion-progress-bar [value]="questionIndex/mcqSize" color="success"></ion-progress-bar>
+  </ion-toolbar>  
 </ion-header>
 
 <ion-content [fullscreen]="true">
