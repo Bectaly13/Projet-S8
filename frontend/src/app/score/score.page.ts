@@ -21,6 +21,9 @@ export class ScorePage implements ViewWillEnter {
   chapterId!: number;
   chapter!: string;
 
+  scoreImageUrl: string = "assets/score/";
+  scoreImageName!: string;
+
   messages: string[] = [
     "Ça ne va pas du tout !", // correct answers ratio in [limits[0] ; limits[1][
     "Pas mal, mais tu peux mieux faire !", // correct answers ration in [limits[1] ; limits[2][
@@ -32,11 +35,9 @@ export class ScorePage implements ViewWillEnter {
     0.3,
     0.6,
     1
-  ];
-  scoreImageUrl: string = "assets/score/";
+  ];  
 
-  message!: string;
-  scoreImageName!: string;
+  message!: string;  
 
   constructor(private route: ActivatedRoute,
               private router: Router) { }
