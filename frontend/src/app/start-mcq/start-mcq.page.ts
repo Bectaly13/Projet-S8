@@ -13,35 +13,47 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class StartMCQPage implements ViewWillEnter {
   sectorId!: number;
+  sector!: string;
   domain!: string;
   chapterId!: number;
   chapter!: string;
   imageName!: string;
+  url: string = "assets/domains/";
+  imagePath!: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router) { }
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
+    this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
     this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
+
+    this.imagePath = this.url + this.imageName;
   }
 
   startMCQ() {
     this.router.navigate(["mcq"], {queryParams: {
       sectorId: this.sectorId,
-      chapterId: this.chapterId
+      sector: this.sector,
+      domain: this.domain,
+      chapterId: this.chapterId,
+      chapter: this.chapter,
+      imageName: this.imageName
     }})
   }
 
   goToSkills() {
     this.router.navigate(["skills"], {queryParams: {
       sectorId: this.sectorId,
+      sector: this.sector,
       domain: this.domain,
       chapterId: this.chapterId,
-      chapter: this.chapter
+      chapter: this.chapter,
+      imageName: this.imageName
     }})
   }
 }

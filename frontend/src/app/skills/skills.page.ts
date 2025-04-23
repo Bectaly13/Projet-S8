@@ -21,9 +21,11 @@ export interface Skill {
 })
 export class SkillsPage implements ViewWillEnter {
   sectorId!: number;
+  sector!: string;
   domain!: string;
   chapterId!: number;
   chapter!: string;
+  imageName!: string;
 
   skills!: Skill[];
 
@@ -34,9 +36,11 @@ export class SkillsPage implements ViewWillEnter {
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
+    this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
+    this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
 
     this.message.sendMessage("getSkills", {chapterId: this.chapterId}).subscribe(res => {
       console.log(res);
@@ -52,6 +56,11 @@ export class SkillsPage implements ViewWillEnter {
   startMCQ(skillId: number) {
     this.router.navigate(["mcq"], {queryParams: {
       sectorId: this.sectorId,
+      sector: this.sector,
+      domain: this.domain,
+      chapterId: this.chapterId,
+      chapter: this.chapter,
+      imageName: this.imageName,
       skillId: skillId
     }})
   }
