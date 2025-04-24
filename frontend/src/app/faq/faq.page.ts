@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter, IonButton, IonList, IonItem, AlertController } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter, IonButton, IonList, IonItem, AlertController, ViewWillEnter } from '@ionic/angular/standalone';
 import { Browser } from '@capacitor/browser';
+
+import { MessageService } from '../services/message.service';
+import { ErrorService } from '../services/error.service';
 
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -13,7 +16,9 @@ import { NavbarComponent } from '../navbar/navbar.component';
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonFooter, NavbarComponent, IonButton, IonList, IonItem]
 })
-export class FaqPage {
+export class FaqPage implements ViewWillEnter {
+  questionCount: number = 0;
+
   mail: string = "appli.qmax@gmail.com";
   subject: string = "Demande d'information";
 
@@ -28,7 +33,7 @@ export class FaqPage {
 
   messages: string[] = [
     `QMax vous permet d'apprendre et de réviser votre cours de physique-chimie de maths-sup à l'aide de QCMs.
-    Plus de 3000 questions soigneusement classées et corrigées vous sont proposées gratuitement, sans publicité
+    Des questions soigneusement classées et corrigées vous sont proposées gratuitement, sans publicité
     ni exploitation de données personnelles. Les questions couvrent un vaste éventail de filières de CPGE, pour
     répondre à tous vos besoins.
     
@@ -70,7 +75,21 @@ export class FaqPage {
     Maxime Voisin, Loïc Roisin et Jean-Pierre Dubarry pour leur inestimable contribution.`
   ]
 
-  constructor(private alert: AlertController) { }
+  constructor(private alert: AlertController,
+              private message: MessageService,
+              private error: ErrorService) { }
+
+  ionViewWillEnter(): void {
+    this.message.sendMessage("getQuestionCount", {}).subscribe(res => {
+      console.log(res);
+      if(res.status == 200) {
+        this.questionCount = res.data[0]["COUNT(questionId)"];
+      }
+      else {
+        this.error.errorMessage(res);
+      }
+    })
+  }
 
   openText(index: number) {
     const header = this.headers[index];

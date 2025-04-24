@@ -65,5 +65,15 @@ async function getValidLearnQuestions(skillId, sectorId) {
     return validLearnQuestions;
 }
 
+async function getQuestionCount() {
+    const query = `SELECT COUNT(questionId)
+        FROM ${qst}
+        WHERE validated = 1`;
+    
+    const data = [];
+    return await mysqlConnect.query(query, data);  
+}
+
 module.exports.getValidStudyQuestions = getValidStudyQuestions;
 module.exports.getValidLearnQuestions = getValidLearnQuestions;
+module.exports.getQuestionCount = getQuestionCount;
