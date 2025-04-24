@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton, IonCheckbox, IonButton, ViewDidEnter, IonProgressBar, AlertController, IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonCheckbox, IonButton, ViewDidEnter, IonProgressBar, AlertController, IonIcon } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
@@ -26,7 +26,7 @@ export interface Question {
   templateUrl: './mcq.page.html',
   styleUrls: ['./mcq.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonCheckbox, IonButton, IonProgressBar, IonIcon]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCheckbox, IonButton, IonProgressBar, IonIcon]
 })
 export class MCQPage implements ViewWillEnter, ViewDidEnter {
   title!: string;
@@ -221,9 +221,9 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
         window.MathJax.typesetClear?.();
         window.MathJax.typesetPromise()
           .then(() => {})
-          .catch((err: any) => console.error('Erreur MathJax :', err));
+          .catch((err: any) => console.error("MathJax error:", err));
       } else {
-        console.warn('MathJax non chargé');
+        console.warn("MathJax not loaded");
       } 
     }, 0);
   }
