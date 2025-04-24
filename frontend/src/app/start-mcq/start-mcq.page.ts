@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton, IonButton } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { MessageService } from '../services/message.service';
+import { ErrorService } from '../services/error.service';
+import { SharedVariablesService } from '../services/shared-variables.service';
+
 @Component({
   selector: 'app-start-mcq',
   templateUrl: './start-mcq.page.html',
@@ -21,8 +25,15 @@ export class StartMCQPage implements ViewWillEnter {
   domainsImageUrl: string = "assets/domains/";
   domainsImageName!: string;
 
+  mcqSize!: number;
+
+  areSkillsRelevant!: boolean;
+
   constructor(private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private message: MessageService,
+              private error: ErrorService,
+              private variables: SharedVariablesService) { }
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
@@ -33,6 +44,18 @@ export class StartMCQPage implements ViewWillEnter {
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
 
     this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
+
+    this.mcqSize = this.variables.mcqSize;
+
+    this.message.sendMessage("areSkillsRelevant", {chapterId: this.chapterId, sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
+      console.log(res);
+      if(res.status == 200) {
+        this.areSkillsRelevant = res.data;
+      }
+      else {
+        this.error.errorMessage(res);
+      }
+    })
   }
 
   startMCQ() {
