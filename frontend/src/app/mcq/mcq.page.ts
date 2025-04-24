@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton, IonCheckbox, IonButton, ViewDidEnter, IonProgressBar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton, IonCheckbox, IonButton, ViewDidEnter, IonProgressBar, AlertController, IonIcon } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
@@ -26,7 +26,7 @@ export interface Question {
   templateUrl: './mcq.page.html',
   styleUrls: ['./mcq.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonCheckbox, IonButton, IonProgressBar]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonCheckbox, IonButton, IonProgressBar, IonIcon]
 })
 export class MCQPage implements ViewWillEnter, ViewDidEnter {
   title!: string;
@@ -64,7 +64,8 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
               private message: MessageService,
               private error: ErrorService,
               private router: Router,
-              private variables: SharedVariablesService) { }   
+              private variables: SharedVariablesService,
+              private alert: AlertController) { }   
   
   ionViewDidEnter(): void {
       this.renderMath();
@@ -270,6 +271,28 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.showAnswer = true;
 
     this.renderMath();
+  }
+
+  async goBack() {
+    const alert = await this.alert.create({
+      header: "Quitter le QCM ?",
+      message: "Tous les progrès seront perdus.",
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Quitter',
+          handler: () => {
+            history.back();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   nextQuestion() {

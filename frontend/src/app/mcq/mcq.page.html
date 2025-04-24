@@ -2,7 +2,9 @@
   <ion-toolbar>
     <ion-title>{{title}}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-button shape="round" fill="clear" (click)="goBack()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-progress-bar [value]="questionIndex/mcqSize" color="success"></ion-progress-bar>
   </ion-toolbar>  
