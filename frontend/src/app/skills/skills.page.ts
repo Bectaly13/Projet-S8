@@ -6,10 +6,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
+import { SharedVariablesService } from '../services/shared-variables.service';
 
 export interface Skill {
   skillId: number;
   name: string;
+  isRelevant: boolean
 }
 
 @Component({
@@ -27,6 +29,8 @@ export class SkillsPage implements ViewWillEnter {
   chapterId!: number;
   chapter!: string;
 
+  mcqSize!: number;
+
   domainsImageUrl: string = "assets/domains/";
   domainsImageName!: string;
 
@@ -35,7 +39,8 @@ export class SkillsPage implements ViewWillEnter {
   constructor(private route: ActivatedRoute,
               private message: MessageService,
               private error: ErrorService,
-              private router: Router) { }
+              private router: Router,
+              private variables: SharedVariablesService) { }
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
@@ -47,10 +52,18 @@ export class SkillsPage implements ViewWillEnter {
 
     this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
 
+    this.mcqSize = this.variables.mcqSize;
+
     this.message.sendMessage("getSkills", {chapterId: this.chapterId}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
         this.skills = res.data;
+
+        for(let skill of this.skills) {
+          this.message.sendMessage("isSkillRelevant", {skillId: skill.skillId, sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
+            skill.isRelevant = res.data;
+          })
+        }
       }
       else {
         this.error.errorMessage(res);

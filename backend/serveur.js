@@ -57,4 +57,7 @@ app.post("/isChapterRelevant", (request, result) => {isChapterRelevant(request, 
 const areSkillsRelevant = require("./areSkillsRelevant").areSkillsRelevant;
 app.post("/areSkillsRelevant", (request, result) => {areSkillsRelevant(request, result);});
 
+const isSkillRelevant = require("./isSkillRelevant").isSkillRelevant;
+app.post("/isSkillRelevant", (request, result) => {isSkillRelevant(request, result);});
+
 app.listen(port, host, () => {console.log (`Listening to http://${host}:${port}`);});

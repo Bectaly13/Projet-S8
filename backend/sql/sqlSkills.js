@@ -29,5 +29,20 @@ async function areSkillsRelevant(chapterId, sectorId, mcqSize) {
     return result.length > 0;
 }  
 
+async function isSkillRelevant(skillId, sectorId, mcqSize) {
+    const query = `SELECT COUNT(qst.questionId) AS questionCount
+        FROM ${qst} AS qst
+        JOIN ${qgr} AS qgr ON qst.questionGroupId = qgr.questionGroupId
+        JOIN ${qsl} AS qsl ON qst.questionId = qsl.questionId
+        WHERE qgr.skillId = ?
+        AND qsl.sectorId = ?`;
+  
+    const data = [skillId, sectorId];
+    const result = await mysqlConnect.query(query, data);
+
+    return result[0]["questionCount"] >= mcqSize;
+}  
+
 module.exports.getSkills = getSkills;
 module.exports.areSkillsRelevant = areSkillsRelevant;
+module.exports.isSkillRelevant = isSkillRelevant;
