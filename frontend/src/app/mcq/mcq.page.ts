@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
+import { SharedVariablesService } from '../services/shared-variables.service';
 
 declare global {
   interface Window {
@@ -43,7 +44,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   chapter!: string;
   skillId!: number;
 
-  mcqSize: number = 5;
+  mcqSize!: number;
   questionIndex: number = 1;
   showAnswer: boolean = false;
   toggledChoices: Boolean[] = [false, false, false, false];
@@ -61,7 +62,8 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   constructor(private route: ActivatedRoute,
               private message: MessageService,
               private error: ErrorService,
-              private router: Router) { }   
+              private router: Router,
+              private variables: SharedVariablesService) { }   
   
   ionViewDidEnter(): void {
       this.renderMath();
@@ -77,6 +79,8 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.skillId = Number(this.route.snapshot.queryParamMap.get("skillId"));
 
     this.score = 0;
+
+    this.mcqSize = this.variables.mcqSize;
 
     if(this.skillId) {
       this.title = "J'apprends";
@@ -273,7 +277,6 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
 
     this.router.navigate(["score"], {queryParams: {
       score: this.score,
-      mcqSize: this.mcqSize,
       sectorId: this.sectorId,
       sector: this.sector,
       domain: this.domain,

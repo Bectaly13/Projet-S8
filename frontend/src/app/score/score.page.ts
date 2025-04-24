@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButton } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { SharedVariablesService } from '../services/shared-variables.service';
+
 @Component({
   selector: 'app-score',
   templateUrl: './score.page.html',
@@ -40,11 +42,11 @@ export class ScorePage implements ViewWillEnter {
   message!: string;  
 
   constructor(private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private variables: SharedVariablesService) { }
 
   ionViewWillEnter(): void {
     this.score = Number(this.route.snapshot.queryParamMap.get("score"));
-    this.mcqSize = Number(this.route.snapshot.queryParamMap.get("mcqSize"));
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
@@ -53,6 +55,8 @@ export class ScorePage implements ViewWillEnter {
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
 
     const ratio = this.score/this.mcqSize;
+
+    this.mcqSize = this.variables.mcqSize;
 
     for(let i=this.limits.length - 1; i>=0; i--) {
       if(ratio >= this.limits[i]) {
