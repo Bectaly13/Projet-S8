@@ -54,9 +54,9 @@ export class ScorePage implements ViewWillEnter {
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
 
-    const ratio = this.score/this.mcqSize;
-
     this.mcqSize = this.variables.mcqSize;
+
+    const ratio = this.score/this.mcqSize;
 
     for(let i=this.limits.length - 1; i>=0; i--) {
       if(ratio >= this.limits[i]) {
