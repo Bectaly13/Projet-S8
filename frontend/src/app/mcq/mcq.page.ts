@@ -58,6 +58,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   choices: any[] = [];
 
   images: any[] = [];
+  questionImagesUrl!: string;
 
   constructor(private route: ActivatedRoute,
               private message: MessageService,
@@ -83,6 +84,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.mcqSize = this.variables.mcqSize;
     this.mail = this.variables.mail;
     this.choiceLabels = this.variables.choiceLabels;
+    this.questionImagesUrl = this.variables.questionImagesUrl;
 
     if(this.skillId) {
       this.title = "J'apprends";
@@ -196,9 +198,19 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   parseText(text: string): string {
     return text.replace(/url\((.*?)\)/g, (match, fileName) => {
       const file = fileName.trim();
-      const url = "assets/questions/";
+      const url = this.questionImagesUrl;
+      let path = "";
 
-      return `<br><img src="${url}${file}" class="question-image"/><br>`;
+      for(let imageSet of this.images) {
+        for(let image of imageSet) {
+          if(image.originalFileName == file) {
+            path = image.path;
+            break;
+          }
+        }
+      }
+
+      return `<br><img src="${url}${path}" class="question-image"/><br>`;
     });
   }
 

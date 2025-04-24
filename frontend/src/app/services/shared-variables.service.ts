@@ -15,6 +15,7 @@ export class SharedVariablesService {
 
   domainsImageUrl: string = "assets/domains/";
   scoreImageUrl: string = "assets/score/";
+  questionImagesUrl: string = "assets/questions";
 
   mail: string = "appli.qmax@gmail.com";
   faqSubject: string = "Demande d'information";
