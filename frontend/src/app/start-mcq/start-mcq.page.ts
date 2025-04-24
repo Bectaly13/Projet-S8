@@ -22,7 +22,7 @@ export class StartMCQPage implements ViewWillEnter {
   domainId!: number;
   chapterId!: number;
   chapter!: string;
-  domainsImageUrl: string = "assets/domains/";
+  domainsImageUrl!: string;
   domainsImageName!: string;
 
   mcqSize!: number;
@@ -46,6 +46,7 @@ export class StartMCQPage implements ViewWillEnter {
     this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
 
     this.mcqSize = this.variables.mcqSize;
+    this.domainsImageUrl = this.variables.domainsImageUrl;
 
     this.message.sendMessage("areSkillsRelevant", {chapterId: this.chapterId, sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
       console.log(res);

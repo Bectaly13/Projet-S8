@@ -6,6 +6,7 @@ import { Browser } from '@capacitor/browser';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
+import { SharedVariablesService } from '../services/shared-variables.service';
 
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -19,8 +20,8 @@ import { NavbarComponent } from '../navbar/navbar.component';
 export class FaqPage implements ViewWillEnter {
   questionCount: number = 0;
 
-  mail: string = "appli.qmax@gmail.com";
-  subject: string = "Demande d'information";
+  mail!: string;
+  subject!: string;
 
   headers: string[] = [
     "C'est quoi QMax ?",
@@ -77,9 +78,13 @@ export class FaqPage implements ViewWillEnter {
 
   constructor(private alert: AlertController,
               private message: MessageService,
-              private error: ErrorService) { }
+              private error: ErrorService,
+              private variables: SharedVariablesService) { }
 
   ionViewWillEnter(): void {
+    this.mail = this.variables.mail;
+    this.subject = this.variables.faqSubject;
+
     this.message.sendMessage("getQuestionCount", {}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {

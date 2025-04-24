@@ -29,7 +29,7 @@ export class ChaptersPage implements ViewWillEnter {
 
   mcqSize!: number;
 
-  domainsImageUrl: string = "assets/domains/";
+  domainsImageUrl!: string;
   domainsImageName!: string;
 
   chapters!: Chapter[];
@@ -47,6 +47,7 @@ export class ChaptersPage implements ViewWillEnter {
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
 
     this.mcqSize = this.variables.mcqSize;
+    this.domainsImageUrl = this.variables.domainsImageUrl;
 
     this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
 

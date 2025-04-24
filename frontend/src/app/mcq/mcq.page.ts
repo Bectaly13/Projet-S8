@@ -33,8 +33,8 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   backendFileName!: string;
   data!: any;
 
-  mail: string = "appli.qmax@gmail.com";
-  choiceLabels: string[] = ["A", "B", "C", "D"];
+  mail!: string;
+  choiceLabels!: string[];
 
   sectorId!: number;
   sector!: string;
@@ -81,6 +81,8 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.score = 0;
 
     this.mcqSize = this.variables.mcqSize;
+    this.mail = this.variables.mail;
+    this.choiceLabels = this.variables.choiceLabels;
 
     if(this.skillId) {
       this.title = "J'apprends";

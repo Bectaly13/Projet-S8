@@ -23,7 +23,7 @@ export class ScorePage implements ViewWillEnter {
   chapterId!: number;
   chapter!: string;
 
-  scoreImageUrl: string = "assets/score/";
+  scoreImageUrl!: string;
   scoreImageName!: string;
 
   messages: string[] = [
@@ -55,6 +55,7 @@ export class ScorePage implements ViewWillEnter {
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
 
     this.mcqSize = this.variables.mcqSize;
+    this.scoreImageUrl = this.variables.scoreImageUrl;
 
     const ratio = this.score/this.mcqSize;
 

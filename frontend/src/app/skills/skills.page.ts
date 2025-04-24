@@ -31,7 +31,7 @@ export class SkillsPage implements ViewWillEnter {
 
   mcqSize!: number;
 
-  domainsImageUrl: string = "assets/domains/";
+  domainsImageUrl!: string;
   domainsImageName!: string;
 
   skills!: Skill[];
@@ -53,6 +53,7 @@ export class SkillsPage implements ViewWillEnter {
     this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
 
     this.mcqSize = this.variables.mcqSize;
+    this.domainsImageUrl = this.variables.domainsImageUrl;
 
     this.message.sendMessage("getSkills", {chapterId: this.chapterId}).subscribe(res => {
       console.log(res);
