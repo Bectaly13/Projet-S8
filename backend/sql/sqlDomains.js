@@ -12,7 +12,7 @@ async function getDomains() {
 }
 
 async function isDomainRelevant(domainId, sectorId, mcqSize) {
-    const query = `SELECT COUNT(qst.questionId) AS questionCount
+    const query = `SELECT COUNT(qst.questionId)
         FROM ${qst} AS qst
         JOIN ${qsl} AS qsl ON qst.questionId = qsl.questionId
         JOIN ${qgr} AS qgr ON qst.questionGroupId = qgr.questionGroupId
@@ -30,6 +30,5 @@ async function isDomainRelevant(domainId, sectorId, mcqSize) {
     return result.length > 0;
 }
   
-
 module.exports.getDomains = getDomains;
 module.exports.isDomainRelevant = isDomainRelevant;

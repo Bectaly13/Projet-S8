@@ -1,5 +1,5 @@
 const mysqlConnect = require("./sqlConnect");
-const chp = require("./sqlConfig").chp;
+const {chp, skl, qgr, qst, qsl} = require("./sqlConfig");
 
 async function getChapters(domainId) {
     const query = `SELECT chapterId, name
@@ -11,4 +11,21 @@ async function getChapters(domainId) {
     return mysqlConnect.query(query, data);
 }
 
+async function isChapterRelevant(chapterId, sectorId, mcqSize) {
+    const query = `SELECT COUNT(qst.questionId) AS questionCount
+        FROM ${qst} AS qst
+        JOIN ${qsl} AS qsl ON qst.questionId = qsl.questionId
+        JOIN ${qgr} AS qgr ON qst.questionGroupId = qgr.questionGroupId
+        JOIN ${skl} AS skl ON qgr.skillId = skl.skillId
+        WHERE skl.chapterId = ?
+        AND qsl.sectorId = ?
+        HAVING questionCount >= ?`;
+  
+    const data = [chapterId, sectorId, mcqSize];
+    const result = await mysqlConnect.query(query, data);
+  
+    return result.length > 0;
+}
+
 module.exports.getChapters = getChapters;
+module.exports.isChapterRelevant = isChapterRelevant;
