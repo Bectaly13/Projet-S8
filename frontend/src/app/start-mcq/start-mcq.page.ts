@@ -43,10 +43,10 @@ export class StartMCQPage implements ViewWillEnter {
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
 
-    this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
-
     this.mcqSize = this.variables.mcqSize;
     this.domainsImageUrl = this.variables.domainsImageUrl;
+
+    this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
 
     this.message.sendMessage("areSkillsRelevant", {chapterId: this.chapterId, sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
       console.log(res);

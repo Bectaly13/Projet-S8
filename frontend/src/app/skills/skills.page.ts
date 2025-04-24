@@ -50,10 +50,10 @@ export class SkillsPage implements ViewWillEnter {
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
 
-    this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
-
     this.mcqSize = this.variables.mcqSize;
     this.domainsImageUrl = this.variables.domainsImageUrl;
+
+    this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
 
     this.message.sendMessage("getSkills", {chapterId: this.chapterId}).subscribe(res => {
       console.log(res);
