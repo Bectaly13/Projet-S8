@@ -4,13 +4,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SharedVariablesService {
-  mcqSize: number = 10;
-  /*
   mcqSize: any = {
     small: 5,
     large: 10
   };
-  */
   choiceLabels: string[] = ["A", "B", "C", "D"];
 
   domainsImageUrl: string = "assets/domains/";

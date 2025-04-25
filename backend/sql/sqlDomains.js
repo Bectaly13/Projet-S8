@@ -20,6 +20,7 @@ async function isDomainRelevant(domainId, sectorId, mcqSize) {
         JOIN ${chp} AS chp ON skl.chapterId = chp.chapterId
         WHERE chp.domainId = ?
         AND qsl.sectorId = ?
+        AND qst.validated = 1
         GROUP BY chp.chapterId
         HAVING COUNT(qst.questionId) >= ?
         LIMIT 1`;
