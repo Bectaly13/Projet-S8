@@ -19,12 +19,12 @@ async function isChapterRelevant(chapterId, sectorId, mcqSize) {
         JOIN ${skl} AS skl ON qgr.skillId = skl.skillId
         WHERE skl.chapterId = ?
         AND qsl.sectorId = ?
-        HAVING questionCount >= ?`;
+        AND qst.validated = 1`;
   
-    const data = [chapterId, sectorId, mcqSize];
+    const data = [chapterId, sectorId];
     const result = await mysqlConnect.query(query, data);
   
-    return result.length > 0;
+    return result[0].questionCount > mcqSize;
 }
 
 module.exports.getChapters = getChapters;

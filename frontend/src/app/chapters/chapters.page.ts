@@ -46,7 +46,7 @@ export class ChaptersPage implements ViewWillEnter {
     this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
 
-    this.mcqSize = this.variables.mcqSize;
+    this.mcqSize = this.variables.mcqSize.large;
     this.domainsImageUrl = this.variables.domainsImageUrl;
 
     this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
