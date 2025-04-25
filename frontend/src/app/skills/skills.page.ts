@@ -29,8 +29,6 @@ export class SkillsPage implements ViewWillEnter {
   chapterId!: number;
   chapter!: string;
 
-  mcqSize!: number;
-
   domainsImageUrl!: string;
   domainsImageName!: string;
 
@@ -50,7 +48,6 @@ export class SkillsPage implements ViewWillEnter {
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
 
-    this.mcqSize = this.variables.mcqSize;
     this.domainsImageUrl = this.variables.domainsImageUrl;
 
     this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
@@ -61,7 +58,7 @@ export class SkillsPage implements ViewWillEnter {
         this.skills = res.data;
 
         for(let skill of this.skills) {
-          this.message.sendMessage("isSkillRelevant", {skillId: skill.skillId, sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
+          this.message.sendMessage("isSkillRelevant", {skillId: skill.skillId, sectorId: this.sectorId}).subscribe(res => {
             skill.isRelevant = res.data;
           })
         }

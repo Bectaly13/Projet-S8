@@ -6,12 +6,7 @@ async function isSkillRelevant(request, result) {
     console.log("isSkillRelevant.js :", data);
     if("skillId" in data) {   
         if("sectorId" in data) {
-            if("mcqSize" in data) {
-                return sendMessage(result, await sql.isSkillRelevant(data["skillId"], data["sectorId"], data["mcqSize"]));
-            }
-            else {
-                return sendError(result, "MCQ size is required");
-            }
+            return sendMessage(result, await sql.isSkillRelevant(data["skillId"], data["sectorId"]));         
         } 
         else {
             return sendError(result, "Sector ID is required");

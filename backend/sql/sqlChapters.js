@@ -24,7 +24,7 @@ async function isChapterRelevant(chapterId, sectorId, mcqSize) {
     const data = [chapterId, sectorId];
     const result = await mysqlConnect.query(query, data);
   
-    return result[0].questionCount > mcqSize;
+    return (result[0]?.questionCount ?? 0) >= mcqSize;
 }
 
 module.exports.getChapters = getChapters;
