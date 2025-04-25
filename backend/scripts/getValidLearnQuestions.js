@@ -7,12 +7,12 @@ async function getValidLearnQuestions(request, result) {
     if("skillId" in data) {
         if("sectorId" in data) {
             if("mcqSize" in data) {
-                const res = await sql.getValidLearnQuestions(data["skillId"], data["sectorId"]);
-                if(res.length >= data["mcqSize"]) {
+                const res = await sql.getValidLearnQuestions(data["skillId"], data["sectorId"], data["mcqSize"]);
+                if(res.length) {
                     return sendMessage(result, res);
                 }
                 else {
-                    return sendError(result, "Couldn't find enough valid learn questions", 404);
+                    return sendError(result, "Couldn't find any valid learn questions", 404);
                 }
             }
             else {

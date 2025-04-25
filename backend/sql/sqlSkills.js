@@ -12,18 +12,21 @@ async function getSkills(domainId) {
 }
 
 async function isSkillRelevant(skillId, sectorId) {
-    const query = `SELECT COUNT(qst.questionId) AS questionCount
-        FROM ${qst} AS qst
-        JOIN ${qgr} AS qgr ON qst.questionGroupId = qgr.questionGroupId
+    const query = `SELECT qgr.questionGroupId
+        FROM ${qgr} AS qgr
+        JOIN ${qst} AS qst ON qgr.questionGroupId = qst.questionGroupId
         JOIN ${qsl} AS qsl ON qst.questionId = qsl.questionId
         WHERE qgr.skillId = ?
         AND qsl.sectorId = ?
-        AND qst.validated = 1`;
-  
+        AND qst.validated = 1
+        GROUP BY qgr.questionGroupId
+        HAVING COUNT(qst.questionId) > 0
+        LIMIT 1`;
+
     const data = [skillId, sectorId];
     const result = await mysqlConnect.query(query, data);
 
-    return (result[0]?.questionCount ?? 0) >= 1;
+    return result.length > 0;
 }  
 
 module.exports.getSkills = getSkills;
