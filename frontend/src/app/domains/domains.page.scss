@@ -36,8 +36,8 @@ $minwidth_smartphone: 333px;
 }
 
 .button_list_domains {
-  background: #f1f1f1;
-  color: #000000;
+  background: var(--ion-color-grey-low-contrast);
+  color: var(--ion-color-grey-highest-contrast);
   box-shadow: none;
   width: 100%;
   height: clamp(50px, 20vw, 160px); // fluide

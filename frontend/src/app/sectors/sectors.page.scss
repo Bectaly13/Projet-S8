@@ -1,0 +1,26 @@
+#welcome-title {
+    text-align: center;
+}
+
+#welcome-subtitle {
+    text-align: center;
+    color: var(--ion-color-grey-high-contrast);
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  padding: 16px;
+  justify-items: center;
+  justify-content: center;
+}
+
+
+.sector-button {
+width: 100%;         /* Prend toute la largeur de sa cellule */
+height: 100%;        /* Facultatif : sinon il reste centré verticalement */
+padding: 10px;       /* Marge intérieure */
+text-align: center;  /* Centre le texte */
+--border-radius: 8px; /* Custom Ionic style */
+}
