@@ -18,46 +18,46 @@ app.use(cors(corsOptions));
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-const getSectors = require("./getSectors").getSectors;
+const getSectors = require("./scripts/getSectors").getSectors;
 app.post("/getSectors", (request, result) => {getSectors(request, result);});
 
-const getSectorName = require("./getSectorName").getSectorName;
+const getSectorName = require("./scripts/getSectorName").getSectorName;
 app.post("/getSectorName", (request, result) => {getSectorName(request, result);});
 
-const getDomains = require("./getDomains").getDomains;
+const getDomains = require("./scripts/getDomains").getDomains;
 app.post("/getDomains", (request, result) => {getDomains(request, result);});
 
-const getChapters = require("./getChapters").getChapters;
+const getChapters = require("./scripts/getChapters").getChapters;
 app.post("/getChapters", (request, result) => {getChapters(request, result);});
 
-const getValidStudyQuestions = require("./getValidStudyQuestions").getValidStudyQuestions;
+const getValidStudyQuestions = require("./scripts/getValidStudyQuestions").getValidStudyQuestions;
 app.post("/getValidStudyQuestions", (request, result) => {getValidStudyQuestions(request, result);});
 
-const getQuestionChoices = require("./getQuestionChoices").getQuestionChoices;
+const getQuestionChoices = require("./scripts/getQuestionChoices").getQuestionChoices;
 app.post("/getQuestionChoices", (request, result) => {getQuestionChoices(request, result);});
 
-const getQuestionImages = require("./getQuestionImages").getQuestionImages;
+const getQuestionImages = require("./scripts/getQuestionImages").getQuestionImages;
 app.post("/getQuestionImages", (request, result) => {getQuestionImages(request, result);});
 
-const getSkills = require("./getSkills").getSkills;
+const getSkills = require("./scripts/getSkills").getSkills;
 app.post("/getSkills", (request, result) => {getSkills(request, result);});
 
-const getValidLearnQuestions = require("./getValidLearnQuestions").getValidLearnQuestions;
+const getValidLearnQuestions = require("./scripts/getValidLearnQuestions").getValidLearnQuestions;
 app.post("/getValidLearnQuestions", (request, result) => {getValidLearnQuestions(request, result);});
 
-const getQuestionCount = require("./getQuestionCount").getQuestionCount;
+const getQuestionCount = require("./scripts/getQuestionCount").getQuestionCount;
 app.post("/getQuestionCount", (request, result) => {getQuestionCount(request, result);});
 
-const isDomainRelevant = require("./isDomainRelevant").isDomainRelevant;
+const isDomainRelevant = require("./scripts/isDomainRelevant").isDomainRelevant;
 app.post("/isDomainRelevant", (request, result) => {isDomainRelevant(request, result);});
 
-const isChapterRelevant = require("./isChapterRelevant").isChapterRelevant;
+const isChapterRelevant = require("./scripts/isChapterRelevant").isChapterRelevant;
 app.post("/isChapterRelevant", (request, result) => {isChapterRelevant(request, result);});
 
-const areSkillsRelevant = require("./areSkillsRelevant").areSkillsRelevant;
+const areSkillsRelevant = require("./scripts/areSkillsRelevant").areSkillsRelevant;
 app.post("/areSkillsRelevant", (request, result) => {areSkillsRelevant(request, result);});
 
-const isSkillRelevant = require("./isSkillRelevant").isSkillRelevant;
+const isSkillRelevant = require("./scripts/isSkillRelevant").isSkillRelevant;
 app.post("/isSkillRelevant", (request, result) => {isSkillRelevant(request, result);});
 
 app.listen(port, host, () => {console.log (`Listening to http://${host}:${port}`);});

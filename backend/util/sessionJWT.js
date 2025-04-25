@@ -3,8 +3,8 @@ const fs = require('fs');
 
 // Récupération des clés publique et privée
 // Ces instructions ne sont exécutées qu'au démarrage du serveur
-const RSA_PRIVATE_KEY = fs.readFileSync('./keys/jwtRS256.key');
-const RSA_PUBLIC_KEY = fs.readFileSync('./keys/jwtRS256.key.pub');
+const RSA_PRIVATE_KEY = fs.readFileSync('../keys/jwtRS256.key');
+const RSA_PUBLIC_KEY = fs.readFileSync('../keys/jwtRS256.key.pub');
 
 // Crée et renvoie un nouveau JWT
 function createJWT(userId) {

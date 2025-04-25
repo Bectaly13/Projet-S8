@@ -1,5 +1,5 @@
-const {sendError, sendMessage} = require("./message");
-const sql = require("./sql/sqlSectors");
+const {sendError, sendMessage} = require("../util/message");
+const sql = require("../sql/sqlSectors");
 
 async function getSectorName(request, result) {
     const data = request.body;

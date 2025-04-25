@@ -1,5 +1,5 @@
-const {sendError, sendMessage} = require("./message");
-const sql = require("./sql/sqlChoices");
+const {sendError, sendMessage} = require("../util/message");
+const sql = require("../sql/sqlChoices");
 
 async function getQuestionChoices(request, result) {
     const data = request.body;

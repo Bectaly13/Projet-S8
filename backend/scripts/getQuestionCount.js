@@ -1,5 +1,5 @@
-const {sendMessage} = require("./message");
-const sql = require("./sql/sqlQuestions");
+const {sendMessage} = require("../util/message");
+const sql = require("../sql/sqlQuestions");
 
 async function getQuestionCount(request, result) {
     const data = request.body;

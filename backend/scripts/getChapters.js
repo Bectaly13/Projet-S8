@@ -1,5 +1,5 @@
-const {sendError, sendMessage} = require("./message");
-const sql = require("./sql/sqlChapters");
+const {sendError, sendMessage} = require("../util/message");
+const sql = require("../sql/sqlChapters");
 
 async function getChapters(request, result) {
     const data = request.body;

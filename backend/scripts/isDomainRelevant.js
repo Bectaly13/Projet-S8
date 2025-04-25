@@ -1,5 +1,5 @@
-const {sendError, sendMessage} = require("./message");
-const sql = require("./sql/sqlDomains");
+const {sendError, sendMessage} = require("../util/message");
+const sql = require("../sql/sqlDomains");
 
 async function isDomainRelevant(request, result) {
     const data = request.body;

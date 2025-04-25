@@ -1,13 +1,13 @@
-const {sendError, sendMessage} = require("./message");
-const sql = require("./sql/sqlSkills");
+const {sendError, sendMessage} = require("../util/message");
+const sql = require("../sql/sqlChapters");
 
-async function areSkillsRelevant(request, result) {
+async function isChapterRelevant(request, result) {
     const data = request.body;
-    console.log("areSkillsRelevant.js :", data);
+    console.log("isChapterRelevant.js :", data);
     if("chapterId" in data) {   
         if("sectorId" in data) {
             if("mcqSize" in data) {
-                return sendMessage(result, await sql.areSkillsRelevant(data["chapterId"], data["sectorId"], data["mcqSize"]));
+                return sendMessage(result, await sql.isChapterRelevant(data["chapterId"], data["sectorId"], data["mcqSize"]));
             }
             else {
                 return sendError(result, "MCQ size is required");
@@ -22,4 +22,4 @@ async function areSkillsRelevant(request, result) {
     }
 }
 
-module.exports.areSkillsRelevant = areSkillsRelevant;
+module.exports.isChapterRelevant = isChapterRelevant;

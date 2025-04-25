@@ -1,5 +1,5 @@
-const {sendError, sendMessage} = require("./message");
-const sql = require("./sql/sqlSkills");
+const {sendError, sendMessage} = require("../util/message");
+const sql = require("../sql/sqlSkills");
 
 async function getSkills(request, result) {
     const data = request.body;

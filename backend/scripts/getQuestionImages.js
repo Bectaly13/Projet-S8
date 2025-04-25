@@ -1,5 +1,5 @@
-const {sendError, sendMessage} = require("./message");
-const sql = require("./sql/sqlImages");
+const {sendError, sendMessage} = require("../util/message");
+const sql = require("../sql/sqlImages");
 
 async function getQuestionImages(request, result) {
     const data = request.body;
