@@ -4,7 +4,7 @@ const skl = require("./sqlConfig").skl;
 const qgr = require("./sqlConfig").qgr;
 const qsl = require("./sqlConfig").qsl;
 
-async function getValidStudyQuestions(chapterId, sectorId) {
+async function getValidStudyQuestions(chapterId, sectorId, mcqSize) {
     let validStudyQuestions = [];
 
     let query = `SELECT DISTINCT ${qgr}.questionGroupId
@@ -35,7 +35,7 @@ async function getValidStudyQuestions(chapterId, sectorId) {
     return validStudyQuestions;
 }
 
-async function getValidLearnQuestions(skillId, sectorId) {
+async function getValidLearnQuestions(skillId, sectorId, mcqSize) {
     let validLearnQuestions = [];
 
     let query = `SELECT DISTINCT ${qgr}.questionGroupId

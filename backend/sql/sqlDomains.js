@@ -12,23 +12,28 @@ async function getDomains() {
 }
 
 async function isDomainRelevant(domainId, sectorId, mcqSize) {
-    const query = `SELECT COUNT(qst.questionId)
-        FROM ${qst} AS qst
+    const query = `SELECT chapterId
+        FROM (
+        SELECT chp.chapterId, qgr.questionGroupId, COUNT(qst.questionId) AS questionCount
+        FROM ${chp} AS chp
+        JOIN ${skl} AS skl ON chp.chapterId = skl.chapterId
+        JOIN ${qgr} AS qgr ON skl.skillId = qgr.skillId
+        JOIN ${qst} AS qst ON qgr.questionGroupId = qst.questionGroupId
         JOIN ${qsl} AS qsl ON qst.questionId = qsl.questionId
-        JOIN ${qgr} AS qgr ON qst.questionGroupId = qgr.questionGroupId
-        JOIN ${skl} AS skl ON qgr.skillId = skl.skillId
-        JOIN ${chp} AS chp ON skl.chapterId = chp.chapterId
         WHERE chp.domainId = ?
         AND qsl.sectorId = ?
         AND qst.validated = 1
-        GROUP BY chp.chapterId
-        HAVING COUNT(qst.questionId) >= ?
+        GROUP BY chp.chapterId, qgr.questionGroupId
+        HAVING COUNT(qst.questionId) > 0
+        ) AS valid_groups
+        GROUP BY chapterId
+        HAVING COUNT(questionGroupId) >= ?
         LIMIT 1`;
-  
-    const data = [domainId, sectorId, mcqSize];
-    const result = await mysqlConnect.query(query, data);
-  
-    return result.length > 0;
+
+  const data = [domainId, sectorId, mcqSize];
+  const result = await mysqlConnect.query(query, data);
+
+  return result.length > 0;
 }
   
 module.exports.getDomains = getDomains;

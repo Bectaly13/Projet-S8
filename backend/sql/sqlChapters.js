@@ -12,19 +12,23 @@ async function getChapters(domainId) {
 }
 
 async function isChapterRelevant(chapterId, sectorId, mcqSize) {
-    const query = `SELECT COUNT(qst.questionId) AS questionCount
-        FROM ${qst} AS qst
-        JOIN ${qsl} AS qsl ON qst.questionId = qsl.questionId
-        JOIN ${qgr} AS qgr ON qst.questionGroupId = qgr.questionGroupId
+    const query = `SELECT COUNT(*) AS groupCount FROM (
+        SELECT qgr.questionGroupId
+        FROM ${qgr} AS qgr
         JOIN ${skl} AS skl ON qgr.skillId = skl.skillId
+        JOIN ${qst} AS qst ON qgr.questionGroupId = qst.questionGroupId
+        JOIN ${qsl} AS qsl ON qst.questionId = qsl.questionId
         WHERE skl.chapterId = ?
         AND qsl.sectorId = ?
-        AND qst.validated = 1`;
+        AND qst.validated = 1
+        GROUP BY qgr.questionGroupId
+        HAVING COUNT(qst.questionId) > 0
+        ) AS relevant_groups`;
   
     const data = [chapterId, sectorId];
     const result = await mysqlConnect.query(query, data);
   
-    return (result[0]?.questionCount ?? 0) >= mcqSize;
+    return (result[0]?.groupCount ?? 0) >= mcqSize;
 }
 
 module.exports.getChapters = getChapters;
