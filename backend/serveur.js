@@ -54,9 +54,6 @@ app.post("/isDomainRelevant", (request, result) => {isDomainRelevant(request, re
 const isChapterRelevant = require("./scripts/isChapterRelevant").isChapterRelevant;
 app.post("/isChapterRelevant", (request, result) => {isChapterRelevant(request, result);});
 
-const areSkillsRelevant = require("./scripts/areSkillsRelevant").areSkillsRelevant;
-app.post("/areSkillsRelevant", (request, result) => {areSkillsRelevant(request, result);});
-
 const isSkillRelevant = require("./scripts/isSkillRelevant").isSkillRelevant;
 app.post("/isSkillRelevant", (request, result) => {isSkillRelevant(request, result);});
 

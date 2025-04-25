@@ -11,24 +11,6 @@ async function getSkills(domainId) {
     return mysqlConnect.query(query, data);
 }
 
-async function areSkillsRelevant(chapterId, sectorId, mcqSize) {
-    const query = `SELECT skl.skillId, COUNT(qst.questionId) AS questionCount
-        FROM ${skl} AS skl
-        JOIN ${qgr} AS qgr ON skl.skillId = qgr.skillId
-        JOIN ${qst} AS qst ON qgr.questionGroupId = qst.questionGroupId
-        JOIN ${qsl} AS qsl ON qst.questionId = qsl.questionId
-        WHERE skl.chapterId = ?
-        AND qsl.sectorId = ?
-        GROUP BY skl.skillId
-        HAVING questionCount >= ?
-        LIMIT 1`;
-  
-    const data = [chapterId, sectorId, mcqSize];
-    const result = await mysqlConnect.query(query, data);
-  
-    return result.length > 0;
-}  
-
 async function isSkillRelevant(skillId, sectorId, mcqSize) {
     const query = `SELECT COUNT(qst.questionId) AS questionCount
         FROM ${qst} AS qst
@@ -44,5 +26,4 @@ async function isSkillRelevant(skillId, sectorId, mcqSize) {
 }  
 
 module.exports.getSkills = getSkills;
-module.exports.areSkillsRelevant = areSkillsRelevant;
 module.exports.isSkillRelevant = isSkillRelevant;
