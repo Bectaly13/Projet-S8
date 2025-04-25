@@ -15,13 +15,11 @@
 
   <p id="welcome-subtitle">Je suis en...</p>
 
-  <ion-list class="list-sectors">
-    <div class="button-grid">
-      @for (sector of sectors; track $index) {
-        <ion-button class="sector-button" (click)="goToDomains(sector.sectorId, sector.name)">
-          {{ sector.name }}
-        </ion-button>
-      }
-    </div>
-  </ion-list>
+  <div class="button-grid">
+    @for (sector of sectors; track $index) {
+      <ion-button class="sector-button" (click)="goToDomains(sector.sectorId, sector.name)">
+        {{ sector.name }}
+      </ion-button>
+    }
+  </div>
 </ion-content>
