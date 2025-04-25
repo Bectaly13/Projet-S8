@@ -1,6 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>FAQ</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -22,28 +25,4 @@
   <p>
     Nombre de questions disponibles : {{questionCount}}
   </p>
-
-  <p>
-    <ion-button href="mailto:{{mail}}?subject={{subject}}">
-      Nous contacter
-    </ion-button>
-  </p>
-
-  <p>
-    <ion-button (click)="openBrowser('https://www.appli.qmax.fr')">
-      Notre site Internet
-    </ion-button>
-  </p>
-
-  <p>
-    <ion-button (click)="openBrowser('https://m.facebook.com/appli.qmax')">
-      Notre page Facebook
-    </ion-button>
-  </p>
 </ion-content>
-
-<ion-footer>
-  <ion-toolbar>
-    <app-navbar/>
-  </ion-toolbar>
-</ion-footer>

@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Options</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">options</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <p>
+    Gestion du mode sombre ici
+  </p>
+  
+  <ion-button (click)="goToFAQ()">FAQ</ion-button>
+
+  <p>
+    <ion-button href="mailto:{{mail}}?subject={{subject}}">
+      Nous contacter
+    </ion-button>
+  </p>
+
+  <p>
+    <ion-button (click)="openBrowser(site)">
+      Notre site Internet
+    </ion-button>
+  </p>
+
+  <p>
+    <ion-button (click)="openBrowser(facebook)">
+      Notre page Facebook
+    </ion-button>
+  </p>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <app-navbar/>
+  </ion-toolbar>
+</ion-footer>

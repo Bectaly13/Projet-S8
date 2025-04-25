@@ -42,4 +42,8 @@ export const routes: Routes = [
     path: 'score',
     loadComponent: () => import('./score/score.page').then( m => m.ScorePage)
   },
+  {
+    path: 'options',
+    loadComponent: () => import('./options/options.page').then( m => m.OptionsPage)
+  },
 ];

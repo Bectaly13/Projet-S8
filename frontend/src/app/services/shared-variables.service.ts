@@ -16,6 +16,9 @@ export class SharedVariablesService {
 
   mail: string = "appli.qmax@gmail.com";
   faqSubject: string = "Demande d'information";
+  
+  site: string = "https://appli.qmax.fr/";
+  facebook: string = "https://www.facebook.com/appli.qmax/";
 
   constructor() { }
 }

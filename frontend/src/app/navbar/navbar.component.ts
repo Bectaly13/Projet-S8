@@ -34,8 +34,8 @@ export class NavbarComponent implements OnInit {
     }})
   }
 
-  goToFAQ() {
-    this.router.navigate(["faq"], {queryParams: {
+  goToOptions() {
+    this.router.navigate(["options"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector
     }})

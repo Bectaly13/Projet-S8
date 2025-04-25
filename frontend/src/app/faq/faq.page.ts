@@ -1,27 +1,20 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter, IonButton, IonList, IonItem, AlertController, ViewWillEnter } from '@ionic/angular/standalone';
-import { Browser } from '@capacitor/browser';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter, IonButton, IonList, IonItem, AlertController, ViewWillEnter, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
-import { SharedVariablesService } from '../services/shared-variables.service';
-
-import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-faq',
   templateUrl: './faq.page.html',
   styleUrls: ['./faq.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonFooter, NavbarComponent, IonButton, IonList, IonItem]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonFooter, IonButton, IonList, IonItem, IonButtons, IonBackButton]
 })
 export class FaqPage implements ViewWillEnter {
   questionCount: number = 0;
-
-  mail!: string;
-  subject!: string;
 
   headers: string[] = [
     "C'est quoi QMax ?",
@@ -78,13 +71,9 @@ export class FaqPage implements ViewWillEnter {
 
   constructor(private alert: AlertController,
               private message: MessageService,
-              private error: ErrorService,
-              private variables: SharedVariablesService) { }
+              private error: ErrorService) { }
 
   ionViewWillEnter(): void {
-    this.mail = this.variables.mail;
-    this.subject = this.variables.faqSubject;
-
     this.message.sendMessage("getQuestionCount", {}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
@@ -107,9 +96,5 @@ export class FaqPage implements ViewWillEnter {
       alert.present();
       alert.onDidDismiss();
     })
-  }
-
-  async openBrowser(link: string) {
-    await Browser.open({url: link});
   }
 }
