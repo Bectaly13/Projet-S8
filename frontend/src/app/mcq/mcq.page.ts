@@ -52,7 +52,6 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   answerStatus: string = "correcte";
   score!: number;
 
-  validQuestions!: Question[];
   questions!: Question[];
 
   choices: any[] = [];
@@ -107,9 +106,8 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.message.sendMessage(this.backendFileName, this.data).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        this.validQuestions = res.data;
-
-        this.questions = [...this.validQuestions].sort(() => Math.random() - 0.5).slice(0, this.mcqSize).sort((a, b) => a.level - b.level);
+        this.questions = [...res.data].sort((a, b) => a.level - b.level);
+        this.mcqSize = this.questions.length;
 
         for(let i = 0; i<this.questions.length; i++) {
           this.getQuestionChoices(i);
