@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton, IonButton } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { MessageService } from '../services/message.service';
+import { ErrorService } from '../services/error.service';
+import { SharedVariablesService } from '../services/shared-variables.service';
+
 @Component({
   selector: 'app-start-mcq',
   templateUrl: './start-mcq.page.html',
@@ -15,24 +19,44 @@ export class StartMCQPage implements ViewWillEnter {
   sectorId!: number;
   sector!: string;
   domain!: string;
+  domainId!: number;
   chapterId!: number;
   chapter!: string;
-  imageName!: string;
-  url: string = "assets/domains/";
-  imagePath!: string;
+  domainsImageUrl!: string;
+  domainsImageName!: string;
+
+  mcqSize!: number;
+
+  areSkillsRelevant!: boolean;
 
   constructor(private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private message: MessageService,
+              private error: ErrorService,
+              private variables: SharedVariablesService) { }
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
+    this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
-    this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
 
-    this.imagePath = this.url + this.imageName;
+    this.mcqSize = this.variables.mcqSize;
+    this.domainsImageUrl = this.variables.domainsImageUrl;
+
+    this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
+
+    this.message.sendMessage("areSkillsRelevant", {chapterId: this.chapterId, sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
+      console.log(res);
+      if(res.status == 200) {
+        this.areSkillsRelevant = res.data;
+      }
+      else {
+        this.error.errorMessage(res);
+      }
+    })
   }
 
   startMCQ() {
@@ -40,9 +64,9 @@ export class StartMCQPage implements ViewWillEnter {
       sectorId: this.sectorId,
       sector: this.sector,
       domain: this.domain,
+      domainId: this.domainId,
       chapterId: this.chapterId,
       chapter: this.chapter,
-      imageName: this.imageName
     }})
   }
 
@@ -51,9 +75,9 @@ export class StartMCQPage implements ViewWillEnter {
       sectorId: this.sectorId,
       sector: this.sector,
       domain: this.domain,
+      domainId: this.domainId,
       chapterId: this.chapterId,
       chapter: this.chapter,
-      imageName: this.imageName
     }})
   }
 }

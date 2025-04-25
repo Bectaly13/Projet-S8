@@ -6,10 +6,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
+import { SharedVariablesService } from '../services/shared-variables.service';
 
 export interface Skill {
   skillId: number;
   name: string;
+  isRelevant: boolean
 }
 
 @Component({
@@ -23,29 +25,46 @@ export class SkillsPage implements ViewWillEnter {
   sectorId!: number;
   sector!: string;
   domain!: string;
+  domainId!: number;
   chapterId!: number;
   chapter!: string;
-  imageName!: string;
+
+  mcqSize!: number;
+
+  domainsImageUrl!: string;
+  domainsImageName!: string;
 
   skills!: Skill[];
 
   constructor(private route: ActivatedRoute,
               private message: MessageService,
               private error: ErrorService,
-              private router: Router) { }
+              private router: Router,
+              private variables: SharedVariablesService) { }
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
+    this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
-    this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
+
+    this.mcqSize = this.variables.mcqSize;
+    this.domainsImageUrl = this.variables.domainsImageUrl;
+
+    this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
 
     this.message.sendMessage("getSkills", {chapterId: this.chapterId}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
         this.skills = res.data;
+
+        for(let skill of this.skills) {
+          this.message.sendMessage("isSkillRelevant", {skillId: skill.skillId, sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
+            skill.isRelevant = res.data;
+          })
+        }
       }
       else {
         this.error.errorMessage(res);
@@ -58,9 +77,9 @@ export class SkillsPage implements ViewWillEnter {
       sectorId: this.sectorId,
       sector: this.sector,
       domain: this.domain,
+      domainId: this.domainId,
       chapterId: this.chapterId,
       chapter: this.chapter,
-      imageName: this.imageName,
       skillId: skillId
     }})
   }

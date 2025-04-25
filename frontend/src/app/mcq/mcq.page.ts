@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonBackButton, IonCheckbox, IonButton, ViewDidEnter } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonCheckbox, IonButton, ViewDidEnter, IonProgressBar, AlertController, IonIcon } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
-
-import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
+import { SharedVariablesService } from '../services/shared-variables.service';
 
 declare global {
   interface Window {
@@ -27,25 +26,25 @@ export interface Question {
   templateUrl: './mcq.page.html',
   styleUrls: ['./mcq.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonCheckbox, IonButton, ProgressBarComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCheckbox, IonButton, IonProgressBar, IonIcon]
 })
 export class MCQPage implements ViewWillEnter, ViewDidEnter {
   title!: string;
   backendFileName!: string;
   data!: any;
 
-  mail: string = "appli.qmax@gmail.com";
-  choiceLabels: string[] = ["A", "B", "C", "D"];
+  mail!: string;
+  choiceLabels!: string[];
 
   sectorId!: number;
   sector!: string;
   domain!: string;
+  domainId!: number;
   chapterId!: number;
   chapter!: string;
-  imageName!: string;
   skillId!: number;
 
-  mcqSize: number = 5;
+  mcqSize!: number;
   questionIndex: number = 1;
   showAnswer: boolean = false;
   toggledChoices: Boolean[] = [false, false, false, false];
@@ -59,11 +58,14 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   choices: any[] = [];
 
   images: any[] = [];
+  questionImagesUrl!: string;
 
   constructor(private route: ActivatedRoute,
               private message: MessageService,
               private error: ErrorService,
-              private router: Router) { }   
+              private router: Router,
+              private variables: SharedVariablesService,
+              private alert: AlertController) { }   
   
   ionViewDidEnter(): void {
       this.renderMath();
@@ -73,12 +75,17 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
+    this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
-    this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
     this.skillId = Number(this.route.snapshot.queryParamMap.get("skillId"));
 
     this.score = 0;
+
+    this.mcqSize = this.variables.mcqSize;
+    this.mail = this.variables.mail;
+    this.choiceLabels = this.variables.choiceLabels;
+    this.questionImagesUrl = this.variables.questionImagesUrl;
 
     if(this.skillId) {
       this.title = "J'apprends";
@@ -192,21 +199,33 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   parseText(text: string): string {
     return text.replace(/url\((.*?)\)/g, (match, fileName) => {
       const file = fileName.trim();
-      const url = "assets/questions/";
+      const url = this.questionImagesUrl;
+      let path = "";
 
-      return `<br><img src="${url}${file}" class="question-image"/><br>`;
+      for(let imageSet of this.images) {
+        for(let image of imageSet) {
+          if(image.originalFileName == file) {
+            path = image.path;
+            break;
+          }
+        }
+      }
+
+      return `<br><img src="${url}${path}" class="question-image"/><br>`;
     });
   }
 
   renderMath() {
+    setTimeout(() => {
       if (window.MathJax && window.MathJax.typesetPromise) {
         window.MathJax.typesetClear?.();
         window.MathJax.typesetPromise()
           .then(() => {})
-          .catch((err: any) => console.error('Erreur MathJax :', err));
+          .catch((err: any) => console.error("MathJax error:", err));
       } else {
-        console.warn('MathJax non chargé');
+        console.warn("MathJax not loaded");
       } 
+    }, 0);
   }
 
   checkAnswer(choices: any) {
@@ -254,6 +273,28 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.renderMath();
   }
 
+  async goBack() {
+    const alert = await this.alert.create({
+      header: "Quitter le QCM ?",
+      message: "Tous les progrès seront perdus.",
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Quitter',
+          handler: () => {
+            history.back();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
   nextQuestion() {
     this.questionIndex ++;
     this.showAnswer = false;
@@ -273,13 +314,12 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
 
     this.router.navigate(["score"], {queryParams: {
       score: this.score,
-      mcqSize: this.mcqSize,
       sectorId: this.sectorId,
       sector: this.sector,
       domain: this.domain,
+      domainId: this.domainId,
       chapterId: this.chapterId,
       chapter: this.chapter,
-      imageName: this.imageName
     }})
   }
 }

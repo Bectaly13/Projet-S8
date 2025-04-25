@@ -6,10 +6,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
+import { SharedVariablesService } from '../services/shared-variables.service';
 
 export interface Chapter {
   chapterId: number;
   name: string;
+  isRelevant: boolean
 }
 
 @Component({
@@ -24,21 +26,30 @@ export class ChaptersPage implements ViewWillEnter {
   sector!: string;
   domainId!: number;
   domain!: string;
-  imageName!: string;
+
+  mcqSize!: number;
+
+  domainsImageUrl!: string;
+  domainsImageName!: string;
 
   chapters!: Chapter[];
 
   constructor(private route: ActivatedRoute,
               private message: MessageService,
               private error: ErrorService,
-              private router: Router) { }
+              private router: Router,
+              private variables: SharedVariablesService) { }
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
-    this.imageName = String(this.route.snapshot.queryParamMap.get("imageName"));
+
+    this.mcqSize = this.variables.mcqSize;
+    this.domainsImageUrl = this.variables.domainsImageUrl;
+
+    this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
 
     this.message.sendMessage("getChapters", {domainId: this.domainId}).subscribe(res => {
       console.log(res);
@@ -49,6 +60,12 @@ export class ChaptersPage implements ViewWillEnter {
             name: item.name.split(") ")[1] ?? item.name
           })
         )
+
+        for(let chapter of this.chapters) {
+          this.message.sendMessage("isChapterRelevant", {chapterId: chapter.chapterId, sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
+            chapter.isRelevant = res.data;
+          })
+        }
       }
       else {
         this.error.errorMessage(res);
@@ -61,9 +78,9 @@ export class ChaptersPage implements ViewWillEnter {
       sectorId: this.sectorId,
       sector: this.sector,
       domain: this.domain,
+      domainId: this.domainId,
       chapterId: index,
       chapter: chapter,
-      imageName: this.imageName
     }});
   }
 }

@@ -6,13 +6,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
+import { SharedVariablesService } from '../services/shared-variables.service';
 
 import { NavbarComponent } from '../navbar/navbar.component';
 
 export interface Domain {
   domainId: number;
   name: string;
-  imageName: string;
+  isRelevant: boolean;
 }
 
 @Component({
@@ -26,21 +27,32 @@ export class DomainsPage implements ViewWillEnter {
   sectorId!: number;
   sector!: string;
 
+  mcqSize!: number;
+
   domains!: Domain[];
 
   constructor(private route: ActivatedRoute,
               private message: MessageService,
               private error: ErrorService,
-              private router: Router) { }
+              private router: Router,
+              private variables: SharedVariablesService) { }
 
   ionViewWillEnter() {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
 
+    this.mcqSize = this.variables.mcqSize;
+
     this.message.sendMessage("getDomains", {}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
         this.domains = res.data;
+
+        for(let domain of this.domains) {
+          this.message.sendMessage("isDomainRelevant", {domainId: domain.domainId, sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
+            domain.isRelevant = res.data;
+          })
+        }
       }
       else {
         this.error.errorMessage(res);
@@ -48,13 +60,12 @@ export class DomainsPage implements ViewWillEnter {
     })
   }
 
-  goToChapters(index: number, domain: string, imageName: string) {
+  goToChapters(index: number, domain: string) {
     this.router.navigate(["chapters"], {queryParams: {
       domainId: index,
       domain: domain,
       sectorId: this.sectorId,
-      sector: this.sector,
-      imageName: imageName
+      sector: this.sector
     }});
   }
 

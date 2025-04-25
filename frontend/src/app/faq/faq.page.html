@@ -19,26 +19,26 @@
     }
   </ion-list>
 
-  <a href="mailto:{{mail}}?subject={{subject}}">
-    <ion-button>
-      Nous contacter
-    </ion-button>
-  </a>  
-
   <p>
-    <a href="https://www.appli.qmax.fr">
-      <ion-button>
-        Notre site internet
-      </ion-button>
-    </a>
+    Nombre de questions disponibles : {{questionCount}}
   </p>
 
   <p>
-    <a href="https://www.facebook.com/appli.qmax">
-      <ion-button>
-        Notre page Facebook
-      </ion-button>
-    </a>
+    <ion-button href="mailto:{{mail}}?subject={{subject}}">
+      Nous contacter
+    </ion-button>
+  </p>
+
+  <p>
+    <ion-button (click)="openBrowser('https://www.appli.qmax.fr')">
+      Notre site Internet
+    </ion-button>
+  </p>
+
+  <p>
+    <ion-button (click)="openBrowser('https://m.facebook.com/appli.qmax')">
+      Notre page Facebook
+    </ion-button>
   </p>
 </ion-content>
 

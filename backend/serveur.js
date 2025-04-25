@@ -45,4 +45,19 @@ app.post("/getSkills", (request, result) => {getSkills(request, result);});
 const getValidLearnQuestions = require("./getValidLearnQuestions").getValidLearnQuestions;
 app.post("/getValidLearnQuestions", (request, result) => {getValidLearnQuestions(request, result);});
 
+const getQuestionCount = require("./getQuestionCount").getQuestionCount;
+app.post("/getQuestionCount", (request, result) => {getQuestionCount(request, result);});
+
+const isDomainRelevant = require("./isDomainRelevant").isDomainRelevant;
+app.post("/isDomainRelevant", (request, result) => {isDomainRelevant(request, result);});
+
+const isChapterRelevant = require("./isChapterRelevant").isChapterRelevant;
+app.post("/isChapterRelevant", (request, result) => {isChapterRelevant(request, result);});
+
+const areSkillsRelevant = require("./areSkillsRelevant").areSkillsRelevant;
+app.post("/areSkillsRelevant", (request, result) => {areSkillsRelevant(request, result);});
+
+const isSkillRelevant = require("./isSkillRelevant").isSkillRelevant;
+app.post("/isSkillRelevant", (request, result) => {isSkillRelevant(request, result);});
+
 app.listen(port, host, () => {console.log (`Listening to http://${host}:${port}`);});
