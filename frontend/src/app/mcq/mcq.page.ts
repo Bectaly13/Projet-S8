@@ -82,7 +82,6 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
 
     this.score = 0;
 
-    this.mcqSize = this.variables.mcqSize;
     this.mail = this.variables.mail;
     this.choiceLabels = this.variables.choiceLabels;
     this.questionImagesUrl = this.variables.questionImagesUrl;
@@ -90,12 +89,14 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     if(this.skillId) {
       this.title = "J'apprends";
       this.backendFileName = "getValidLearnQuestions";
+      this.mcqSize = this.variables.mcqSize.small;
       this.data = {sectorId: this.sectorId, skillId: this.skillId, mcqSize : this.mcqSize};
     }
 
     else if(this.chapterId) {
       this.title = "Je révise";
       this.backendFileName = "getValidStudyQuestions";
+      this.mcqSize = this.variables.mcqSize.large;
       this.data = {sectorId: this.sectorId, chapterId: this.chapterId, mcqSize : this.mcqSize};
     }
 
