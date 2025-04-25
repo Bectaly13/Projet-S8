@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@capacitor/browser": "^7.0.1"
+  }
+}

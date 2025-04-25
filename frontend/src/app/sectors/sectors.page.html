@@ -11,15 +11,17 @@
     </ion-toolbar>
   </ion-header>
 
-  <h1>Bienvenue dans QMax !</h1>
+  <h1 id="welcome-title">Bienvenue dans QMax !</h1>
 
-  <p>Je suis en...</p>
+  <p id="welcome-subtitle">Je suis en...</p>
 
-  <ion-list>
-    @for(sector of sectors; track $index) {
-      <ion-item>
-        <ion-button (click)="goToDomains(sectors[$index].sectorId, sectors[$index].name)">{{sectors[$index].name}}</ion-button>
-      </ion-item>
-    }
+  <ion-list class="list-sectors">
+    <div class="button-grid">
+      @for (sector of sectors; track $index) {
+        <ion-button class="sector-button" (click)="goToDomains(sector.sectorId, sector.name)">
+          {{ sector.name }}
+        </ion-button>
+      }
+    </div>
   </ion-list>
 </ion-content>
