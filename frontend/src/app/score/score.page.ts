@@ -22,7 +22,6 @@ export class ScorePage implements ViewWillEnter {
   domainId!: number;
   chapterId!: number;
   chapter!: string;
-  mode!: string;
 
   scoreImageUrl!: string;
   scoreImageName!: string;
@@ -48,20 +47,14 @@ export class ScorePage implements ViewWillEnter {
 
   ionViewWillEnter(): void {
     this.score = Number(this.route.snapshot.queryParamMap.get("score"));
+    this.mcqSize = Number(this.route.snapshot.queryParamMap.get("mcqSize"));
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
     this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
-    this.mode = String(this.route.snapshot.queryParamMap.get("mode"));
 
-    if(this.mode == "LEARN") {
-      this.mcqSize = this.variables.mcqSize.small;
-    }
-    else if(this.mode == "STUDY") {
-      this.mcqSize = this.variables.mcqSize.large;
-    }
     this.scoreImageUrl = this.variables.scoreImageUrl;
 
     const ratio = this.score/this.mcqSize;
