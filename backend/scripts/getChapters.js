@@ -5,12 +5,22 @@ async function getChapters(request, result) {
     const data = request.body;
     console.log("getChapters.js :", data);
     if("domainId" in data) {
-        const res = await sql.getChapters(data["domainId"]);
-        if(res.length) {
-            return sendMessage(result, res);
+        if("sectorId" in data) {
+            if("mcqSize" in data) {
+                const res = await sql.getChapters(data["domainId"], data["sectorId"], data["mcqSize"]);
+                if(res.length) {
+                    return sendMessage(result, res);
+                }
+                else {
+                    return sendError(result, "No chapters found", 404);
+                }
+            }
+            else {
+                return sendError(result, "MCQ size is required");
+            }
         }
         else {
-            return sendError(result, "No chapters found", 404);
+            return sendError(result, "Sector ID is required");
         }
     }
     else {
