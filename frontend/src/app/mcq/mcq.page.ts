@@ -106,7 +106,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.message.sendMessage(this.backendFileName, this.data).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        this.questions = [...res.data].sort((a, b) => a.level - b.level);
+        this.questions = res.data;
         this.mcqSize = this.questions.length;
 
         for(let i = 0; i<this.questions.length; i++) {
@@ -131,7 +131,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
 
         const mixingType = this.questions[i].mixingType;
 
-        if (mixingType === "RANDOM") {
+        if (mixingType == "RANDOM") {
           const fieldsToShuffle = this.choices[i].map((c: any) => ({
             choiceText: c.choiceText,
             isCorrect: c.isCorrect
@@ -143,7 +143,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
           }
         }
 
-        else if (mixingType === "TWO_BY_TWO") {
+        else if (mixingType == "TWO_BY_TWO") {
           const group1 = this.choices[i].slice(0, 2).map((c: any) => ({
             choiceText: c.choiceText,
             isCorrect: c.isCorrect

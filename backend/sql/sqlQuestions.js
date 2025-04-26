@@ -43,6 +43,9 @@ async function getValidStudyQuestions(chapterId, sectorId, mcqSize) {
         }
     }
 
+    // Étape 4 : Trier les questions par level
+    validStudyQuestions.sort((a, b) => a.level - b.level);
+
     return validStudyQuestions;
 }
 
