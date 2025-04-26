@@ -1,18 +1,9 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>FAQ</ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-header 
+  [pageTitle]="'FAQ'"
+  [showBackButton]="true">
+</app-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">faq</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
   <ion-list>
     @for(header of headers; track $index) {
@@ -26,3 +17,7 @@
     Nombre de questions disponibles : {{questionCount}}
   </p>
 </ion-content>
+
+<ion-toolbar>
+  <app-navbar/>
+</ion-toolbar>

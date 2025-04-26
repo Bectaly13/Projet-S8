@@ -1,19 +1,9 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title class="page-title">Choix du chapitre</ion-title>
-      <img slot="end" src="../../assets/icons/logo.png" class="logo-small">
-      <ion-buttons slot="start">
-        <ion-back-button></ion-back-button>
-      </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-header 
+  [pageTitle]="'Choix du chapitre'"
+  [showBackButton]="true">
+</app-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">chapters</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
   <p>
     Domaine : {{domain}}
@@ -31,3 +21,9 @@
 
   <img [src]="domainsImageName">
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <app-navbar/>
+  </ion-toolbar>
+</ion-footer>

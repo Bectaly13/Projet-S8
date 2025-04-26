@@ -8,6 +8,7 @@ import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
 
+import { HeaderComponent } from '../header/header.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 
 export interface Domain {
@@ -21,7 +22,7 @@ export interface Domain {
   templateUrl: './domains.page.html',
   styleUrls: ['./domains.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonButton, IonFooter, NavbarComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonButton, IonFooter, NavbarComponent, HeaderComponent]
 })
 export class DomainsPage implements ViewWillEnter {
   sectorId!: number;
