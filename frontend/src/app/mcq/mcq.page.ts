@@ -21,6 +21,10 @@ export interface Question {
   mixingType: "RANDOM" | "TWO_BY_TWO" | "FIXED";
 }
 
+export interface Mode {
+  mode: "LEARN" | "STUDY" | "NONE"
+}
+
 @Component({
   selector: 'app-mcq',
   templateUrl: './mcq.page.html',
@@ -32,6 +36,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   title!: string;
   backendFileName!: string;
   data!: any;
+  mode: Mode = {mode: "NONE"};
 
   mail!: string;
   choiceLabels!: string[];
@@ -89,6 +94,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
       this.title = "J'apprends";
       this.backendFileName = "getValidLearnQuestions";
       this.mcqSize = this.variables.mcqSize.small;
+      this.mode.mode = "LEARN";
       this.data = {sectorId: this.sectorId, skillId: this.skillId, mcqSize : this.mcqSize};
     }
 
@@ -96,6 +102,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
       this.title = "Je révise";
       this.backendFileName = "getValidStudyQuestions";
       this.mcqSize = this.variables.mcqSize.large;
+      this.mode.mode = "STUDY";
       this.data = {sectorId: this.sectorId, chapterId: this.chapterId, mcqSize : this.mcqSize};
     }
 
@@ -319,6 +326,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
       domainId: this.domainId,
       chapterId: this.chapterId,
       chapter: this.chapter,
+      mode: this.mode.mode
     }})
   }
 }
