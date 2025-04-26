@@ -48,9 +48,6 @@ app.post("/getValidLearnQuestions", (request, result) => {getValidLearnQuestions
 const getQuestionCount = require("./scripts/getQuestionCount").getQuestionCount;
 app.post("/getQuestionCount", (request, result) => {getQuestionCount(request, result);});
 
-const isDomainRelevant = require("./scripts/isDomainRelevant").isDomainRelevant;
-app.post("/isDomainRelevant", (request, result) => {isDomainRelevant(request, result);});
-
 const isChapterRelevant = require("./scripts/isChapterRelevant").isChapterRelevant;
 app.post("/isChapterRelevant", (request, result) => {isChapterRelevant(request, result);});
 

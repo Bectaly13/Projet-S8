@@ -13,7 +13,6 @@ import { NavbarComponent } from '../navbar/navbar.component';
 export interface Domain {
   domainId: number;
   name: string;
-  isRelevant: boolean;
 }
 
 @Component({
@@ -43,16 +42,10 @@ export class DomainsPage implements ViewWillEnter {
 
     this.mcqSize = this.variables.mcqSize.large;
 
-    this.message.sendMessage("getDomains", {}).subscribe(res => {
+    this.message.sendMessage("getDomains", {sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
         this.domains = res.data;
-
-        for(let domain of this.domains) {
-          this.message.sendMessage("isDomainRelevant", {domainId: domain.domainId, sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
-            domain.isRelevant = res.data;
-          })
-        }
       }
       else {
         this.error.errorMessage(res);

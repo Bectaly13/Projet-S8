@@ -4,12 +4,22 @@ const sql = require("../sql/sqlDomains");
 async function getDomains(request, result) {
     const data = request.body;
     console.log("getDomains.js :", data);
-    const res = await sql.getDomains();
-    if(res.length) {
-        return sendMessage(result, res);
+    if("sectorId" in data) {
+        if("mcqSize" in data) {
+            const res = await sql.getDomains(data["sectorId"], data["mcqSize"]);
+            if(res.length) {
+                return sendMessage(result, res);
+            }
+            else {
+                return sendError(result, "No domains found", 404);
+            }
+        }
+        else {
+            return sendError(result, "MCQ size is required");
+        }
     }
     else {
-        return sendError(result, "No domains found", 404);
+        return sendError(result, "Sector ID is required");
     }
 }
 
