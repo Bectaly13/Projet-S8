@@ -1,9 +1,22 @@
-// ion-list {
-// }
+// Contient :
+// - Définition de la police
+// - Mise en page de l'UI utilisée sur toutes les pages (header, ion-buttons)
+// 
+
+
+// Pour définir la police
 body {
     font-family: var(--ion-font-family);
 }
 
+
+//Pour gérer la MeP du header
+.logo-small {
+    width: 50px;
+    margin: 10px;
+}
+
+// Pour gérer les ion-buttons de l'UI
 ion-button {
     --background: var(--vert-qmax);
 }
