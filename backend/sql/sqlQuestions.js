@@ -90,6 +90,9 @@ async function getValidLearnQuestions(skillId, sectorId, mcqSize) {
         }
     }
 
+    // Étape 4 : Trier les questions par level
+    validLearnQuestions.sort((a, b) => a.level - b.level);
+
     return validLearnQuestions;
 }
 
