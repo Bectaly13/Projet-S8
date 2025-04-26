@@ -54,12 +54,16 @@ export class ChaptersPage implements ViewWillEnter {
     this.message.sendMessage("getChapters", {domainId: this.domainId}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        this.chapters = res.data.map(
-          (item: Chapter) => ({
-            chapterId : item.chapterId,
-            name: item.name.split(") ")[1] ?? item.name
-          })
-        )
+        const sortedData = res.data.sort((a: Chapter, b: Chapter) => {
+          const numberA = Number(a.name.split(")")[0]);
+          const numberB = Number(b.name.split(")")[0]);
+          return numberA - numberB;
+        });
+      
+        this.chapters = sortedData.map((item: Chapter) => ({
+          chapterId: item.chapterId,
+          name: item.name.split(") ")[1]
+        }));
 
         for(let chapter of this.chapters) {
           this.message.sendMessage("isChapterRelevant", {chapterId: chapter.chapterId, sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
