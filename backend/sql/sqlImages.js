@@ -1,13 +1,34 @@
 const mysqlConnect = require("./sqlConnect");
 const img = require("./sqlConfig").img;
 
-async function getQuestionImages(questionId) {
-    const query = `SELECT path, originalFileName
+async function getImages(questionIds) {
+    if (!questionIds.length) {
+        return {};
+    }
+
+    const placeholders = questionIds.map(() => '?').join(', ');
+    const query = `
+        SELECT questionId, path, originalFileName
         FROM ${img}
-        WHERE questionId = ?`;
-    
-    data = [questionId];
-    return await mysqlConnect.query(query, data);
+        WHERE questionId IN (${placeholders})
+    `;
+
+    const result = await mysqlConnect.query(query, questionIds);
+
+    // Transformer en { questionId: [images] }
+    const imagesByQuestion = {};
+
+    for (const row of result) {
+        if (!imagesByQuestion[row.questionId]) {
+            imagesByQuestion[row.questionId] = [];
+        }
+        imagesByQuestion[row.questionId].push({
+            path: row.path,
+            originalFileName: row.originalFileName
+        });
+    }
+
+    return imagesByQuestion;
 }
 
-module.exports.getQuestionImages = getQuestionImages;
+module.exports.getImages = getImages;

@@ -109,19 +109,71 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
         this.questions = res.data;
         this.mcqSize = this.questions.length;
 
-        for(let i = 0; i<this.questions.length; i++) {
-          this.getQuestionChoices(i);
-        };
+        const questionIds = this.questions.map(q => q.questionId);
 
-        for(let i = 0; i<this.questions.length; i++) {
-          this.getQuestionImages(i);
-        };
+        this.getChoices(questionIds);
+        this.getImages(questionIds);
       }
       else {
         this.error.errorMessage(res);
       }
     })
   }
+
+  getChoices(questionIds: number[]) {
+    this.message.sendMessage("getChoices", {questionIds: questionIds}).subscribe(res => {
+      console.log(res);
+      if(res.status == 200) {
+        // Remplir this.choices en suivant l'ordre des questions
+        for (let i = 0; i < this.questions.length; i++) {
+          const questionId = this.questions[i].questionId;
+          const choicesForQuestion = res.data[questionId] || [];
+  
+          this.choices[i] = choicesForQuestion;
+  
+          const mixingType = this.questions[i].mixingType;
+  
+          if (mixingType == "RANDOM") {
+            const fieldsToShuffle = this.choices[i].map((c: any) => ({
+              choiceText: c.choiceText,
+              isCorrect: c.isCorrect
+            }));
+            const shuffled: any[] = this.shuffle(fieldsToShuffle);
+            for (let j = 0; j < this.choices[i].length; j++) {
+              this.choices[i][j].choiceText = shuffled[j].choiceText;
+              this.choices[i][j].isCorrect = shuffled[j].isCorrect;
+            }
+          }
+  
+          else if (mixingType == "TWO_BY_TWO") {
+            const group1 = this.choices[i].slice(0, 2).map((c: any) => ({
+              choiceText: c.choiceText,
+              isCorrect: c.isCorrect
+            }));
+            const group2 = this.choices[i].length > 2 ? this.choices[i].slice(2, 4).map((c: any) => ({
+              choiceText: c.choiceText,
+              isCorrect: c.isCorrect
+            })) : [];
+  
+            const shuffled1: any[] = this.shuffle(group1);
+            const shuffled2: any[] = this.shuffle(group2);
+  
+            for (let j = 0; j < shuffled1.length; j++) {
+              this.choices[i][j].choiceText = shuffled1[j].choiceText;
+              this.choices[i][j].isCorrect = shuffled1[j].isCorrect;
+            }
+            for (let j = 0; j < shuffled2.length; j++) {
+              this.choices[i][j + 2].choiceText = shuffled2[j].choiceText;
+              this.choices[i][j + 2].isCorrect = shuffled2[j].isCorrect;
+            }
+          }
+        }
+      } 
+      else {
+        this.error.errorMessage(res);
+      }
+    })
+  }  
 
   getQuestionChoices(i: number) {
     this.message.sendMessage("getQuestionChoices", {questionId: this.questions[i].questionId}).subscribe(res => {
@@ -182,6 +234,21 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
 
     return shuffled;
   }
+
+  getImages(questionIds: number[]) {
+    this.message.sendMessage("getImages", {questionIds: questionIds}).subscribe(res => {
+      console.log(res);
+      if(res.status == 200) {
+        for (let i = 0; i < this.questions.length; i++) {
+          const questionId = this.questions[i].questionId;
+          this.images[i] = res.data[questionId] || [];
+        }
+      } 
+      else {
+        this.error.errorMessage(res);
+      }
+    })
+  }  
 
   getQuestionImages(i: number) {
     this.message.sendMessage("getQuestionImages", {questionId: this.questions[i].questionId}).subscribe(res => {

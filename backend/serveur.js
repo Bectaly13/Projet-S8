@@ -33,11 +33,11 @@ app.post("/getChapters", (request, result) => {getChapters(request, result);});
 const getValidStudyQuestions = require("./scripts/getValidStudyQuestions").getValidStudyQuestions;
 app.post("/getValidStudyQuestions", (request, result) => {getValidStudyQuestions(request, result);});
 
-const getQuestionChoices = require("./scripts/getQuestionChoices").getQuestionChoices;
-app.post("/getQuestionChoices", (request, result) => {getQuestionChoices(request, result);});
+const getChoices = require("./scripts/getChoices").getChoices;
+app.post("/getChoices", (request, result) => {getChoices(request, result);});
 
-const getQuestionImages = require("./scripts/getQuestionImages").getQuestionImages;
-app.post("/getQuestionImages", (request, result) => {getQuestionImages(request, result);});
+const getImages = require("./scripts/getImages").getImages;
+app.post("/getImages", (request, result) => {getImages(request, result);});
 
 const getSkills = require("./scripts/getSkills").getSkills;
 app.post("/getSkills", (request, result) => {getSkills(request, result);});
