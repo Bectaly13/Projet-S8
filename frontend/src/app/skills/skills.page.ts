@@ -13,7 +13,6 @@ import { HeaderComponent } from '../header/header.component';
 export interface Skill {
   skillId: number;
   name: string;
-  isRelevant: boolean
 }
 
 @Component({
@@ -54,16 +53,10 @@ export class SkillsPage implements ViewWillEnter {
 
     this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
 
-    this.message.sendMessage("getSkills", {chapterId: this.chapterId}).subscribe(res => {
+    this.message.sendMessage("getSkills", {chapterId: this.chapterId, sectorId: this.sectorId}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
         this.skills = res.data;
-
-        for(let skill of this.skills) {
-          this.message.sendMessage("isSkillRelevant", {skillId: skill.skillId, sectorId: this.sectorId}).subscribe(res => {
-            skill.isRelevant = res.data;
-          })
-        }
       }
       else {
         this.error.errorMessage(res);

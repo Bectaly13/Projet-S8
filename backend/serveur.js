@@ -48,7 +48,4 @@ app.post("/getValidLearnQuestions", (request, result) => {getValidLearnQuestions
 const getQuestionCount = require("./scripts/getQuestionCount").getQuestionCount;
 app.post("/getQuestionCount", (request, result) => {getQuestionCount(request, result);});
 
-const isSkillRelevant = require("./scripts/isSkillRelevant").isSkillRelevant;
-app.post("/isSkillRelevant", (request, result) => {isSkillRelevant(request, result);});
-
 app.listen(port, host, () => {console.log (`Listening to http://${host}:${port}`);});

@@ -5,12 +5,17 @@ async function getSkills(request, result) {
     const data = request.body;
     console.log("getSkills.js :", data);
     if("chapterId" in data) {
-        const res = await sql.getSkills(data["chapterId"]);
-        if(res.length) {
-            return sendMessage(result, res);
+        if("sectorId" in data) {
+            const res = await sql.getSkills(data["chapterId"], data["sectorId"]);
+            if(res.length) {
+                return sendMessage(result, res);
+            }
+            else {
+                return sendError(result, "No skills found", 404);
+            }
         }
         else {
-            return sendError(result, "No skills found", 404);
+            return sendError(result, "Sector ID is required");
         }
     }
     else {
