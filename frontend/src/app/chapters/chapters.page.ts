@@ -11,7 +11,6 @@ import { SharedVariablesService } from '../services/shared-variables.service';
 export interface Chapter {
   chapterId: number;
   name: string;
-  isRelevant: boolean
 }
 
 @Component({
@@ -51,7 +50,7 @@ export class ChaptersPage implements ViewWillEnter {
 
     this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
 
-    this.message.sendMessage("getChapters", {domainId: this.domainId}).subscribe(res => {
+    this.message.sendMessage("getChapters", {domainId: this.domainId, sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
         const sortedData = res.data.sort((a: Chapter, b: Chapter) => {
@@ -69,12 +68,6 @@ export class ChaptersPage implements ViewWillEnter {
             name: match ? match[1] : item.name
           };
         });
-
-        for(let chapter of this.chapters) {
-          this.message.sendMessage("isChapterRelevant", {chapterId: chapter.chapterId, sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
-            chapter.isRelevant = res.data;
-          })
-        }
       }
       else {
         this.error.errorMessage(res);
