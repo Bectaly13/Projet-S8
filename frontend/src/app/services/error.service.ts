@@ -10,6 +10,6 @@ export class ErrorService {
   constructor() { }
 
   errorMessage(res: BackendResponse) {
-    return "Error " + res.status + " : " + res.data;
+    console.error("Error " + res.status + " : " + res.data);
   }
 }
