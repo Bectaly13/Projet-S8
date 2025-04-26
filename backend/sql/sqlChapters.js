@@ -2,8 +2,7 @@ const mysqlConnect = require("./sqlConnect");
 const {chp, skl, qgr, qst, qsl} = require("./sqlConfig");
 
 async function getChapters(domainId, sectorId, mcqSize) {
-    const query = `
-        SELECT chp.chapterId, chp.name
+    const query = `SELECT chp.chapterId, chp.name
         FROM ${chp} AS chp
         JOIN (
             SELECT skl.chapterId
@@ -19,8 +18,7 @@ async function getChapters(domainId, sectorId, mcqSize) {
         WHERE chp.domainId = ?
         GROUP BY chp.chapterId
         HAVING COUNT(valid_groups.chapterId) >= ?
-        ORDER BY chp.chapterId
-    `;
+        ORDER BY chp.chapterId`;
 
     const data = [sectorId, domainId, mcqSize];
     return mysqlConnect.query(query, data);
