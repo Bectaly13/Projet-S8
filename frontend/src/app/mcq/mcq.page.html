@@ -25,7 +25,7 @@
           <p [innerHTML]="parseText(choice.wordingBefore)"></p>
           
           <ion-checkbox [(ngModel)]="toggledChoices[choice.choiceOrder - 1]" [disabled]="showAnswer"></ion-checkbox>
-          {{choiceLabels[choice.choiceOrder - 1]}}. <span [innerHTML]="parseText(choice.choiceText)"></span>
+          {{choiceLabels[choice.choiceOrder - 1]}} <span [innerHTML]="parseText(choice.choiceText)"></span>
           
           <p [innerHTML]="parseText(choice.wordingAfter)"></p>
         }
