@@ -285,12 +285,11 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
       message: "Tous les progrès seront perdus.",
       buttons: [
         {
-          text: 'Annuler',
-          role: 'cancel',
-          cssClass: 'secondary',
+          text: "Annuler",
+          role: "cancel",
         },
         {
-          text: 'Quitter',
+          text: "Quitter",
           handler: () => {
             history.back();
           },
