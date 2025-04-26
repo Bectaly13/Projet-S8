@@ -14,7 +14,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
   templateUrl: './faq.page.html',
   styleUrls: ['./faq.page.scss'],
   standalone: true,
-  imports: [HeaderComponent, IonContent, IonToolbar, CommonModule, FormsModule, IonButton, IonList, IonItem, NavbarComponent]
+  imports: [IonHeader, HeaderComponent, IonContent, IonToolbar, CommonModule, FormsModule, IonButton, IonList, IonItem, NavbarComponent]
 })
 export class FaqPage implements ViewWillEnter {
   questionCount: number = 0;

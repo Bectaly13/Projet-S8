@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
 
+import { HeaderComponent } from '../header/header.component';
+
 export interface Sector {
   sectorId: number;
   name: string;
@@ -17,7 +19,7 @@ export interface Sector {
   templateUrl: './sectors.page.html',
   styleUrls: ['./sectors.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton]
+  imports: [HeaderComponent, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton]
 })
 export class SectorsPage implements ViewWillEnter {
   sectors!: Sector[];
