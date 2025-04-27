@@ -2,12 +2,15 @@
 // http://ionicframework.com/docs/theming/
 
 
-
 :root {
+
+    //Pour définir les longueur tablette et small-mobile pour avoir 3 comportements responsive
+    //--minwidth_smartphone: 340px;
+    //--maxwidth_smartphone: 500px;
 
     // Polices
     --ion-font-family: 'Dosis', sans-serif;
-    scroll-behavior: smooth;
+    
 
     //Couleurs de l'IHM
 

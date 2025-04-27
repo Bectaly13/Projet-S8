@@ -4,9 +4,10 @@
 // 
 
 
-// Pour définir la police
+// Pour définir la police et le comportement de scroll
 body {
     font-family: var(--ion-font-family);
+    scroll-behavior: smooth;
 }
 
 
@@ -14,3 +15,4 @@ body {
 ion-button {
     --background: var(--vert-qmax);
 }
+
