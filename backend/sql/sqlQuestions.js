@@ -43,6 +43,9 @@ async function getValidStudyQuestions(chapterId, sectorId, mcqSize) {
         }
     }
 
+    // Étape 4 : Trier les questions par level
+    validStudyQuestions.sort((a, b) => a.level - b.level);
+
     return validStudyQuestions;
 }
 
@@ -86,6 +89,9 @@ async function getValidLearnQuestions(skillId, sectorId, mcqSize) {
             validLearnQuestions.push(result[randomIndex]);
         }
     }
+
+    // Étape 4 : Trier les questions par level
+    validLearnQuestions.sort((a, b) => a.level - b.level);
 
     return validLearnQuestions;
 }
