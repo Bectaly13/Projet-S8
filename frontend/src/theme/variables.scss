@@ -154,14 +154,12 @@
   }
 
 
-// Media queries dark mode
+// Dark mode
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ion-color-grey-no-contrast: #000000;
-    --ion-color-grey-low-contrast: #646464;
-    --ion-color-grey-medium-contrast: #dedede;
-    --ion-color-grey-high-contrast: #f1f1f1;
-    --ion-color-grey-highest-contrast: #ffffff;
-  }
+.ion-palette-dark {
+  --ion-color-grey-no-contrast: #000000;
+  --ion-color-grey-low-contrast: #646464;
+  --ion-color-grey-medium-contrast: #dedede;
+  --ion-color-grey-high-contrast: #f1f1f1;
+  --ion-color-grey-highest-contrast: #ffffff;
 }
