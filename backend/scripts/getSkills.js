@@ -11,7 +11,7 @@ async function getSkills(request, result) {
                 return sendMessage(result, res);
             }
             else {
-                return sendError(result, "No skills found", 404);
+                return sendError(result, "No skills found");
             }
         }
         else {

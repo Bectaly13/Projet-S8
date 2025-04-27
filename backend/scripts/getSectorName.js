@@ -10,7 +10,7 @@ async function getSectorName(request, result) {
             return sendMessage(result, res);
         }
         else {
-            return sendError(result, "Sector name not found", 404);
+            return sendError(result, "Sector name not found");
         }
     }
     else {

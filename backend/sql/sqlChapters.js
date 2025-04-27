@@ -2,6 +2,9 @@ const mysqlConnect = require("./sqlConnect");
 const {chp, skl, qgr, qst, qsl} = require("./sqlConfig");
 
 async function getChapters(domainId, sectorId, mcqSize) {
+    // We get chapters name and ID according to the MCQ size and the user's sector ID.
+    // A chapter will be fetched if and only if it contains at least "mcqSize" valid question_groups.
+    // A question_group is valid if and only if it contains at least one validated question that is linked to the user's sector.
     const query = `SELECT chp.chapterId, chp.name
         FROM ${chp} AS chp
         JOIN (

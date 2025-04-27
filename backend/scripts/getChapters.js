@@ -12,7 +12,7 @@ async function getChapters(request, result) {
                     return sendMessage(result, res);
                 }
                 else {
-                    return sendError(result, "No chapters found", 404);
+                    return sendError(result, "No chapters found");
                 }
             }
             else {

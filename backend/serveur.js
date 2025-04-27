@@ -1,3 +1,4 @@
+// Create and config the Express server.
 const express = require('express');
 
 const app = express();
@@ -10,16 +11,16 @@ app.use(bodyParser.json());
 
 const cors = require('cors');
 const corsOptions = {
+    // Use frontend address here.
     origin: "http://127.0.0.1:8100",
     credentials: true,
 };
 app.use(cors(corsOptions));
 
+// All server addresses, allowing to use the methods defined in this backend.
+// Each script file needs its own address.
 const getSectors = require("./scripts/getSectors").getSectors;
 app.post("/getSectors", (request, result) => {getSectors(request, result);});
-
-const getSectorName = require("./scripts/getSectorName").getSectorName;
-app.post("/getSectorName", (request, result) => {getSectorName(request, result);});
 
 const getDomains = require("./scripts/getDomains").getDomains;
 app.post("/getDomains", (request, result) => {getDomains(request, result);});
@@ -45,4 +46,5 @@ app.post("/getValidLearnQuestions", (request, result) => {getValidLearnQuestions
 const getQuestionCount = require("./scripts/getQuestionCount").getQuestionCount;
 app.post("/getQuestionCount", (request, result) => {getQuestionCount(request, result);});
 
+// Start server and display its address in the backend console.
 app.listen(port, host, () => {console.log (`Listening to http://${host}:${port}`);});

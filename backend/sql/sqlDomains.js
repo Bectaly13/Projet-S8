@@ -2,6 +2,10 @@ const mysqlConnect = require("./sqlConnect");
 const {dom, chp, skl, qgr, qst, qsl} = require("./sqlConfig")
 
 async function getDomains(sectorId, mcqSize) {
+    // We get domains name and ID according to the MCQ size and the user's sector ID.
+    // A domains will be fetched if and only if it contains at least one valid chapter.
+    // A chapter is valid if and only if it contains at least "mcqSize" valid question_groups.
+    // A question_group is valid if and only if it contains at least one validated question that is linked to the user's sector.
     const query = `SELECT dom.domainId, dom.name
         FROM ${dom} AS dom
         WHERE dom.subjectId = 1

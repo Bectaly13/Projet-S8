@@ -2,9 +2,12 @@ const mysqlConnect = require("./sqlConnect");
 const {qst, skl, qgr, qsl} = require("./sqlConfig");
 
 async function getValidStudyQuestions(chapterId, sectorId, mcqSize) {
+    // This method is used to gather "mcqSize" valid questions for study mode according to the chapter ID and the user's sector ID.
+    // A question is valid if and only if it is linked to the user's sector and to the correct chapter.
     let validStudyQuestions = [];
 
-    // Étape 1 : Sélectionner les question_groups valides
+    // Step 1 : we get all the valid question_groups in this chapter.
+    // A question_group is valid if and only if it contains at least one validated question linked to the correct sector.
     let query = `SELECT DISTINCT qgr.questionGroupId
         FROM ${qgr} AS qgr
         JOIN ${qst} AS qst ON qgr.questionGroupId = qst.questionGroupId
@@ -17,7 +20,7 @@ async function getValidStudyQuestions(chapterId, sectorId, mcqSize) {
     let data = [chapterId, sectorId];
     let validQuestionGroupIds = await mysqlConnect.query(query, data);
 
-    // Étape 2 : Sélectionner un nombre égal à mcqSize de question_groups
+    // Step 2 : we get "mcqSize" of these question_groups.
     let selectedQuestionGroups = [];
     while (selectedQuestionGroups.length < mcqSize && validQuestionGroupIds.length > 0) {
         let randomIndex = Math.floor(Math.random() * validQuestionGroupIds.length);
@@ -26,7 +29,8 @@ async function getValidStudyQuestions(chapterId, sectorId, mcqSize) {
         validQuestionGroupIds.splice(randomIndex, 1);
     }
 
-    // Étape 3 : Pour chaque question_group, sélectionner une question valide
+    // Step 3 : for each question_group, we get a valid question.
+    // A question is valid if and only if it is validated and linked to the correct sector.
     for (let groupId of selectedQuestionGroups) {
         query = `SELECT questionId, explanation, level, mixingType
             FROM ${qst}
@@ -36,23 +40,25 @@ async function getValidStudyQuestions(chapterId, sectorId, mcqSize) {
         data = [groupId];
         let result = await mysqlConnect.query(query, data);
 
-        // Sélectionner une question aléatoire par groupe
         if (result.length > 0) {
             let randomIndex = Math.floor(Math.random() * result.length);
             validStudyQuestions.push(result[randomIndex]);
         }
     }
 
-    // Étape 4 : Trier les questions par level
+    // Step 4 : we sort the questions by level.
     validStudyQuestions.sort((a, b) => a.level - b.level);
 
     return validStudyQuestions;
 }
 
-async function getValidLearnQuestions(skillId, sectorId, mcqSize) {
+async function getValidLearnQuestions(skillId, sectorId, mcqSize) {    
+    // This method is used to gather between 1 and "mcqSize" valid questions for learn mode according to the skill ID and the user's sector ID.
+    // A question is valid if and only if it is linked to the user's sector and to the correct skill.
     let validLearnQuestions = [];
 
-    // Étape 1 : Sélectionner les question_groups valides
+    // Step 1 : we get all the valid question_groups in this skill.
+    // A question_group is valid if and only if it contains at least one validated question linked to the correct sector.
     let query = `SELECT DISTINCT qgr.questionGroupId
         FROM ${qgr} AS qgr
         JOIN ${qst} AS qst ON qgr.questionGroupId = qst.questionGroupId
@@ -64,7 +70,8 @@ async function getValidLearnQuestions(skillId, sectorId, mcqSize) {
     let data = [skillId, sectorId];
     let validQuestionGroupIds = await mysqlConnect.query(query, data);
 
-    // Étape 2 : Sélectionner un nombre égal à mcqSize de question_groups
+    // Step 2 : we get "mcqSize" of these question_groups if possible.
+    // If not, we get the maximum.
     let selectedQuestionGroups = [];
     while (selectedQuestionGroups.length < mcqSize && validQuestionGroupIds.length > 0) {
         let randomIndex = Math.floor(Math.random() * validQuestionGroupIds.length);
@@ -73,7 +80,8 @@ async function getValidLearnQuestions(skillId, sectorId, mcqSize) {
         validQuestionGroupIds.splice(randomIndex, 1);
     }
 
-    // Étape 3 : Pour chaque question_group, sélectionner une question valide
+    // Step 3 : for each question_group, we get a valid question.
+    // A question is valid if and only if it is validated and linked to the correct sector.
     for (let groupId of selectedQuestionGroups) {
         query = `SELECT questionId, explanation, level, mixingType
             FROM ${qst}
@@ -83,20 +91,21 @@ async function getValidLearnQuestions(skillId, sectorId, mcqSize) {
         data = [groupId];
         let result = await mysqlConnect.query(query, data);
 
-        // Sélectionner une question aléatoire par groupe
         if (result.length > 0) {
             let randomIndex = Math.floor(Math.random() * result.length);
             validLearnQuestions.push(result[randomIndex]);
         }
     }
 
-    // Étape 4 : Trier les questions par level
+    // Step 4 : we sort the questions by level.
     validLearnQuestions.sort((a, b) => a.level - b.level);
 
     return validLearnQuestions;
 }
 
 async function getQuestionCount() {
+    // This method is used to display accurate data in the FAQ.
+    // It shows how many validated questions exist in the database.
     const query = `SELECT COUNT(questionId)
         FROM ${qst}
         WHERE validated = 1`;

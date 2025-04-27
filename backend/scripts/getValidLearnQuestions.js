@@ -12,7 +12,7 @@ async function getValidLearnQuestions(request, result) {
                     return sendMessage(result, res);
                 }
                 else {
-                    return sendError(result, "Couldn't find any valid learn questions", 404);
+                    return sendError(result, "Couldn't find any valid learn questions");
                 }
             }
             else {

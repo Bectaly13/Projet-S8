@@ -11,7 +11,7 @@ async function getDomains(request, result) {
                 return sendMessage(result, res);
             }
             else {
-                return sendError(result, "No domains found", 404);
+                return sendError(result, "No domains found");
             }
         }
         else {
