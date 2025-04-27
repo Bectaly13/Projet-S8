@@ -11,12 +11,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">mcq</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   @for(question of questions; track $index) {
     @if(questionIndex == $index + 1) {
       <p>Question {{$index + 1}}/{{mcqSize}}</p>
