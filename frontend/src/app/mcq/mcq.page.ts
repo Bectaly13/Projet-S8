@@ -21,6 +21,18 @@ export interface Question {
   mixingType: "RANDOM" | "TWO_BY_TWO" | "FIXED";
 }
 
+export interface typedString {
+  data: string;
+  type: "TEXT" | "LATEX" | "IMAGE";
+}
+
+export interface typedChoice {
+  choiceOrder: string;
+  wordingBefore: typedString[];
+  choiceText: typedString[];
+  wordingAfter: typedString[];
+}
+
 @Component({
   selector: 'app-mcq',
   templateUrl: './mcq.page.html',
@@ -53,8 +65,10 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   score!: number;
 
   questions!: Question[];
+  typedExplanations: any[] = [];
 
   choices: any[] = [];
+  typedChoices: any[] = [];
 
   images: any[] = [];
   questionImagesUrl!: string;
@@ -108,11 +122,25 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
       if(res.status == 200) {
         this.questions = res.data;
         this.mcqSize = this.questions.length;
-
         const questionIds = this.questions.map(q => q.questionId);
 
-        this.getChoices(questionIds);
         this.getImages(questionIds);
+
+        this.typedExplanations = this.questions.map(question => {
+          const explanation = question.explanation;
+          return this.parseTypedString(explanation);
+        });
+
+        this.getChoices(questionIds, () => {
+          this.typedChoices = this.choices.map(choiceGroup =>
+            choiceGroup.map((choice: any) => ({
+              choiceOrder: choice.choiceOrder,
+              wordingBefore: this.parseTypedString(choice.wordingBefore),
+              choiceText: this.parseTypedString(choice.choiceText),
+              wordingAfter: this.parseTypedString(choice.wordingAfter)
+            }))
+          );
+        });
       }
       else {
         this.error.errorMessage(res);
@@ -120,15 +148,62 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     })
   }
 
-  getChoices(questionIds: number[]) {
+  parseTypedString(text: string): typedString[] {
+    const result: typedString[] = [];
+    let currentIndex = 0;
+  
+    const regex = /\$.*?\$|url\(.*?\)/g;
+    let match;
+  
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > currentIndex) {
+        const beforeText = text.slice(currentIndex, match.index);
+        result.push({ data: beforeText, type: "TEXT" });
+      }
+  
+      const matchedText = match[0];
+  
+      if (matchedText.startsWith('$') && matchedText.endsWith('$')) {
+        result.push({ data: matchedText, type: "LATEX" });
+      }
+      else if (matchedText.startsWith('url(') && matchedText.endsWith(')')) {
+        const originalFileName = matchedText.slice(4, -1).trim();
+        let foundPath = "";
+
+        for(let imageSet of this.images) {
+          for(let image of imageSet) {
+            if(image.originalFileName == originalFileName) {
+              foundPath = this.questionImagesUrl + image.path;
+              break;
+            }
+          }
+
+          if(foundPath) {
+            break;
+          }
+        }
+
+        result.push({ data: foundPath, type: "IMAGE" });
+      }
+  
+      currentIndex = regex.lastIndex;
+    }
+  
+    if (currentIndex < text.length) {
+      const afterText = text.slice(currentIndex);
+      result.push({ data: afterText, type: "TEXT" });
+    }
+  
+    return result;
+  }     
+
+  getChoices(questionIds: number[], callback?: () => void) {
     this.message.sendMessage("getChoices", {questionIds: questionIds}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        // Remplir this.choices en suivant l'ordre des questions
         for (let i = 0; i < this.questions.length; i++) {
           const questionId = this.questions[i].questionId;
           const choicesForQuestion = res.data[questionId] || [];
-  
           this.choices[i] = choicesForQuestion;
   
           const mixingType = this.questions[i].mixingType;
@@ -143,9 +218,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
               this.choices[i][j].choiceText = shuffled[j].choiceText;
               this.choices[i][j].isCorrect = shuffled[j].isCorrect;
             }
-          }
-  
-          else if (mixingType == "TWO_BY_TWO") {
+          } else if (mixingType == "TWO_BY_TWO") {
             const group1 = this.choices[i].slice(0, 2).map((c: any) => ({
               choiceText: c.choiceText,
               isCorrect: c.isCorrect
@@ -168,12 +241,17 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
             }
           }
         }
+  
+        if (callback) {
+          callback();
+        }
       } 
       else {
         this.error.errorMessage(res);
       }
     })
   }
+  
 
   shuffle<T>(array: T[]): T[] {
     const shuffled = [...array];
@@ -199,25 +277,6 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
         this.error.errorMessage(res);
       }
     })
-  }
-  
-  parseText(text: string) {
-    return text.replace(/url\((.*?)\)/g, (match, fileName) => {
-      const file = fileName.trim();
-      const url = this.questionImagesUrl;
-      let path = "";
-
-      for(let imageSet of this.images) {
-        for(let image of imageSet) {
-          if(image.originalFileName == file) {
-            path = image.path;
-            break;
-          }
-        }
-      }
-
-      return `<br><img src="${url}${path}"/><br>`;
-    });
   }
 
   renderMath() {
