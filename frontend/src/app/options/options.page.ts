@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Browser } from '@capacitor/browser';
 
 import { SharedVariablesService } from '../services/shared-variables.service';
+import { StorageService } from '../services/storage.service';
 
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -29,7 +30,8 @@ export class OptionsPage implements ViewWillEnter {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private variables: SharedVariablesService) { }
+              private variables: SharedVariablesService,
+              private storage: StorageService) { }
 
   ionViewWillEnter(): void {
     this.paletteToggle = document.documentElement.classList.contains('ion-palette-dark');
@@ -44,7 +46,11 @@ export class OptionsPage implements ViewWillEnter {
   }
 
   toggleChange(event: CustomEvent) {
-    this.toggleDarkPalette(event.detail.checked);
+    const shouldAdd: boolean = event.detail.checked;
+
+    this.storage.set("dark_mode_data", shouldAdd);
+
+    this.toggleDarkPalette(shouldAdd);
   }
 
   toggleDarkPalette(shouldAdd: boolean) {

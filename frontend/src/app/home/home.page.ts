@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter } from '@ionic/angular/standalone';
@@ -13,18 +13,22 @@ import { StorageService } from '../services/storage.service';
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
-export class HomePage implements ViewWillEnter, OnInit {
+export class HomePage implements ViewWillEnter {
   paletteToggle!: boolean;
 
   constructor(private storage: StorageService,
               private router: Router) { }
 
-  ngOnInit(): void {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    this.initializeDarkPalette(prefersDark.matches);
-  }
-
   async ionViewWillEnter() {
+    const dark_mode_data = await this.storage.get("dark_mode_data");
+    if(dark_mode_data != null) {
+      this.initializeDarkPalette(dark_mode_data);
+    }
+    else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+      this.initializeDarkPalette(prefersDark.matches);
+    }
+
     const sector_data = await this.storage.get("sector_data");
     if(sector_data) {
       const sectorId: number = sector_data.sectorId;
