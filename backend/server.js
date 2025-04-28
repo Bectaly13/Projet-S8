@@ -17,6 +17,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+// This server address allows the frontend to fetch images.
+const path = require('path');
+app.use('/data', express.static(path.join(__dirname, 'data')));
+
 // All server addresses, allowing to use the methods defined in this backend.
 // Each script file needs its own address.
 const getSectors = require("./scripts/getSectors").getSectors;
