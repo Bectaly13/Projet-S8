@@ -201,7 +201,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     })
   }
   
-  parseText(text: string): string {
+  parseText(text: string) {
     return text.replace(/url\((.*?)\)/g, (match, fileName) => {
       const file = fileName.trim();
       const url = this.questionImagesUrl;
@@ -216,7 +216,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
         }
       }
 
-      return `<br><img src="${url}${path}" class="question-image"/><br>`;
+      return `<br><img src="${url}${path}"/><br>`;
     });
   }
 
