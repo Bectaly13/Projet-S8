@@ -33,7 +33,7 @@ export class StorageService {
     let value = await this._storage?.clear();
   }
 
-  public async keys(key: string) {
+  public async keys() {
     let value = await this._storage?.keys();
     return value;
   }

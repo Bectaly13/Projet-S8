@@ -32,15 +32,7 @@ export class HomePage implements ViewWillEnter {
     let questions_data = await this.storage.get("questions_data");
     if(!questions_data) {
       questions_data = {};
-      this.message.sendMessage("getDefaultQuestionsData", {mcqSize: this.variables.mcqSize.large}).subscribe(res => {
-        console.log(res);
-        if(res.status == 200) {
-          this.storage.set("questions_data", res.data);
-        }
-        else {
-          this.error.errorMessage(res);
-        }
-      })
+      this.storage.set("questions_data", questions_data);
     }
 
     const sector_data = await this.storage.get("sector_data");
