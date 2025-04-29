@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter } from '@ionic/angular/standalone';
+import { IonContent, ViewWillEnter } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 
 import { StorageService } from '../services/storage.service';
@@ -14,10 +14,9 @@ import { SharedVariablesService } from '../services/shared-variables.service';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonContent, CommonModule, FormsModule]
 })
 export class HomePage implements ViewWillEnter {
-  paletteToggle!: boolean;
 
   constructor(private storage: StorageService,
               private router: Router,
@@ -69,7 +68,6 @@ export class HomePage implements ViewWillEnter {
   }
 
   initializeDarkPalette(isDark: boolean) {
-    this.paletteToggle = isDark;
     this.toggleDarkPalette(isDark);
   }
             

@@ -115,6 +115,7 @@ async function getQuestionCount() {
 }
 
 async function getDefaultQuestionsData(mcqSize) {
+    // This method is used to create the default data structure containing the user's statistics about questions.
     const defaultQuestionsData = {};
   
     // Step 1 : get all sectors

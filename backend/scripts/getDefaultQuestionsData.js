@@ -12,5 +12,4 @@ async function getDefaultQuestionsData(request, result) {
     }
 }
     
-
 module.exports.getDefaultQuestionsData = getDefaultQuestionsData;
