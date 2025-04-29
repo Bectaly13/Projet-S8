@@ -38,6 +38,8 @@ export class OptionsPage implements ViewWillEnter {
               private darkmode: DarkModeService) { }
 
   async ionViewWillEnter() {
+    this.darkmode.init();
+    
     const dark_mode_data = await this.storage.get("dark_mode_data");
     if(dark_mode_data != null) {
       this.paletteToggle = dark_mode_data;

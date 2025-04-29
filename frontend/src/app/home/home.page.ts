@@ -27,6 +27,8 @@ export class HomePage implements ViewWillEnter {
               private darkmode: DarkModeService) { }
 
   async ionViewWillEnter() {
+    this.darkmode.init();
+    
     let questions_data = await this.storage.get("questions_data");
     if(!questions_data) {
       questions_data = {};
