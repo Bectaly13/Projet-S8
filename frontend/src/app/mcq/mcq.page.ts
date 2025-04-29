@@ -87,6 +87,8 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   }
 
   ionViewWillEnter(): void {
+    this.darkmode.init();
+    
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));

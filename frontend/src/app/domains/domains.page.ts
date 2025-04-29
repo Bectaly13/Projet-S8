@@ -42,6 +42,8 @@ export class DomainsPage implements ViewWillEnter {
               private darkmode: DarkModeService) { }
 
   ionViewWillEnter() {
+    this.darkmode.init();
+    
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
 

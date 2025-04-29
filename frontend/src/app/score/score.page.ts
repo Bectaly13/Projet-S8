@@ -50,6 +50,8 @@ export class ScorePage implements ViewWillEnter {
               private darkmode: DarkModeService) { }
 
   ionViewWillEnter(): void {
+    this.darkmode.init();
+
     this.score = Number(this.route.snapshot.queryParamMap.get("score"));
     this.mcqSize = Number(this.route.snapshot.queryParamMap.get("mcqSize"));
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));

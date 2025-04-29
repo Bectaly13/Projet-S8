@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter, ViewWillEnter } from '@ionic/angular/standalone';
 
 import { HeaderComponent } from '../header/header.component';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -14,8 +14,11 @@ import { DarkModeService } from '../services/dark-mode.service';
   standalone: true,
   imports: [HeaderComponent, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, IonFooter]
 })
-export class StatsPage {
+export class StatsPage implements ViewWillEnter{
 
   constructor(private darkmode: DarkModeService) { }
 
+  ionViewWillEnter() {
+    this.darkmode.init();
+  }
 }

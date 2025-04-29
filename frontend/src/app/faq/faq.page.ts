@@ -79,6 +79,8 @@ export class FaqPage implements ViewWillEnter {
               private darkmode: DarkModeService) { }
 
   ionViewWillEnter(): void {
+    this.darkmode.init();
+
     this.message.sendMessage("getQuestionCount", {}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {

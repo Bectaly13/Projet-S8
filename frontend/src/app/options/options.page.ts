@@ -22,6 +22,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 
 export class OptionsPage implements ViewWillEnter {
   paletteToggle!: boolean;
+
   sectorId!: number;
   sector!: string;
 
@@ -76,8 +77,4 @@ export class OptionsPage implements ViewWillEnter {
   async openBrowser(link: string) {
     await Browser.open({url: link});
   }
-
-
-  // Bouton mode clair/sombre/auto
-
 }
