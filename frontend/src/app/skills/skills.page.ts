@@ -9,6 +9,8 @@ import { ErrorService } from '../services/error.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
 import { DarkModeService } from '../services/dark-mode.service';
 
+import { HeaderComponent } from '../header/header.component';
+
 export interface Skill {
   skillId: number;
   name: string;
@@ -19,7 +21,7 @@ export interface Skill {
   templateUrl: './skills.page.html',
   styleUrls: ['./skills.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonButton, IonButtons, IonBackButton]
+  imports: [HeaderComponent, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonButton, IonButtons, IonBackButton]
 })
 export class SkillsPage implements ViewWillEnter {
   sectorId!: number;

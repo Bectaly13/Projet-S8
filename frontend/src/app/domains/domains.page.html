@@ -1,11 +1,12 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Choix du domaine</ion-title>
-  </ion-toolbar>
-    <!-- @if (showFadeTop) {
-      <div class="fade-on-header"></div>
-    } -->
-</ion-header>
+<app-header 
+  [pageTitle]="'Choix du domaine'"
+  [showBackButton]="false">
+</app-header>
+
+
+<!-- @if (showFadeTop) {
+  <div class="fade-on-header"></div>
+} -->
 
 <ion-content [fullscreen]="true" id="pagedomains" > <!-- (ionScroll)="onScroll($event)"-->
 

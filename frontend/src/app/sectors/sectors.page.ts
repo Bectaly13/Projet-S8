@@ -9,6 +9,8 @@ import { ErrorService } from '../services/error.service';
 import { StorageService } from '../services/storage.service';
 import { DarkModeService } from '../services/dark-mode.service';
 
+import { HeaderComponent } from '../header/header.component';
+
 export interface Sector {
   sectorId: number;
   name: string;
@@ -19,7 +21,7 @@ export interface Sector {
   templateUrl: './sectors.page.html',
   styleUrls: ['./sectors.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton]
+  imports: [HeaderComponent, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton]
 })
 export class SectorsPage implements ViewWillEnter {
 

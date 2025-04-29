@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonList, IonItem, IonButton, IonButtons, IonBackButton } from '@ionic/angular/standalone';
+import { IonHeader, IonContent, IonToolbar, ViewWillEnter, IonList, IonItem, IonButton, IonFooter } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
 import { DarkModeService } from '../services/dark-mode.service';
+
+import { HeaderComponent } from '../header/header.component';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 export interface Chapter {
   chapterId: number;
@@ -19,7 +22,7 @@ export interface Chapter {
   templateUrl: './chapters.page.html',
   styleUrls: ['./chapters.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonButton, IonButtons, IonBackButton]
+  imports: [IonHeader, IonContent, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonButton, IonFooter, HeaderComponent, NavbarComponent]
 })
 export class ChaptersPage implements ViewWillEnter {
   sectorId!: number;

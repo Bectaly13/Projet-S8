@@ -1,19 +1,9 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Commencer QCM</ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-header
+  [pageTitle]="'Commencer le QCM'"
+  [showBackButton]="true"
+></app-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">startMCQ</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <p>
     Domaine : {{domain}}
   </p>

@@ -7,12 +7,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharedVariablesService } from '../services/shared-variables.service';
 import { DarkModeService } from '../services/dark-mode.service';
 
+import { HeaderComponent } from '../header/header.component';
+
 @Component({
   selector: 'app-score',
   templateUrl: './score.page.html',
   styleUrls: ['./score.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton]
+  imports: [HeaderComponent, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton]
 })
 export class ScorePage implements ViewWillEnter {
   score!: number;

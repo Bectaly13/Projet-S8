@@ -7,12 +7,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharedVariablesService } from '../services/shared-variables.service';
 import { DarkModeService } from '../services/dark-mode.service';
 
+import { HeaderComponent } from '../header/header.component';
+
 @Component({
   selector: 'app-start-mcq',
   templateUrl: './start-mcq.page.html',
   styleUrls: ['./start-mcq.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonButton]
+  imports: [HeaderComponent, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonButton]
 })
 export class StartMCQPage implements ViewWillEnter {
   sectorId!: number;
