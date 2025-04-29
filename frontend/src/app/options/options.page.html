@@ -4,7 +4,7 @@
 ></app-header>
 
 
-<ion-content>
+<ion-content [fullscreen]="true">
   <ion-toggle [(ngModel)]="paletteToggle" (ionChange)="toggleChange($event)" justify="space-between">Dark Mode</ion-toggle>
   
   <ion-button (click)="goToFAQ()">FAQ</ion-button>
