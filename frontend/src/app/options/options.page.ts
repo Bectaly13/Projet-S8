@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter, IonButton, ViewWillEnter, IonToggle } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonToolbar, IonFooter, IonSegment, IonSegmentButton, IonLabel, IonToggle, IonButton, ViewWillEnter } from '@ionic/angular/standalone';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Browser } from '@capacitor/browser';
 import { Preferences } from '@capacitor/preferences';
@@ -17,11 +17,12 @@ import { NavbarComponent } from '../navbar/navbar.component';
   templateUrl: './options.page.html',
   styleUrls: ['./options.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, IonFooter, IonButton, IonToggle]
+  imports: [IonContent, IonHeader, HeaderComponent, IonToolbar, IonSegment, IonSegmentButton, IonLabel, IonToggle, CommonModule, FormsModule, NavbarComponent, IonFooter, IonButton]
 })
-export class OptionsPage implements ViewWillEnter {
-  paletteToggle!: boolean;
 
+// On ajoute OnInit pour le bouton du mode clair/sombre/auto
+export class OptionsPage implements OnInit, ViewWillEnter {
+  paletteToggle!: boolean;
   sectorId!: number;
   sector!: string;
 
