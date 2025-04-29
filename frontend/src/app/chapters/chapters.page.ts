@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonToolbar, ViewWillEnter, IonList, IonItem, IonButton, IonFooter } from '@ionic/angular/standalone';
+import { IonContent, ViewWillEnter, IonList, IonItem, IonButton } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
@@ -22,7 +22,7 @@ export interface Chapter {
   templateUrl: './chapters.page.html',
   styleUrls: ['./chapters.page.scss'],
   standalone: true,
-  imports: [IonContent, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonButton, IonFooter, HeaderComponent, NavbarComponent]
+  imports: [IonContent, CommonModule, FormsModule, IonList, IonItem, IonButton, HeaderComponent, NavbarComponent]
 })
 export class ChaptersPage implements ViewWillEnter {
   sectorId!: number;

@@ -8,13 +8,14 @@ import { SharedVariablesService } from '../services/shared-variables.service';
 import { DarkModeService } from '../services/dark-mode.service';
 
 import { HeaderComponent } from '../header/header.component';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-start-mcq',
   templateUrl: './start-mcq.page.html',
   styleUrls: ['./start-mcq.page.scss'],
   standalone: true,
-  imports: [HeaderComponent, IonContent, CommonModule, FormsModule, IonButton]
+  imports: [HeaderComponent, IonContent, CommonModule, FormsModule, IonButton, NavbarComponent]
 })
 export class StartMCQPage implements ViewWillEnter {
   sectorId!: number;

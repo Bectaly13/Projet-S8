@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonToolbar, IonButton, IonList, IonItem, AlertController, ViewWillEnter, IonButtons, IonBackButton } from '@ionic/angular/standalone';
+import { IonContent, IonButton, IonList, IonItem, AlertController, ViewWillEnter, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
@@ -15,7 +15,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
   templateUrl: './faq.page.html',
   styleUrls: ['./faq.page.scss'],
   standalone: true,
-  imports: [HeaderComponent, IonContent, IonToolbar, CommonModule, FormsModule, IonButton, IonList, IonItem, NavbarComponent]
+  imports: [HeaderComponent, IonContent, CommonModule, FormsModule, IonButton, IonList, IonItem, NavbarComponent]
 })
 export class FaqPage implements ViewWillEnter {
   questionCount: number = 0;
