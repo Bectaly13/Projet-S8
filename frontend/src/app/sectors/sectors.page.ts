@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
+import { StorageService } from '../services/storage.service';
 
 import { HeaderComponent } from '../header/header.component';
 
@@ -22,11 +23,13 @@ export interface Sector {
   imports: [HeaderComponent, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton]
 })
 export class SectorsPage implements ViewWillEnter {
+
   sectors!: Sector[];
 
   constructor(private message: MessageService,
               private error: ErrorService,
-              private router: Router) { }
+              private router: Router,
+              private storage: StorageService) { }
 
   ionViewWillEnter() {
     this.message.sendMessage("getSectors", {}).subscribe(res => {
@@ -41,6 +44,11 @@ export class SectorsPage implements ViewWillEnter {
   }
 
   goToDomains(index: number, sector: string) {
+    this.storage.set("sector_data", {
+      sectorId: index,
+      sector: sector
+    });
+
     this.router.navigate(["domains"], {queryParams: {
       sectorId: index,
       sector: sector

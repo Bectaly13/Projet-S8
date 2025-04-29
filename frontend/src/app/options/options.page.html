@@ -5,15 +5,7 @@
 
 
 <ion-content>
-  <div class="theme-switch">
-    <div class="slider" [class.system]="themeMode === 'system'"
-                        [class.light]="themeMode === 'light'"
-                        [class.dark]="themeMode === 'dark'"></div>
-  
-    <button (click)="onThemeChange('system')">Système</button>
-    <button (click)="onThemeChange('light')">Clair</button>
-    <button (click)="onThemeChange('dark')">Sombre</button>
-  </div>
+  <ion-toggle [(ngModel)]="paletteToggle" (ionChange)="toggleChange($event)" justify="space-between">Dark Mode</ion-toggle>
   
   <ion-button (click)="goToFAQ()">FAQ</ion-button>
 

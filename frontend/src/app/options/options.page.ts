@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonToolbar, IonFooter, IonSegment, IonSegmentButton, IonLabel, IonButton, ViewWillEnter } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter, IonButton, ViewWillEnter, IonToggle } from '@ionic/angular/standalone';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Browser } from '@capacitor/browser';
 import { Preferences } from '@capacitor/preferences';
 
 import { SharedVariablesService } from '../services/shared-variables.service';
+import { StorageService } from '../services/storage.service';
 
 import { HeaderComponent } from '../header/header.component';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -16,11 +17,11 @@ import { NavbarComponent } from '../navbar/navbar.component';
   templateUrl: './options.page.html',
   styleUrls: ['./options.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, HeaderComponent, IonToolbar, IonSegment, IonSegmentButton, IonLabel, CommonModule, FormsModule, NavbarComponent, IonFooter, IonButton]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, IonFooter, IonButton, IonToggle]
 })
+export class OptionsPage implements ViewWillEnter {
+  paletteToggle!: boolean;
 
-// On ajoute OnInit pour le bouton du mode clair/sombre/auto
-export class OptionsPage implements OnInit, ViewWillEnter {
   sectorId!: number;
   sector!: string;
 
@@ -31,9 +32,12 @@ export class OptionsPage implements OnInit, ViewWillEnter {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private variables: SharedVariablesService) { }
+              private variables: SharedVariablesService,
+              private storage: StorageService) { }
 
   ionViewWillEnter(): void {
+    this.paletteToggle = document.documentElement.classList.contains('ion-palette-dark');
+
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
 
@@ -41,6 +45,18 @@ export class OptionsPage implements OnInit, ViewWillEnter {
     this.subject = this.variables.faqSubject;
     this.site = this.variables.site;
     this.facebook = this.variables.facebook;
+  }
+
+  toggleChange(event: CustomEvent) {
+    const shouldAdd: boolean = event.detail.checked;
+
+    this.storage.set("dark_mode_data", shouldAdd);
+
+    this.toggleDarkPalette(shouldAdd);
+  }
+
+  toggleDarkPalette(shouldAdd: boolean) {
+    document.documentElement.classList.toggle('ion-palette-dark', shouldAdd);
   }
 
   goToFAQ() {

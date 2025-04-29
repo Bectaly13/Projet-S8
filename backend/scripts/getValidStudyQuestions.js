@@ -12,7 +12,7 @@ async function getValidStudyQuestions(request, result) {
                     return sendMessage(result, res);
                 }
                 else {
-                    return sendError(result, "Couldn't find enough valid study questions", 404);
+                    return sendError(result, "Couldn't find enough valid study questions");
                 }
             }
             else {

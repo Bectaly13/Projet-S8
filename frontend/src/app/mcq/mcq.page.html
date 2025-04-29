@@ -6,7 +6,7 @@
         <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-progress-bar [value]="questionIndex/mcqSize" color="success"></ion-progress-bar>
+    <ion-progress-bar [value]="questionIndex/mcqSize" color="primary"></ion-progress-bar>
   </ion-toolbar>  
 </ion-header>
 
@@ -15,14 +15,58 @@
     @if(questionIndex == $index + 1) {
       <p>Question {{$index + 1}}/{{mcqSize}}</p>
       <p>
-        @for(choice of choices[$index]; track choice) {
-          <p [innerHTML]="parseText(choice.wordingBefore)"></p>
-          
-          <ion-checkbox [(ngModel)]="toggledChoices[choice.choiceOrder - 1]" [disabled]="showAnswer"></ion-checkbox>
-          {{choiceLabels[choice.choiceOrder - 1]}} <span [innerHTML]="parseText(choice.choiceText)"></span>
-          
-          <p [innerHTML]="parseText(choice.wordingAfter)"></p>
-        }
+        @for (choice of typedChoices[$index]; track choice) {
+          <p>
+            @for (string of choice.wordingBefore; track string) {
+              @if (string.type == 'TEXT') {
+                <span>{{string.data}}</span>
+              }
+              @if (string.type == 'LATEX') {
+                <span>{{string.data}}</span>
+              }
+              @if (string.type == 'IMAGE') {
+                <p>
+                  <img src="{{string.data}}">
+                </p>
+              }
+            }
+          </p>
+
+          <p>
+            <ion-checkbox [(ngModel)]="toggledChoices[choice.choiceOrder - 1]" [disabled]="showAnswer"></ion-checkbox>
+            {{choiceLabels[choice.choiceOrder - 1]}}.
+      
+            @for (string of choice.choiceText; track string) {
+              @if (string.type == 'TEXT') {
+                <span>{{string.data}}</span>
+              }
+              @if (string.type == 'LATEX') {
+                <span>{{string.data}}</span>
+              }
+              @if (string.type == 'IMAGE') {
+                <p>
+                  <img src="{{string.data}}">
+                </p>
+              }
+            }
+          </p>
+    
+          <p>
+            @for (string of choice.wordingAfter; track string) {
+              @if (string.type == 'TEXT') {
+                <span>{{string.data}}</span>
+              }
+              @if (string.type == 'LATEX') {
+                <span>{{string.data}}</span>
+              }
+              @if (string.type == 'IMAGE') {
+                <p>
+                  <img src="{{string.data}}">
+                </p>
+              }
+            }
+          </p>
+        }    
       </p>
 
       @if(!showAnswer) {
@@ -39,7 +83,21 @@
           </p>
         }
         
-        <p [innerHTML]="parseText(question.explanation)"></p>
+        <p>
+          @for (string of typedExplanations[$index]; track string) {
+            @if (string.type == 'TEXT') {
+              <span>{{string.data}}</span>
+            }
+            @if (string.type == 'LATEX') {
+              <span>{{string.data}}</span>
+            }
+            @if (string.type == 'IMAGE') {
+              <p>
+                <img src="{{string.data}}">
+              </p>
+            }
+          }
+        </p>
         
         @if(questionIndex == mcqSize) {
           <ion-button (click)="showScore()">Voir mes résultats</ion-button>

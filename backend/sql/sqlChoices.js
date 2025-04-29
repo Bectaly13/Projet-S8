@@ -2,7 +2,7 @@ const mysqlConnect = require("./sqlConnect");
 const cho = require("./sqlConfig").cho;
 
 async function getChoices(questionIds) {
-
+    // questionIds is an array of number, representing the questions used in the created MCQ.
     const placeholders = questionIds.map(() => '?').join(', ');
     const query = `
         SELECT questionId, choiceOrder, wordingBefore, choiceText, wordingAfter, isCorrect
@@ -13,7 +13,9 @@ async function getChoices(questionIds) {
 
     const result = await mysqlConnect.query(query, questionIds);
 
-    // Transformer en { questionId: [choices] }
+    // We transform result into a {questionId: [choices]} object.
+    // [choices] is an array containing all the choices linked to questionId.
+    // Each choice contains its questionOrder, wordingBefore, choiceText, wordingAfter and isCorrect fields.
     const choicesByQuestion = {};
 
     for (const row of result) {

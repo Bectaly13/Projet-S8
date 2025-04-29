@@ -9,7 +9,7 @@ async function getSectors(request, result) {
         return sendMessage(result, res);
     }
     else {
-        return sendError(result, "No sectors found", 404);
+        return sendError(result, "No sectors found");
     }
 }
 

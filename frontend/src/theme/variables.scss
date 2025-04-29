@@ -1,8 +1,14 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
 
-
 :root {
+    --vert-qmax: #1ac822;
+
+    // Changement du thème Ionic
+    --ion-color-primary: var(--vert-qmax);
+    --ion-color-primary-rgb: 26, 200, 34;
+    --ion-color-primary-shade: rgb(23, 180, 30);
+    --ion-color-primary-tint: rgb(48, 205, 56);
 
     //Pour définir les longueur tablette et small-mobile pour avoir 3 comportements responsive
     //--minwidth_smartphone: 340px;
@@ -12,15 +18,12 @@
     --ion-font-family: 'Dosis', sans-serif;
     
 
-    //Couleurs de l'IHM
-
-    --vert-qmax: #1ac822;
+    // Couleurs de l'IHM
     --ion-color-grey-highest-contrast: #000000;
     --ion-color-grey-high-contrast: #646464;
     --ion-color-grey-medium-contrast: #dedede;
     --ion-color-grey-low-contrast: #f1f1f1;
     --ion-color-grey-no-contrast: #ffffff;
-
 
     // Couleurs des domaines
     --ion-color-color1: #ff3b30;
@@ -157,14 +160,12 @@
   }
 
 
-// Media queries dark mode
+// Dark mode
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ion-color-grey-no-contrast: #000000;
-    --ion-color-grey-low-contrast: #646464;
-    --ion-color-grey-medium-contrast: #dedede;
-    --ion-color-grey-high-contrast: #f1f1f1;
-    --ion-color-grey-highest-contrast: #ffffff;
-  }
+.ion-palette-dark {
+  --ion-color-grey-no-contrast: #000000;
+  --ion-color-grey-low-contrast: #646464;
+  --ion-color-grey-medium-contrast: #dedede;
+  --ion-color-grey-high-contrast: #f1f1f1;
+  --ion-color-grey-highest-contrast: #ffffff;
 }

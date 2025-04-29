@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
+import { StorageService } from '../services/storage.service';
 
 import { HeaderComponent } from '../header/header.component';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -35,7 +36,8 @@ export class DomainsPage implements ViewWillEnter {
               private message: MessageService,
               private error: ErrorService,
               private router: Router,
-              private variables: SharedVariablesService) { }
+              private variables: SharedVariablesService,
+              private storage: StorageService) { }
 
   ionViewWillEnter() {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
@@ -64,6 +66,8 @@ export class DomainsPage implements ViewWillEnter {
   }
 
   goToSectors() {
+    this.storage.remove("sector_data");
+
     this.router.navigate(["sectors"]);
   }
 

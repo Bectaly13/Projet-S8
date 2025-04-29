@@ -8,11 +8,11 @@ export class SharedVariablesService {
     small: 5,
     large: 10
   };
-  choiceLabels: string[] = ["A.", "B.", "C.", "D."];
+  choiceLabels: string[] = ["A", "B", "C", "D"];
 
-  domainsImageUrl: string = "assets/domains/";
-  scoreImageUrl: string = "assets/score/";
-  questionImagesUrl: string = "assets/questions";
+  domainsImageUrl: string = "http://127.0.0.1:3000/data/domains/";
+  scoreImageUrl: string = "http://127.0.0.1:3000/data/score/";
+  questionImagesUrl: string = "http://127.0.0.1:3000";
 
   mail: string = "appli.qmax@gmail.com";
   faqSubject: string = "Demande d'information";
