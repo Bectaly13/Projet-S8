@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
 import { StorageService } from '../services/storage.service';
+import { DarkModeService } from '../services/dark-mode.service';
 
 export interface Sector {
   sectorId: number;
@@ -27,7 +28,8 @@ export class SectorsPage implements ViewWillEnter {
   constructor(private message: MessageService,
               private error: ErrorService,
               private router: Router,
-              private storage: StorageService) { }
+              private storage: StorageService,
+              private darkmode: DarkModeService) { }
 
   ionViewWillEnter() {
     this.message.sendMessage("getSectors", {}).subscribe(res => {

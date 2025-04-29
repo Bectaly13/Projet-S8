@@ -7,6 +7,7 @@ import { Browser } from '@capacitor/browser';
 
 import { SharedVariablesService } from '../services/shared-variables.service';
 import { StorageService } from '../services/storage.service';
+import { DarkModeService } from '../services/dark-mode.service';
 
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -31,10 +32,17 @@ export class OptionsPage implements ViewWillEnter {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private variables: SharedVariablesService,
-              private storage: StorageService) { }
+              private storage: StorageService,
+              private darkmode: DarkModeService) { }
 
-  ionViewWillEnter(): void {
-    this.paletteToggle = document.documentElement.classList.contains('ion-palette-dark');
+  async ionViewWillEnter() {
+    const dark_mode_data = await this.storage.get("dark_mode_data");
+    if(dark_mode_data != null) {
+      this.paletteToggle = dark_mode_data;
+    }
+    else {
+      this.paletteToggle = document.documentElement.classList.contains('ion-palette-dark');
+    }
 
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));

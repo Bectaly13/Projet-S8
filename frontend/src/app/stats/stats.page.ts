@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter } from '@ionic/angular/standalone';
 
 import { NavbarComponent } from '../navbar/navbar.component';
+import { DarkModeService } from '../services/dark-mode.service';
 
 @Component({
   selector: 'app-stats',
@@ -12,11 +13,8 @@ import { NavbarComponent } from '../navbar/navbar.component';
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, IonFooter]
 })
-export class StatsPage implements OnInit {
+export class StatsPage {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  constructor(private darkmode: DarkModeService) { }
 
 }

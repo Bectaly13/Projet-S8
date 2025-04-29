@@ -8,6 +8,7 @@ import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
 import { StorageService } from '../services/storage.service';
+import { DarkModeService } from '../services/dark-mode.service';
 
 import { NavbarComponent } from '../navbar/navbar.component';
 
@@ -36,7 +37,8 @@ export class DomainsPage implements ViewWillEnter {
               private error: ErrorService,
               private router: Router,
               private variables: SharedVariablesService,
-              private storage: StorageService) { }
+              private storage: StorageService,
+              private darkmode: DarkModeService) { }
 
   ionViewWillEnter() {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
