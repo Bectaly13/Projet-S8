@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter, ViewWillEnter, IonButton } from '@ionic/angular/standalone';
+import { IonContent, ViewWillEnter, IonButton } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DarkModeService } from '../services/dark-mode.service';
@@ -29,7 +29,7 @@ export interface DomainStats {
   templateUrl: './stats.page.html',
   styleUrls: ['./stats.page.scss'],
   standalone: true,
-  imports: [HeaderComponent, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, IonFooter, IonButton]
+  imports: [HeaderComponent, IonContent, CommonModule, FormsModule, NavbarComponent, IonButton]
 })
 export class StatsPage implements ViewWillEnter {
   domains: Domain[] = [];
