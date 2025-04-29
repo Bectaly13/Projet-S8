@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter, ViewWillEnter } from '@ionic/angular/standalone';
-import { ActivatedRoute } from '@angular/router';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter, ViewWillEnter, IonButton } from '@ionic/angular/standalone';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { DarkModeService } from '../services/dark-mode.service';
 import { MessageService } from '../services/message.service';
@@ -29,11 +29,11 @@ export interface DomainStats {
   templateUrl: './stats.page.html',
   styleUrls: ['./stats.page.scss'],
   standalone: true,
-  imports: [HeaderComponent, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, IonFooter]
+  imports: [HeaderComponent, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, IonFooter, IonButton]
 })
-export class StatsPage implements ViewWillEnter{
+export class StatsPage implements ViewWillEnter {
   domains: Domain[] = [];
-  domainStats: DomainStats[] = [];
+  stats: DomainStats[] = [];
 
   sectorId!: number;
   sector!: string;
@@ -44,7 +44,8 @@ export class StatsPage implements ViewWillEnter{
               private error: ErrorService,
               private variables: SharedVariablesService,
               private route: ActivatedRoute,
-              private storage: StorageService) { }
+              private storage: StorageService,
+              private router: Router) { }
 
   async ionViewWillEnter() {
     this.darkmode.init();
@@ -82,12 +83,24 @@ export class StatsPage implements ViewWillEnter{
             total: total
           };
 
-          this.domainStats.push(stats);
+          this.stats.push(stats);
         }
       }
       else {
         this.error.errorMessage(res);
       }
     })
+  }
+
+  goToStatsDomain(domainId: number, name: string, index: number) {
+    this.router.navigate(["stats-domain"], {queryParams: {
+      sectorId: this.sectorId,
+      sector: this.sector,
+      domainId: domainId,
+      domain: name,
+      correct: this.stats[index].correct,
+      incorrect: this.stats[index].incorrect,
+      total: this.stats[index].total
+    }})
   }
 }

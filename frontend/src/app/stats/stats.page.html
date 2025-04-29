@@ -5,33 +5,29 @@
 
 <ion-content [fullscreen]="true">
   <p>
-    Mes statistiques
-  </p>
-
-  <p>
     Ma filière : {{sector}}
   </p>
   
   @for(domain of domains; track $index) {
     <p>
       Domaine : {{domain.name}}
+      <ion-button (click)="goToStatsDomain(domain.domainId, domain.name, $index)">Voir en détails</ion-button>
     </p>
   
     <p>
-      Questions bien répondues : {{domainStats[$index].correct}} ({{(domainStats[$index].correct / domainStats[$index].total * 100) | number:'1.1-1'}}%)
+      Questions bien répondues : {{stats[$index].correct}} ({{(stats[$index].correct / stats[$index].total * 100) | number:'1.'}}%)
     </p>
     <p>
-      Questions mal répondues : {{domainStats[$index].incorrect}} ({{(domainStats[$index].incorrect / domainStats[$index].total * 100) | number:'1.1-1'}}%)
+      Questions mal répondues : {{stats[$index].incorrect}} ({{(stats[$index].incorrect / stats[$index].total * 100) | number:'1.'}}%)
     </p>
     <p>
-      Questions non découvertes : {{domainStats[$index].total - domainStats[$index].correct - domainStats[$index].incorrect}} 
-      ({{((domainStats[$index].total - domainStats[$index].correct - domainStats[$index].incorrect) / domainStats[$index].total * 100) | number:'1.1-1'}}%)
+      Questions non découvertes : {{stats[$index].total - stats[$index].correct - stats[$index].incorrect}} 
+      ({{((stats[$index].total - stats[$index].correct - stats[$index].incorrect) / stats[$index].total * 100) | number:'1.'}}%)
     </p>
     <p>
-      Questions dans ce domaine : {{domainStats[$index].total}}
+      Questions dans ce domaine : {{stats[$index].total}}
     </p>
   }
-  
 </ion-content>
 
 <app-navbar/>

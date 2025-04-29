@@ -1,13 +1,32 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>statsDomain</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header
+  [pageTitle]="'Statistiques du domaine'"
+  [showBackButton]="true">
+</app-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">statsDomain</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <p>
+    Ma filière : {{sector}}
+  </p>
+
+  <p>
+    Statistiques de : {{domain}}
+  </p>
+
+  <p>
+    Questions bien répondues : {{correct}} ({{correct / total * 100 | number:'1.'}}%)
+  </p>
+
+  <p>
+    Question mal répondues : {{incorrect}} ({{incorrect / total * 100 | number:'1.'}}%)
+  </p>
+
+  <p>
+    Question non découvertes : {{total - correct - incorrect }} ({{(total - correct - incorrect) / total * 100 | number:'1.'}}%)
+  </p>
+
+  <p>
+    Questions dans ce domaine : {{total}}
+  </p>
 </ion-content>
+
+<app-navbar/>
