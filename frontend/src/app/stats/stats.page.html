@@ -4,15 +4,34 @@
 </app-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">stats</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <p>
+    Mes statistiques
+  </p>
+
+  <p>
+    Ma filière : {{sector}}
+  </p>
+  
+  @for(domain of domains; track $index) {
+    <p>
+      Domaine : {{domain.name}}
+    </p>
+  
+    <p>
+      Questions bien répondues : {{domainStats[$index].correct}} ({{(domainStats[$index].correct / domainStats[$index].total * 100) | number:'1.1-1'}}%)
+    </p>
+    <p>
+      Questions mal répondues : {{domainStats[$index].incorrect}} ({{(domainStats[$index].incorrect / domainStats[$index].total * 100) | number:'1.1-1'}}%)
+    </p>
+    <p>
+      Questions non découvertes : {{domainStats[$index].total - domainStats[$index].correct - domainStats[$index].incorrect}} 
+      ({{((domainStats[$index].total - domainStats[$index].correct - domainStats[$index].incorrect) / domainStats[$index].total * 100) | number:'1.1-1'}}%)
+    </p>
+    <p>
+      Questions dans ce domaine : {{domainStats[$index].total}}
+    </p>
+  }
+  
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar>
-    <app-navbar/>
-  </ion-toolbar>
-</ion-footer>
+<app-navbar/>
