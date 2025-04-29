@@ -34,6 +34,8 @@ export class SkillsPage implements ViewWillEnter {
   domainsImageUrl!: string;
   domainsImageName!: string;
 
+  showImage: boolean = true;
+
   skills!: Skill[];
 
   constructor(private route: ActivatedRoute,
@@ -66,6 +68,10 @@ export class SkillsPage implements ViewWillEnter {
         this.error.errorMessage(res);
       }
     })
+  }
+
+  hideImage(event: Event) {
+    this.showImage = false;
   }
 
   startMCQ(skillId: number) {

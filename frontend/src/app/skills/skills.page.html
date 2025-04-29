@@ -1,8 +1,7 @@
-
-    <app-header
-    [pageTitle]="'Choix de la compétence'"
-    [showBackButton]="true"
-  ></app-header>
+<app-header
+  [pageTitle]="'Choix de la compétence'"
+  [showBackButton]="true">
+</app-header>
 
 <ion-content [fullscreen]="true">
   <p>
@@ -20,5 +19,5 @@
     }
   </ion-list>
 
-  <img [src]="domainsImageName">
+  <img [src]="domainsImageName" (error)="hideImage($event)" *ngIf="showImage">
 </ion-content>

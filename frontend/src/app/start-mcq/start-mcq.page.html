@@ -14,5 +14,5 @@
   <ion-button (click)="goToSkills()">J'apprends</ion-button>
   <ion-button (click)="startMCQ()">Je révise</ion-button>
 
-  <img [src]="domainsImageName">
+  <img [src]="domainsImageName" (error)="hideImage($event)" *ngIf="showImage">
 </ion-content>
