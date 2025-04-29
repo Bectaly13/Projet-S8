@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonList, IonItem, IonButton, IonButtons, IonBackButton } from '@ionic/angular/standalone';
+import { IonContent, ViewWillEnter, IonList, IonItem, IonButton } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
@@ -21,7 +21,7 @@ export interface Skill {
   templateUrl: './skills.page.html',
   styleUrls: ['./skills.page.scss'],
   standalone: true,
-  imports: [HeaderComponent, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonButton, IonButtons, IonBackButton]
+  imports: [HeaderComponent, IonContent, CommonModule, FormsModule, IonList, IonItem, IonButton]
 })
 export class SkillsPage implements ViewWillEnter {
   sectorId!: number;

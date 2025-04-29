@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonFooter, IonButton, ViewWillEnter, IonToggle } from '@ionic/angular/standalone';
+import { IonContent, IonToolbar, IonFooter, IonButton, ViewWillEnter, IonToggle } from '@ionic/angular/standalone';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Browser } from '@capacitor/browser';
 
@@ -17,7 +17,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
   templateUrl: './options.page.html',
   styleUrls: ['./options.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, IonFooter, IonButton, IonToggle, HeaderComponent]
+  imports: [IonContent, IonToolbar, CommonModule, FormsModule, NavbarComponent, IonFooter, IonButton, IonToggle, HeaderComponent]
 })
 
 export class OptionsPage implements ViewWillEnter {

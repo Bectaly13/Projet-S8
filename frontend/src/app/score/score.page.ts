@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButton } from '@ionic/angular/standalone';
+import { IonContent, ViewWillEnter, IonButton } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SharedVariablesService } from '../services/shared-variables.service';
@@ -14,7 +14,7 @@ import { HeaderComponent } from '../header/header.component';
   templateUrl: './score.page.html',
   styleUrls: ['./score.page.scss'],
   standalone: true,
-  imports: [HeaderComponent, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton]
+  imports: [HeaderComponent, IonContent, CommonModule, FormsModule, IonButton]
 })
 export class ScorePage implements ViewWillEnter {
   score!: number;

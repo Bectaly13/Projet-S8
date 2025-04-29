@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonToolbar, ViewWillEnter, IonList, IonItem, IonButton, IonFooter } from '@ionic/angular/standalone';
+import { IonContent, IonToolbar, ViewWillEnter, IonList, IonItem, IonButton, IonFooter } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
@@ -23,7 +23,7 @@ export interface Domain {
   templateUrl: './domains.page.html',
   styleUrls: ['./domains.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonButton, IonFooter, NavbarComponent, HeaderComponent]
+  imports: [IonContent, IonToolbar, CommonModule, FormsModule, IonList, IonItem, IonButton, IonFooter, NavbarComponent, HeaderComponent]
 })
 export class DomainsPage implements ViewWillEnter {
   sectorId!: number;

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, ViewWillEnter } from '@ionic/angular/standalone';
+import { IonContent, IonButton, ViewWillEnter } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
@@ -22,7 +22,7 @@ export interface Sector {
   templateUrl: './sectors.page.html',
   styleUrls: ['./sectors.page.scss'],
   standalone: true,
-  imports: [HeaderComponent, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton]
+  imports: [HeaderComponent, IonContent, CommonModule, FormsModule, IonButton]
 })
 export class SectorsPage implements ViewWillEnter {
 
