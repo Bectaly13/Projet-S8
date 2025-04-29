@@ -9,13 +9,16 @@ import { Router, ActivatedRoute } from '@angular/router';
   imports: [IonButtons, IonButton, IonFooter, IonToolbar]
 })
 export class NavbarComponent {
-  sector: string = String(this.route.snapshot.queryParamMap.get("sector"));
-  sectorId: number = Number(this.route.snapshot.queryParamMap.get("sectorId"));
+  sectorId!: number;
+  sector!: string;
 
   constructor(private router: Router,
               private route: ActivatedRoute) { }
 
   goToDomains() {
+    this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
+    this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
+
     this.router.navigate(["domains"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector
@@ -23,6 +26,9 @@ export class NavbarComponent {
   }
 
   goToStats() {
+    this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
+    this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
+
     this.router.navigate(["stats"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector
@@ -30,6 +36,9 @@ export class NavbarComponent {
   }
 
   goToOptions() {
+    this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
+    this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
+    
     this.router.navigate(["options"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector
