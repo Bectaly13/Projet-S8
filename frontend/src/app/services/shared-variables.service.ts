@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SharedVariablesService {
+  version: string = "bêta"
+
   mcqSize: any = {
     small: 5,
     large: 10
