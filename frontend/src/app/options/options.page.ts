@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonToolbar, IonFooter, IonSegment, IonSegmentButton, IonLabel, IonToggle, IonButton, ViewWillEnter } from '@ionic/angular/standalone';
