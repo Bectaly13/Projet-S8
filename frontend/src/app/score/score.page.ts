@@ -5,6 +5,8 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButton }
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SharedVariablesService } from '../services/shared-variables.service';
+import { DarkModeService } from '../services/dark-mode.service';
+
 import { HeaderComponent } from '../header/header.component';
 
 @Component({
@@ -44,7 +46,8 @@ export class ScorePage implements ViewWillEnter {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private variables: SharedVariablesService) { }
+              private variables: SharedVariablesService,
+              private darkmode: DarkModeService) { }
 
   ionViewWillEnter(): void {
     this.score = Number(this.route.snapshot.queryParamMap.get("score"));

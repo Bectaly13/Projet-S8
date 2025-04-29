@@ -8,6 +8,7 @@ import { StorageService } from '../services/storage.service';
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
+import { DarkModeService } from '../services/dark-mode.service';
 
 @Component({
   selector: 'app-home',
@@ -22,18 +23,10 @@ export class HomePage implements ViewWillEnter {
               private router: Router,
               private message: MessageService,
               private error: ErrorService,
-              private variables: SharedVariablesService) { }
+              private variables: SharedVariablesService,
+              private darkmode: DarkModeService) { }
 
   async ionViewWillEnter() {
-    const dark_mode_data = await this.storage.get("dark_mode_data");
-    if(dark_mode_data != null) {
-      this.initializeDarkPalette(dark_mode_data);
-    }
-    else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-      this.initializeDarkPalette(prefersDark.matches);
-    }
-
     let questions_data = await this.storage.get("questions_data");
     if(!questions_data) {
       questions_data = {};

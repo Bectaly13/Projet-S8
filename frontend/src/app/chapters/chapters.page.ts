@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
+import { DarkModeService } from '../services/dark-mode.service';
 
 import { HeaderComponent } from '../header/header.component';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -40,7 +41,8 @@ export class ChaptersPage implements ViewWillEnter {
               private message: MessageService,
               private error: ErrorService,
               private router: Router,
-              private variables: SharedVariablesService) { }
+              private variables: SharedVariablesService,
+              private darkmode: DarkModeService) { }
 
   ionViewWillEnter(): void {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));

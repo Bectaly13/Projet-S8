@@ -5,6 +5,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonList, IonIte
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
+import { DarkModeService } from '../services/dark-mode.service';
 
 import { HeaderComponent } from '../header/header.component';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -74,7 +75,8 @@ export class FaqPage implements ViewWillEnter {
 
   constructor(private alert: AlertController,
               private message: MessageService,
-              private error: ErrorService) { }
+              private error: ErrorService,
+              private darkmode: DarkModeService) { }
 
   ionViewWillEnter(): void {
     this.message.sendMessage("getQuestionCount", {}).subscribe(res => {

@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
+import { DarkModeService } from '../services/dark-mode.service';
 
 declare global {
   interface Window {
@@ -78,7 +79,8 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
               private error: ErrorService,
               private router: Router,
               private variables: SharedVariablesService,
-              private alert: AlertController) { }   
+              private alert: AlertController,
+              private darkmode: DarkModeService) { }   
   
   ionViewDidEnter(): void {
       this.renderMath();
