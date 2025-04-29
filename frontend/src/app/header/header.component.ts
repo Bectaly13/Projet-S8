@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -13,10 +12,9 @@ import { IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton } from '@ion
   inputs: ['pageTitle', 'showBackButton'],
 })
 export class HeaderComponent {
+  pageTitle: string = "";
+  showBackButton: boolean = false;
 
   constructor() { }
-
-  pageTitle = '';
-  showBackButton = false;
 
 }

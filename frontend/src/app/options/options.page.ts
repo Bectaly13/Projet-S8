@@ -9,15 +9,15 @@ import { SharedVariablesService } from '../services/shared-variables.service';
 import { StorageService } from '../services/storage.service';
 import { DarkModeService } from '../services/dark-mode.service';
 
-import { HeaderComponent } from '../header/header.component';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-options',
   templateUrl: './options.page.html',
   styleUrls: ['./options.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, IonFooter, IonButton, IonToggle]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, IonFooter, IonButton, IonToggle, HeaderComponent]
 })
 
 export class OptionsPage implements ViewWillEnter {
@@ -77,57 +77,4 @@ export class OptionsPage implements ViewWillEnter {
   async openBrowser(link: string) {
     await Browser.open({url: link});
   }
-
-
-  // Bouton mode clair/sombre/auto
-
-  themeMode: 'light' | 'dark' | 'system' = 'system';
-
-  ngOnInit() {
-    this.initTheme();
-  }
-
-  async initTheme() {
-    const { value } = await Preferences.get({ key: 'theme' });
-    this.themeMode = (value as any) || 'system';
-    this.applyTheme(this.themeMode);
-  }
-
-  onThemeChange(mode: any) {
-    console.log('Changement de thème :', mode); // 👈 vérifie que ça s'affiche
-  
-    if (mode === 'light' || mode === 'dark' || mode === 'system') {
-      this.themeMode = mode;
-      Preferences.set({ key: 'theme', value: mode });
-      this.applyTheme(mode);
-    } else {
-      this.themeMode = 'system';
-      Preferences.set({ key: 'theme', value: 'system' });
-      this.applyTheme('system');
-    }
-  }
-
-  applyTheme(mode: 'light' | 'dark' | 'system') {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    // Retirer les anciennes classes
-    document.body.classList.remove('light', 'dark');
-
-    // Ajouter la classe correspondante
-    switch (mode) {
-      case 'light':
-        document.body.classList.add('light'); // Applique le mode clair
-        break;
-      case 'dark':
-        document.body.classList.add('dark'); // Applique le mode sombre
-        break;
-      case 'system':
-        if (prefersDark) {
-          document.body.classList.add('dark'); // Système sombre si l'utilisateur le préfère
-        } else {
-          document.body.classList.add('light'); // Système clair sinon
-        }
-        break;
-    }
-}
 }
