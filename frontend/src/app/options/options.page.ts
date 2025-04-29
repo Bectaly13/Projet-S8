@@ -9,8 +9,8 @@ import { SharedVariablesService } from '../services/shared-variables.service';
 import { StorageService } from '../services/storage.service';
 import { DarkModeService } from '../services/dark-mode.service';
 
-import { NavbarComponent } from '../navbar/navbar.component';
 import { HeaderComponent } from '../header/header.component';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-options',
@@ -39,7 +39,7 @@ export class OptionsPage implements ViewWillEnter {
 
   async ionViewWillEnter() {
     this.darkmode.init();
-    
+
     const dark_mode_data = await this.storage.get("dark_mode_data");
     if(dark_mode_data != null) {
       this.paletteToggle = dark_mode_data;
