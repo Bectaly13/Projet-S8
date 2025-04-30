@@ -12,17 +12,17 @@
     </p>
   
     <p>
-      Questions bien répondues : {{stats[$index].correct}} ({{(stats[$index].correct / stats[$index].total * 100) | number:'1.0-0'}}%)
+      Questions bien répondues : {{stats[$index].correct}} ({{(stats[$index].correct / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100) | number:'1.0-0'}}%)
     </p>
     <p>
-      Questions mal répondues : {{stats[$index].incorrect}} ({{(stats[$index].incorrect / stats[$index].total * 100) | number:'1.0-0'}}%)
+      Questions mal répondues : {{stats[$index].incorrect}} ({{(stats[$index].incorrect / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100) | number:'1.0-0'}}%)
     </p>
     <p>
-      Questions non découvertes : {{stats[$index].total - stats[$index].correct - stats[$index].incorrect}} 
-      ({{((stats[$index].total - stats[$index].correct - stats[$index].incorrect) / stats[$index].total * 100) | number:'1.0-0'}}%)
+      Questions non découvertes : {{stats[$index].unseen}} 
+      ({{(stats[$index].unseen / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100) | number:'1.0-0'}}%)
     </p>
     <p>
-      Questions dans ce domaine : {{stats[$index].total}}
+      Questions dans ce domaine : {{(stats[$index].correct + stats[$index].incorrect + stats[$index].unseen)}}
     </p>
   }
 </ion-content>

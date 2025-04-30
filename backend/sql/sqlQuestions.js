@@ -151,11 +151,11 @@ async function getDefaultQuestionsData(sectorId, mcqSize) {
         defaultQuestionsData[sectorId][domainId][chapterId] = {
             correct: [],
             incorrect: [],
-            total: 0
+            unseen: []
         };
         
         // Step 3 : get all valid questions for this chapter and this sector.
-        const questionsQuery = `SELECT COUNT(DISTINCT qst.questionId) AS questionCount
+        const questionsQuery = `SELECT DISTINCT qst.questionId
             FROM ${chp} AS chp
             JOIN ${skl} AS skl ON skl.chapterId = chp.chapterId
             JOIN ${qgr} AS qgr ON qgr.skillId = skl.skillId
@@ -167,10 +167,9 @@ async function getDefaultQuestionsData(sectorId, mcqSize) {
 
         const questionsData = [chapterId, sectorId];
         const questions = await mysqlConnect.query(questionsQuery, questionsData);
-        const questionCount = questions[0]?.questionCount || 0;
         
-        // Step 4 : update the "total" field.
-        defaultQuestionsData[sectorId][domainId][chapterId].total = questionCount;
+        // Step 4 : update the "unseen" field.
+        defaultQuestionsData[sectorId][domainId][chapterId].unseen = questions.map(q => q.questionId);
     }
   
     return defaultQuestionsData;

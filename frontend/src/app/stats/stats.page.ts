@@ -21,7 +21,7 @@ export interface Domain {
 export interface DomainStats {
   correct: number;
   incorrect: number;
-  total: number;
+  unseen: number;
 }
 
 @Component({
@@ -65,7 +65,7 @@ export class StatsPage implements ViewWillEnter {
         for(let domain of this.domains) {
           let correct: number = 0;
           let incorrect: number = 0;
-          let total: number = 0;
+          let unseen: number = 0;
 
           const domainId = domain["domainId"];
           const domain_data = sector_data[domainId];
@@ -74,13 +74,13 @@ export class StatsPage implements ViewWillEnter {
             const chapter = domain_data[chapterId];
             correct += chapter.correct.length;
             incorrect += chapter.incorrect.length;
-            total += chapter.total;
+            unseen += chapter.unseen.length;
           }
 
           const stats: DomainStats = {
             correct: correct,
             incorrect: incorrect,
-            total: total
+            unseen: unseen
           };
 
           this.stats.push(stats);
@@ -100,7 +100,7 @@ export class StatsPage implements ViewWillEnter {
       domain: name,
       correct: this.stats[index].correct,
       incorrect: this.stats[index].incorrect,
-      total: this.stats[index].total
+      unseen: this.stats[index].unseen
     }})
   }
 }

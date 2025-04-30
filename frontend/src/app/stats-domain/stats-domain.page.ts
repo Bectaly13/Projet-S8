@@ -21,7 +21,7 @@ export interface Chapter {
 export interface ChapterStats {
   correct: number;
   incorrect: number;
-  total: number;
+  unseen: number;
 }
 
 @Component({
@@ -41,7 +41,7 @@ export class StatsDomainPage implements ViewWillEnter {
   domain!: string;
   correct!: number;
   incorrect!: number;
-  total!: number;
+  unseen!: number;
 
   constructor(private darkmode: DarkModeService,
               private route: ActivatedRoute,
@@ -59,7 +59,7 @@ export class StatsDomainPage implements ViewWillEnter {
     this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
     this.correct = Number(this.route.snapshot.queryParamMap.get("correct"));
     this.incorrect = Number(this.route.snapshot.queryParamMap.get("incorrect"));
-    this.total = Number(this.route.snapshot.queryParamMap.get("total"));
+    this.unseen = Number(this.route.snapshot.queryParamMap.get("unseen"));
 
     const mcqSize = this.variables.mcqSize.large;
 
@@ -82,12 +82,12 @@ export class StatsDomainPage implements ViewWillEnter {
 
           let correct:number = chapter_data.correct.length;
           let incorrect:number = chapter_data.incorrect.length;
-          let total:number = chapter_data.total;
+          let unseen:number = chapter_data.unseen.length;
 
           const stats: ChapterStats = {
             correct: correct,
             incorrect: incorrect,
-            total: total
+            unseen: unseen
           };
     
           this.stats.push(stats);
