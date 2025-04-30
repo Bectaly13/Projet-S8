@@ -8,6 +8,7 @@ import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
 import { DarkModeService } from '../services/dark-mode.service';
+import { StorageService } from '../services/storage.service';
 
 import { HeaderComponent } from '../header/header.component';
 import { NavbarComponent } from '../navbar/navbar.component';
@@ -38,15 +39,17 @@ export class SkillsPage implements ViewWillEnter {
   showImage: boolean = true;
 
   skills!: Skill[];
+  skillStats: number[] = [];
 
   constructor(private route: ActivatedRoute,
               private message: MessageService,
               private error: ErrorService,
               private router: Router,
               private variables: SharedVariablesService,
-              private darkmode: DarkModeService) { }
+              private darkmode: DarkModeService,
+              private storage: StorageService) { }
 
-  ionViewWillEnter(): void {
+  async ionViewWillEnter() {
     this.darkmode.init();
     
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
@@ -60,10 +63,27 @@ export class SkillsPage implements ViewWillEnter {
 
     this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
 
+    const chapter_data = (await this.storage.get("questions_data"))[this.sectorId][this.domainId][this.chapterId];
+
     this.message.sendMessage("getSkills", {chapterId: this.chapterId, sectorId: this.sectorId}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
         this.skills = res.data;
+
+        this.message.sendMessage("getSkillQuestions", {chapterId: this.chapterId, sectorId: this.sectorId}).subscribe(res => {
+          console.log(res);
+          if(res.status == 200) {
+            const correctSet = new Set(chapter_data.correct);
+            for(let skillId of Object.keys(res.data)) {
+              const matchCount = res.data[skillId].filter((q: number) => correctSet.has(q)).length;
+
+              this.skillStats.push(matchCount / res.data[skillId].length * 100);
+            }
+          }
+          else {
+            this.error.errorMessage(res);
+          }
+        })
       }
       else {
         this.error.errorMessage(res);

@@ -175,8 +175,48 @@ async function getDefaultQuestionsData(sectorId, mcqSize) {
   
     return defaultQuestionsData;
 }
+
+async function getSkillQuestions(chapterId, sectorId) {
+    // Étape 1 : récupérer les skills valides du chapitre
+    const validSkillsQuery = `
+      SELECT DISTINCT skl.skillId
+      FROM ${skl} AS skl
+      JOIN ${qgr} AS qgr ON qgr.skillId = skl.skillId
+      JOIN ${qst} AS qst ON qst.questionGroupId = qgr.questionGroupId
+      JOIN ${qsl} AS qsl ON qsl.questionId = qst.questionId
+      WHERE skl.chapterId = ?
+        AND qst.validated = 1
+        AND qsl.sectorId = ?
+    `;
+    const skills = await mysqlConnect.query(validSkillsQuery, [chapterId, sectorId]);
+  
+    const result = {};
+  
+    // Étape 2 : pour chaque skill valide, récupérer les questions correspondantes
+    for (const skill of skills) {
+      const skillId = skill.skillId;
+  
+      const questionsQuery = `
+        SELECT qst.questionId
+        FROM ${qst} AS qst
+        JOIN ${qgr} AS qgr ON qst.questionGroupId = qgr.questionGroupId
+        JOIN ${qsl} AS qsl ON qst.questionId = qsl.questionId
+        WHERE qst.validated = 1
+          AND qgr.skillId = ?
+          AND qsl.sectorId = ?
+      `;
+      const questions = await mysqlConnect.query(questionsQuery, [skillId, sectorId]);
+  
+      // Stocker juste les questionId sous forme de tableau d'entiers
+      result[skillId] = questions.map(q => q.questionId);
+    }
+  
+    return result;
+  }
+  
   
 module.exports.getValidStudyQuestions = getValidStudyQuestions;
 module.exports.getValidLearnQuestions = getValidLearnQuestions;
 module.exports.getQuestionCount = getQuestionCount;
 module.exports.getDefaultQuestionsData = getDefaultQuestionsData;
+module.exports.getSkillQuestions = getSkillQuestions;
