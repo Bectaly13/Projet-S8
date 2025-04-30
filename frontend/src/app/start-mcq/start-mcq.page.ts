@@ -28,8 +28,6 @@ export class StartMCQPage implements ViewWillEnter {
   domainsImageUrl!: string;
   domainsImageName!: string;
 
-  showImage: boolean = true;
-
   mcqSize!: number;
 
   constructor(private route: ActivatedRoute,
@@ -51,10 +49,6 @@ export class StartMCQPage implements ViewWillEnter {
     this.domainsImageUrl = this.variables.domainsImageUrl;
 
     this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
-  }
-
-  hideImage(event: Event) {
-    this.showImage = false;
   }
 
   startMCQ() {

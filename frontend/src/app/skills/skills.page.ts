@@ -36,8 +36,6 @@ export class SkillsPage implements ViewWillEnter {
   domainsImageUrl!: string;
   domainsImageName!: string;
 
-  showImage: boolean = true;
-
   skills!: Skill[];
   skillStats: number[] = [];
 
@@ -89,10 +87,6 @@ export class SkillsPage implements ViewWillEnter {
         this.error.errorMessage(res);
       }
     })
-  }
-
-  hideImage(event: Event) {
-    this.showImage = false;
   }
 
   startMCQ(skillId: number) {

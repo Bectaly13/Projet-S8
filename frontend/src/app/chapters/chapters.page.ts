@@ -35,8 +35,6 @@ export class ChaptersPage implements ViewWillEnter {
   domainsImageUrl!: string;
   domainsImageName!: string;
 
-  showImage: boolean = true;
-
   chapters!: Chapter[];
 
   constructor(private route: ActivatedRoute,
@@ -82,10 +80,6 @@ export class ChaptersPage implements ViewWillEnter {
         this.error.errorMessage(res);
       }
     })
-  }
-
-  hideImage(event: Event) {
-    this.showImage = false;
   }
 
   goToMCQ(index: number, chapter: string) {
