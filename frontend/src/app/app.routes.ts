@@ -50,4 +50,8 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () => import('./home/home.page').then( m => m.HomePage)
   },
+  {
+    path: 'stats-domain',
+    loadComponent: () => import('./stats-domain/stats-domain.page').then( m => m.StatsDomainPage)
+  },
 ];

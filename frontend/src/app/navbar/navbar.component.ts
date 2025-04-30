@@ -1,26 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { IonButtons, IonButton } from '@ionic/angular/standalone';
+import { Component } from '@angular/core';
+import { IonButtons, IonButton, IonFooter, IonToolbar } from '@ionic/angular/standalone';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
-  imports: [IonButtons, IonButton]
+  imports: [IonButtons, IonButton, IonFooter, IonToolbar]
 })
-export class NavbarComponent implements OnInit {
-  sector!: string;
+export class NavbarComponent {
   sectorId!: number;
+  sector!: string;
 
   constructor(private router: Router,
               private route: ActivatedRoute) { }
-  
-  ngOnInit() {
-    this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
-    this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
-  }
 
   goToDomains() {
+    this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
+    this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
+
     this.router.navigate(["domains"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector
@@ -28,6 +26,9 @@ export class NavbarComponent implements OnInit {
   }
 
   goToStats() {
+    this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
+    this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
+
     this.router.navigate(["stats"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector
@@ -35,6 +36,9 @@ export class NavbarComponent implements OnInit {
   }
 
   goToOptions() {
+    this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
+    this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
+    
     this.router.navigate(["options"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector

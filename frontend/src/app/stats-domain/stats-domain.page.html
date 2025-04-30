@@ -1,0 +1,49 @@
+<app-header [pageTitle]="'Statistiques du domaine'" [showBackButton]="true"/>
+
+<ion-content [fullscreen]="true">
+  <p>
+    Ma filière : {{sector}}
+  </p>
+
+  <p>
+    Statistiques de : {{domain}}
+  </p>
+
+  <p>
+    Questions bien répondues : {{correct}} ({{correct / (correct + incorrect + unseen) * 100 | number:'1.0-0'}}%)
+  </p>
+
+  <p>
+    Question mal répondues : {{incorrect}} ({{incorrect / (correct + incorrect + unseen) * 100 | number:'1.0-0'}}%)
+  </p>
+
+  <p>
+    Question non découvertes : {{unseen}} ({{unseen / (correct + incorrect + unseen) * 100 | number:'1.0-0'}}%)
+  </p>
+
+  <p>
+    Questions dans ce domaine : {{correct + incorrect + unseen}}
+  </p>
+
+  @for(chapter of chapters; track $index) {
+    <p>
+      Chapitre : {{chapter.name}}
+    </p>
+  
+    <p>
+      Questions bien répondues : {{stats[$index].correct}} ({{(stats[$index].correct / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100) | number:'1.0-0'}}%)
+    </p>
+    <p>
+      Questions mal répondues : {{stats[$index].incorrect}} ({{(stats[$index].incorrect / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100) | number:'1.0-0'}}%)
+    </p>
+    <p>
+      Questions non découvertes : {{stats[$index].unseen}} 
+      ({{(stats[$index].unseen / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100) | number:'1.0-0'}}%)
+    </p>
+    <p>
+      Questions dans ce chapitre : {{stats[$index].correct + stats[$index].incorrect + stats[$index].unseen}}
+    </p>
+  }
+</ion-content>
+
+<app-navbar/>

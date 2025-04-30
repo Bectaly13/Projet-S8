@@ -1,15 +1,6 @@
-<app-header
-  [pageTitle]="'Score'"
-  [showBackButton]="false"
-></app-header>
+<app-header [pageTitle]="'Score'" [showBackButton]="false"/>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">score</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <p>
     Score : {{score}}/{{mcqSize}}
   </p>
@@ -28,3 +19,5 @@
 
   <img [src]="scoreImageName">
 </ion-content>
+
+<app-navbar/>

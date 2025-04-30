@@ -1,11 +1,6 @@
-<app-header 
-  [pageTitle]="'Choix du chapitre'"
-  [showBackButton]="true">
-</app-header>
-
+<app-header [pageTitle]="'Choix du chapitre'" [showBackButton]="true"/>
 
 <ion-content [fullscreen]="true">
-
   <p>
     Domaine : {{domain}}
   </p>
@@ -21,8 +16,4 @@
   <img [src]="domainsImageName">
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar>
-    <app-navbar/>
-  </ion-toolbar>
-</ion-footer>
+<app-navbar/>

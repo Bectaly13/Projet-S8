@@ -1,20 +1,6 @@
-<app-header 
-  [pageTitle]="'Choix du domaine'"
-  [showBackButton]="false">
-</app-header>
+<app-header [pageTitle]="'Choix du domaine'" [showBackButton]="false"/>
 
-
-<!-- @if (showFadeTop) {
-  <div class="fade-on-header"></div>
-} -->
-
-<ion-content [fullscreen]="true" id="pagedomains" > <!-- (ionScroll)="onScroll($event)"-->
-
-
-  <!-- @if (showFadeTop) {
-    <div class="scroll-fade-top"></div>
-  } -->
-
+<ion-content [fullscreen]="true" id="pagedomains">
   <div class="sector-container">
     <div class="sector-text">Ma filière : {{sector}}</div>
     <div class="sector-button">
@@ -36,19 +22,6 @@
       </ion-item>
     }
   </ion-list>
-
-  
-
-  <!-- @if (showFadeBottom) {
-    <div class="scroll-fade-bottom"></div>
-  } -->
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar>
-    <app-navbar/>
-  </ion-toolbar>
-    <!-- @if (showFadeBottom) {
-      <div class="fade-on-footer"></div>
-    } -->
-</ion-footer>
+<app-navbar/>

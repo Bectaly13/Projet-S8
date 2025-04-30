@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonToolbar, IonFooter, IonSegment, IonSegmentButton, IonLabel, IonToggle, IonButton, ViewWillEnter } from '@ionic/angular/standalone';
+import { IonContent, IonButton, ViewWillEnter, IonToggle } from '@ionic/angular/standalone';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Browser } from '@capacitor/browser';
 
-import { SharedVariablesService } from '../services/shared-variables.service';
 import { StorageService } from '../services/storage.service';
 import { DarkModeService } from '../services/dark-mode.service';
 
@@ -17,7 +15,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
   templateUrl: './options.page.html',
   styleUrls: ['./options.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, HeaderComponent, IonToolbar, IonSegment, IonSegmentButton, IonLabel, IonToggle, CommonModule, FormsModule, NavbarComponent, IonFooter, IonButton]
+  imports: [IonContent, CommonModule, FormsModule, NavbarComponent, IonButton, IonToggle, HeaderComponent]
 })
 
 export class OptionsPage implements ViewWillEnter {
@@ -26,18 +24,14 @@ export class OptionsPage implements ViewWillEnter {
   sectorId!: number;
   sector!: string;
 
-  mail!: string;
-  subject!: string;
-  site!: string;
-  facebook!: string;
-
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private variables: SharedVariablesService,
               private storage: StorageService,
               private darkmode: DarkModeService) { }
 
   async ionViewWillEnter() {
+    this.darkmode.init();
+
     const dark_mode_data = await this.storage.get("dark_mode_data");
     if(dark_mode_data != null) {
       this.paletteToggle = dark_mode_data;
@@ -48,11 +42,6 @@ export class OptionsPage implements ViewWillEnter {
 
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
-
-    this.mail = this.variables.mail;
-    this.subject = this.variables.faqSubject;
-    this.site = this.variables.site;
-    this.facebook = this.variables.facebook;
   }
 
   toggleChange(event: CustomEvent) {
@@ -72,9 +61,5 @@ export class OptionsPage implements ViewWillEnter {
       sectorId: this.sectorId,
       sector: this.sector
     }})
-  }
-  
-  async openBrowser(link: string) {
-    await Browser.open({url: link});
   }
 }

@@ -1,8 +1,4 @@
-
-    <app-header
-    [pageTitle]="'Choix de la compétence'"
-    [showBackButton]="true"
-  ></app-header>
+<app-header [pageTitle]="'Choix de la compétence'" [showBackButton]="true"/>
 
 <ion-content [fullscreen]="true">
   <p>
@@ -16,9 +12,12 @@
     @for(skill of skills; track $index) {
       <ion-item>
         <ion-button (click)="startMCQ(skill.skillId)">{{skill.name}}</ion-button>
+        {{skillStats[$index] | number:'1.0-0'}}%
       </ion-item>
     }
   </ion-list>
 
   <img [src]="domainsImageName">
 </ion-content>
+
+<app-navbar/>

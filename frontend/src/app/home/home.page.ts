@@ -5,8 +5,6 @@ import { IonContent, ViewWillEnter } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 
 import { StorageService } from '../services/storage.service';
-import { MessageService } from '../services/message.service';
-import { ErrorService } from '../services/error.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
 import { DarkModeService } from '../services/dark-mode.service';
 
@@ -18,29 +16,22 @@ import { DarkModeService } from '../services/dark-mode.service';
   imports: [IonContent, CommonModule, FormsModule]
 })
 export class HomePage implements ViewWillEnter {
+  version!: string;
 
   constructor(private storage: StorageService,
               private router: Router,
-              private message: MessageService,
-              private error: ErrorService,
               private variables: SharedVariablesService,
               private darkmode: DarkModeService) { }
 
   async ionViewWillEnter() {
     this.darkmode.init();
+
+    this.version = this.variables.version;
     
     let questions_data = await this.storage.get("questions_data");
     if(!questions_data) {
       questions_data = {};
-      this.message.sendMessage("getDefaultQuestionsData", {mcqSize: this.variables.mcqSize.large}).subscribe(res => {
-        console.log(res);
-        if(res.status == 200) {
-          this.storage.set("questions_data", res.data);
-        }
-        else {
-          this.error.errorMessage(res);
-        }
-      })
+      this.storage.set("questions_data", questions_data);
     }
 
     const sector_data = await this.storage.get("sector_data");

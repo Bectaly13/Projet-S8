@@ -53,5 +53,8 @@ app.post("/getQuestionCount", (request, result) => {getQuestionCount(request, re
 const getDefaultQuestionsData = require("./scripts/getDefaultQuestionsData").getDefaultQuestionsData;
 app.post("/getDefaultQuestionsData", (request, result) => {getDefaultQuestionsData(request, result);});
 
+const getSkillQuestions = require("./scripts/getSkillQuestions").getSkillQuestions;
+app.post("/getSkillQuestions", (request, result) => {getSkillQuestions(request, result);});
+
 // Start server and display its address in the backend console.
 app.listen(port, host, () => {console.log (`Listening to http://${host}:${port}`);});
