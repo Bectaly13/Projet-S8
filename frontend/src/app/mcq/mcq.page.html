@@ -108,11 +108,9 @@
       }
 
       <p>
-        <a href="mailto:{{mail}}?subject=Commentaire sur la question {{question.questionId}}">
-          <ion-button>
-            Signaler la question
-          </ion-button>
-        </a> 
+        <ion-button href="mailto:{{mail}}?subject=Commentaire sur la question {{question.questionId}}">
+          <ion-icon name="mail-outline"></ion-icon>
+        </ion-button>
       </p>
     }
   }

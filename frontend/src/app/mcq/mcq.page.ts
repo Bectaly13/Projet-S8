@@ -129,22 +129,6 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
         const questionIds = this.questions.map(q => q.questionId);
 
         this.getImages(questionIds);
-
-        this.typedExplanations = this.questions.map(question => {
-          const explanation = question.explanation;
-          return this.parseTypedString(explanation);
-        });
-
-        this.getChoices(questionIds, () => {
-          this.typedChoices = this.choices.map(choiceGroup =>
-            choiceGroup.map((choice: any) => ({
-              choiceOrder: choice.choiceOrder,
-              wordingBefore: this.parseTypedString(choice.wordingBefore),
-              choiceText: this.parseTypedString(choice.choiceText),
-              wordingAfter: this.parseTypedString(choice.wordingAfter)
-            }))
-          );
-        });
       }
       else {
         this.error.errorMessage(res);
@@ -276,6 +260,22 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
           const questionId = this.questions[i].questionId;
           this.images[i] = res.data[questionId] || [];
         }
+
+        this.typedExplanations = this.questions.map(question => {
+          const explanation = question.explanation;
+          return this.parseTypedString(explanation);
+        });
+
+        this.getChoices(questionIds, () => {
+          this.typedChoices = this.choices.map(choiceGroup =>
+            choiceGroup.map((choice: any) => ({
+              choiceOrder: choice.choiceOrder,
+              wordingBefore: this.parseTypedString(choice.wordingBefore),
+              choiceText: this.parseTypedString(choice.choiceText),
+              wordingAfter: this.parseTypedString(choice.wordingAfter)
+            }))
+          );
+        });
       } 
       else {
         this.error.errorMessage(res);
