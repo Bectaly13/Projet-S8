@@ -1,8 +1,49 @@
 <app-header [pageTitle]="'FAQ'" [showBackButton]="true"/>
 
 <ion-content [fullscreen]="true">
+  Insérer logo en toutes lettres ici
+
+  <ion-accordion-group>
+    @for(item of faq; track $index) {
+      <ion-accordion>
+        <ion-item class="faq-item" slot="header">
+          <ion-label class="faq-label">{{item.title}}</ion-label>
+        </ion-item>
+        
+        <div class="faq-div" slot="content">
+          @for(subitem of item.content; track subitem) {
+            <p>
+              {{subitem.title}}
+            </p>
+
+            <p>
+              {{subitem.content}}
+              @if(subitem.title == "Camille Ulrich") {
+                <a (click)="openBrowser(camilleUlrich)">{{camilleUlrichShort}}</a>.
+              }
+            </p>
+          }
+        </div>
+      </ion-accordion>
+    }
+  </ion-accordion-group>
+
   <p>
-    Nombre de questions disponibles : {{questionCount}}
+    <ion-button href="mailto:{{mail}}?subject={{subject}}">
+      Nous contacter
+    </ion-button>
+  </p>
+
+  <p>
+    <ion-button (click)="openBrowser(site)">
+      Notre site Internet
+    </ion-button>
+  </p>
+
+  <p>
+    <ion-button (click)="openBrowser(facebook)">
+      Notre page Facebook
+    </ion-button>
   </p>
 </ion-content>
 

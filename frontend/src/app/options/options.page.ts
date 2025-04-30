@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonButton, ViewWillEnter, IonToggle } from '@ionic/angular/standalone';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Browser } from '@capacitor/browser';
 
-import { SharedVariablesService } from '../services/shared-variables.service';
 import { StorageService } from '../services/storage.service';
 import { DarkModeService } from '../services/dark-mode.service';
 
@@ -26,14 +24,8 @@ export class OptionsPage implements ViewWillEnter {
   sectorId!: number;
   sector!: string;
 
-  mail!: string;
-  subject!: string;
-  site!: string;
-  facebook!: string;
-
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private variables: SharedVariablesService,
               private storage: StorageService,
               private darkmode: DarkModeService) { }
 
@@ -50,11 +42,6 @@ export class OptionsPage implements ViewWillEnter {
 
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
-
-    this.mail = this.variables.mail;
-    this.subject = this.variables.faqSubject;
-    this.site = this.variables.site;
-    this.facebook = this.variables.facebook;
   }
 
   toggleChange(event: CustomEvent) {
@@ -74,9 +61,5 @@ export class OptionsPage implements ViewWillEnter {
       sectorId: this.sectorId,
       sector: this.sector
     }})
-  }
-  
-  async openBrowser(link: string) {
-    await Browser.open({url: link});
   }
 }

@@ -4,24 +4,6 @@
   <ion-toggle [(ngModel)]="paletteToggle" (ionChange)="toggleChange($event)" justify="space-between">Dark Mode</ion-toggle>
   
   <ion-button (click)="goToFAQ()">FAQ</ion-button>
-
-  <p>
-    <ion-button href="mailto:{{mail}}?subject={{subject}}">
-      Nous contacter
-    </ion-button>
-  </p>
-
-  <p>
-    <ion-button (click)="openBrowser(site)">
-      Notre site Internet
-    </ion-button>
-  </p>
-
-  <p>
-    <ion-button (click)="openBrowser(facebook)">
-      Notre page Facebook
-    </ion-button>
-  </p>
 </ion-content>
 
 <app-navbar/>
