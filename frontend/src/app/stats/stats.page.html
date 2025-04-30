@@ -12,14 +12,14 @@
     </p>
   
     <p>
-      Questions bien répondues : {{stats[$index].correct}} ({{(stats[$index].correct / stats[$index].total * 100) | number:'1.'}}%)
+      Questions bien répondues : {{stats[$index].correct}} ({{(stats[$index].correct / stats[$index].total * 100) | number:'1.0-0'}}%)
     </p>
     <p>
-      Questions mal répondues : {{stats[$index].incorrect}} ({{(stats[$index].incorrect / stats[$index].total * 100) | number:'1.'}}%)
+      Questions mal répondues : {{stats[$index].incorrect}} ({{(stats[$index].incorrect / stats[$index].total * 100) | number:'1.0-0'}}%)
     </p>
     <p>
       Questions non découvertes : {{stats[$index].total - stats[$index].correct - stats[$index].incorrect}} 
-      ({{((stats[$index].total - stats[$index].correct - stats[$index].incorrect) / stats[$index].total * 100) | number:'1.'}}%)
+      ({{((stats[$index].total - stats[$index].correct - stats[$index].incorrect) / stats[$index].total * 100) | number:'1.0-0'}}%)
     </p>
     <p>
       Questions dans ce domaine : {{stats[$index].total}}
