@@ -44,12 +44,12 @@ export class HomePage implements ViewWillEnter {
           sectorId: sectorId,
           sector: sector
         }})
-      }, 1500);      
+      }, 2000);      
     }
     else {
       setTimeout(() => {
         this.router.navigate(["sectors"]);
-      }, 1500);  
+      }, 2000);  
     }
   }
 }
