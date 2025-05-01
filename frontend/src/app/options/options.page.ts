@@ -84,7 +84,7 @@ export class OptionsPage implements ViewWillEnter {
               if(res.status == 200) {
                 let questions_data = await this.storage.get("questions_data");
                 questions_data[this.sectorId] = res.data[this.sectorId];
-                this.storage.set("questions_data", questions_data)
+                this.storage.set("questions_data", questions_data);
               }
               else {
                 this.error.errorMessage(res);
