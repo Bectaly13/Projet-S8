@@ -39,12 +39,12 @@ export class HomePage implements ViewWillEnter {
       const sectorId: number = sector_data.sectorId;
       const sector: string = sector_data.sector;
 
-      // setTimeout(() => {
-      //   this.router.navigate(["domains"], {queryParams: {
-      //     sectorId: sectorId,
-      //     sector: sector
-      //   }})
-      // }, 1500);      
+      setTimeout(() => {
+        this.router.navigate(["domains"], {queryParams: {
+          sectorId: sectorId,
+          sector: sector
+        }})
+      }, 1500);      
     }
     else {
       setTimeout(() => {
