@@ -1,11 +1,10 @@
 .home {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     height: 100%;
     padding: 20px;
-    padding-top: 40%;
     animation: fade-in 1s forwards ease-in-out;
 }
   
