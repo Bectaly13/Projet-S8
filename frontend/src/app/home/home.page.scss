@@ -1,0 +1,35 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+    padding-top: 40%;
+}
+  
+.home-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+  
+.home-logo img {
+    width: 60%;
+    max-width: 250px;
+    height: auto;
+    border-radius: 30px;
+}
+
+.home-qmax {
+    padding-top: 10px;
+    font-size: 1.5rem;
+}
+
+.home-version {
+    padding-top: 10px;
+    font-size: 1.2rem;
+    color: var(--ion-text-color);
+    opacity: 0.7;
+}
