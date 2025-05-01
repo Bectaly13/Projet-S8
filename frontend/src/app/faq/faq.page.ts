@@ -139,7 +139,28 @@ export class FaqPage implements ViewWillEnter {
           {
             title: "Statistiques",
             content: [
-              // à voir
+              {
+                title: "",
+                content: "Qmax enregistre votre progression et vous permet de consulter à tout moment vos statistiques personnelles. Vous pouvez suivre votre avancement pour chaque domaine et chaque chapitre accessible."
+              },
+              {
+                title: "",
+                content: "Notez que les statistiques ne sont pas partagées entre les différentes filières : vos progrès dans une filière ne sont pas pris en compte dans les autres."
+              }
+            ]
+          },   
+          
+          {
+            title: "Confidentialité et accessibilité",
+            content: [
+              {
+                title: "Où vont mes données ?",
+                content: "Toutes vos données (statistiques, progression, préférences...) sont stockées uniquement en local sur votre appareil. Elles ne sont ni transmises à un serveur distant, ni accessibles aux développeurs de l'application."
+              },
+              {
+                title: "Une appli accessible à tous",
+                content: "Qmax fonctionne sans publicité, sans collecte de données personnelles et sans authentification obligatoire : votre vie privée est respectée à 100 %."
+              }
             ]
           },
 
