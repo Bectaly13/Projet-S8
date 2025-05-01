@@ -9,6 +9,7 @@ import { ErrorService } from '../services/error.service';
 import { StorageService } from '../services/storage.service';
 import { DarkModeService } from '../services/dark-mode.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
+import { UpdateQuestionsDataService } from '../services/update-questions-data.service';
 
 import { HeaderComponent } from '../header/header.component';
 
@@ -32,7 +33,8 @@ export class SectorsPage implements ViewWillEnter {
               private router: Router,
               private storage: StorageService,
               private darkmode: DarkModeService,
-              private variables: SharedVariablesService) { }
+              private variables: SharedVariablesService,
+              private update: UpdateQuestionsDataService) { }
 
   ionViewWillEnter() {
     this.darkmode.init();
@@ -49,19 +51,24 @@ export class SectorsPage implements ViewWillEnter {
   }
 
   async goToDomains(index: number, sector: string) {
-    let questions_data = await this.storage.get("questions_data");
-    if(!(index in questions_data)) {
-      this.message.sendMessage("getDefaultQuestionsData", {sectorId: index, mcqSize: this.variables.mcqSize.large}).subscribe(res => {
-        console.log(res);
-        if(res.status == 200) {
-          questions_data[index] = res.data[index];
-          this.storage.set("questions_data", questions_data);
-        }
-        else {
-          this.error.errorMessage(res);
-        }
-      })
-    }
+    // let questions_data = await this.storage.get("questions_data");
+    // if(!(index in questions_data)) {
+    //   this.message.sendMessage("getDefaultQuestionsData", {sectorId: index, mcqSize: this.variables.mcqSize.large}).subscribe(res => {
+    //     console.log(res);
+    //     if(res.status == 200) {
+    //       questions_data[index] = res.data[index];
+    //       this.storage.set("questions_data", questions_data);
+    //     }
+    //     else {
+    //       this.error.errorMessage(res);
+    //     }
+    //   })
+    // }
+    // else {
+    //   this.update.updateQuestionsData(index);
+    // }
+
+    this.update.updateQuestionsData(index);
 
     this.storage.set("sector_data", {
       sectorId: index,

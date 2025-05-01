@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
 import { DarkModeService } from '../services/dark-mode.service';
+import { UpdateQuestionsDataService } from '../services/update-questions-data.service';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,8 @@ export class HomePage implements ViewWillEnter {
   constructor(private storage: StorageService,
               private router: Router,
               private variables: SharedVariablesService,
-              private darkmode: DarkModeService) { }
+              private darkmode: DarkModeService,
+              private update: UpdateQuestionsDataService) { }
 
   async ionViewWillEnter() {
     this.darkmode.init();
@@ -38,6 +40,8 @@ export class HomePage implements ViewWillEnter {
     if(sector_data) {
       const sectorId: number = sector_data.sectorId;
       const sector: string = sector_data.sector;
+
+      this.update.updateQuestionsData(sectorId);
 
       setTimeout(() => {
         this.router.navigate(["domains"], {queryParams: {
