@@ -25,7 +25,6 @@ export interface Sector {
   imports: [HeaderComponent, IonContent, CommonModule, FormsModule, IonButton]
 })
 export class SectorsPage implements ViewWillEnter {
-
   sectors!: Sector[];
 
   constructor(private message: MessageService,
