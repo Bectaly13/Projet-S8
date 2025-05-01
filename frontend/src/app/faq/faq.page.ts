@@ -159,7 +159,7 @@ export class FaqPage implements ViewWillEnter {
               },
               {
                 title: "Une appli accessible à tous",
-                content: "Qmax fonctionne sans publicité, sans collecte de données personnelles et sans authentification obligatoire : votre vie privée est respectée à 100 %."
+                content: "Qmax fonctionne sans publicité, sans collecte de données personnelles et sans authentification : votre vie privée est respectée à 100 %. En revanche, son bon fonctionnement nécessite une connexion à Internet."
               }
             ]
           },
