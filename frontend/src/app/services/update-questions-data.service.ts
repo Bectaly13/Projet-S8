@@ -22,7 +22,6 @@ export class UpdateQuestionsDataService {
       console.log(res);
       if(res.status == 200) {
         let default_questions_data = res.data[sectorId]; // default data for this sector ID
-        console.log("defaultquestionsdata", default_questions_data);
 
         let questions_data = await this.storage.get("questions_data"); // current user data
 
