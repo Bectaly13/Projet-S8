@@ -7,8 +7,8 @@ async function getValidStudyQuestions(request, result) {
     if("chapterId" in data) {
         if("sectorId" in data) {
             if("mcqSize" in data) {
-                const res = await sql.getValidStudyQuestions(data["chapterId"], data["sectorId"], data["mcqSize"]);
-                if(res.length >= data["mcqSize"]) {
+                const res = await sql.getValidStudyQuestions(data["chapterId"], data["sectorId"]);
+                if(Object.keys(res).length >= data["mcqSize"]) {
                     return sendMessage(result, res);
                 }
                 else {

@@ -117,7 +117,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
       this.title = "J'apprends";
       this.backendFileName = "getValidLearnQuestions";
       this.mcqSize = this.variables.mcqSize.small;
-      this.data = {sectorId: this.sectorId, skillId: this.skillId, mcqSize : this.mcqSize};
+      this.data = {sectorId: this.sectorId, skillId: this.skillId};
     }
 
     else if(this.chapterId) {
@@ -134,8 +134,104 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.message.sendMessage(this.backendFileName, this.data).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        this.questions = res.data;
-        this.mcqSize = this.questions.length;
+        const question_groups = res.data;
+
+        // we get all the questionGroupIds
+        const groupIds = Object.keys(question_groups);
+
+        // this function lets us pick a random question in a question_group
+        function pickRandomQuestion(questions: Question[]): Question {
+          const index = Math.floor(Math.random() * questions.length);
+          return questions[index];
+        }
+
+        // preparing some useful structures
+        const selectedQuestions: Question[] = [];
+        const usedGroupIds = new Set<string>();
+
+        // we sort question_groups according to the type of the questions in it
+        // we use a hierarchy : unseen > incorrect > correct
+        const unseenGroups: string[] = [];
+        const incorrectGroups: string[] = [];
+        const correctGroups: string[] = [];
+
+        for (const groupId of groupIds) {
+          const questions = question_groups[groupId];
+          const hasUnseen = questions.some((q: Question) => this.mcq_data.unseen.includes(q.questionId));
+          const hasIncorrect = questions.some((q: Question) => this.mcq_data.incorrect.includes(q.questionId));
+          const hasCorrect = questions.some((q: Question) => this.mcq_data.correct.includes(q.questionId));
+
+          if (hasUnseen) unseenGroups.push(groupId);
+          else if (hasIncorrect) incorrectGroups.push(groupId);
+          else if (hasCorrect) correctGroups.push(groupId);
+        }
+
+        // step 1 : we first get unseen questions
+        for (const groupId of unseenGroups) {
+          if (selectedQuestions.length >= this.mcqSize) break;
+          const questions = question_groups[groupId];
+          const unseenQs = questions.filter((q: Question) => this.mcq_data.unseen.includes(q.questionId));
+          if (unseenQs.length > 0) {
+            selectedQuestions.push(pickRandomQuestion(unseenQs));
+            usedGroupIds.add(groupId);
+          }
+        }
+
+        // step 2 : if that's not enough, we get incorrect and correct questions
+        // we try to get 60% incorrect and 40% correct
+        let remaining = this.mcqSize - selectedQuestions.length;
+
+        if (remaining > 0) {
+          let numIncorrect = Math.floor(remaining * 0.6);
+          let numCorrect = remaining - numIncorrect;
+
+          const availableIncorrect = incorrectGroups.filter(gid => !usedGroupIds.has(gid));
+          const availableCorrect = correctGroups.filter(gid => !usedGroupIds.has(gid));
+
+          // if we don't have enough groups available...
+          if (availableIncorrect.length < numIncorrect) {
+            numCorrect += numIncorrect - availableIncorrect.length;
+            numIncorrect = availableIncorrect.length;
+          }
+          if (availableCorrect.length < numCorrect) {
+            numIncorrect += numCorrect - availableCorrect.length;
+            numCorrect = availableCorrect.length;
+          }
+
+          // we add incorrect questions
+          for (const groupId of availableIncorrect) {
+            if (numIncorrect <= 0 || selectedQuestions.length >= this.mcqSize) break;
+            const questions = question_groups[groupId];
+            const incorrectQs = questions.filter((q: Question) => this.mcq_data.incorrect.includes(q.questionId));
+            if (incorrectQs.length > 0) {
+              selectedQuestions.push(pickRandomQuestion(incorrectQs));
+              usedGroupIds.add(groupId);
+              numIncorrect--;
+            }
+          }
+
+          // we add correct questions
+          for (const groupId of availableCorrect) {
+            if (numCorrect <= 0 || selectedQuestions.length >= this.mcqSize) break;
+            const questions = question_groups[groupId];
+            const correctQs = questions.filter((q: Question) => this.mcq_data.correct.includes(q.questionId));
+            if (correctQs.length > 0) {
+              selectedQuestions.push(pickRandomQuestion(correctQs));
+              usedGroupIds.add(groupId);
+              numCorrect--;
+            }
+          }
+        }
+
+        // in learn mode, we may need to adjust this.mcqSize
+        if (this.title === "J'apprends") {
+          this.mcqSize = selectedQuestions.length;
+        }
+
+        // we sort questions by level
+        this.questions = selectedQuestions.sort((a, b) => a.level - b.level);
+
+        // we get all the questionIds and use it to fetch images and choices
         const questionIds = this.questions.map(q => q.questionId);
 
         this.getImages(questionIds);
