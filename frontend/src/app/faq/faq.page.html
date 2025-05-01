@@ -3,7 +3,7 @@
 <ion-content [fullscreen]="true">
   <img class="faq-logo" src="assets/icons/fullLogo.png">
 
-  <ion-accordion-group>
+  <ion-accordion-group expand="inset">
     @for(item of faq; track $index) {
       <ion-accordion toggleIcon="chevron-up-circle-outline">
         <ion-item class="faq-item" slot="header">
@@ -32,25 +32,27 @@
     }
   </ion-accordion-group>
 
-  <div class="faq-button">
-    <ion-button href="mailto:{{mail}}?subject={{subject}}">
-      Nous contacter
-      <ion-icon slot="end" name="mail-outline"></ion-icon>
-    </ion-button>
-  </div>
+  <div class="faq-buttons">
+    <div class="faq-button">
+      <ion-button href="mailto:{{mail}}?subject={{subject}}">
+        Nous contacter
+        <ion-icon slot="end" name="mail-outline"></ion-icon>
+      </ion-button>
+    </div>
 
-  <div class="faq-button">
-    <ion-button (click)="openBrowser(site)">
-      Notre site Internet
-      <ion-icon slot="end" name="globe-outline"></ion-icon>
-    </ion-button>
-  </div>
+    <div class="faq-button">
+      <ion-button (click)="openBrowser(site)">
+        Notre site Internet
+        <ion-icon slot="end" name="globe-outline"></ion-icon>
+      </ion-button>
+    </div>
 
-  <div class="faq-button">
-    <ion-button (click)="openBrowser(facebook)">
-      Notre page Facebook
-      <ion-icon slot="end" name="logo-facebook"></ion-icon>
-    </ion-button>
+    <div class="faq-button">
+      <ion-button (click)="openBrowser(facebook)">
+        Notre page Facebook
+        <ion-icon slot="end" name="logo-facebook"></ion-icon>
+      </ion-button>
+    </div>
   </div>
 </ion-content>
 

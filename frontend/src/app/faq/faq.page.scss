@@ -7,13 +7,13 @@
 }
 
 .faq-item {
-    padding-top: 10px;
+    --background: var(--vert-qmax);
+    padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 20px;
     padding-right: 20px;
-    --color: var(--vert-qmax);
-    --color-activated: var(--vert-qmax);
-    --ripple-color: var(--vert-qmax);
+    color: var(--ion-color-grey-no-contrast);
+    --color-activated: var(--ion-color-grey-no-contrast);
 }
 
 .faq-subitem-title {
@@ -35,6 +35,11 @@
 .faq-separator {
     display: block;
     margin: 0 auto;
+}
+
+.faq-buttons {
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .faq-button {
