@@ -8,6 +8,8 @@ import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
 import { DarkModeService } from '../services/dark-mode.service';
+import { StorageService } from '../services/storage.service';
+import { UpdateQuestionsDataService } from '../services/update-questions-data.service';
 
 declare global {
   interface Window {
@@ -74,19 +76,23 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   images: any[] = [];
   questionImagesUrl!: string;
 
+  mcq_data!: any;
+
   constructor(private route: ActivatedRoute,
               private message: MessageService,
               private error: ErrorService,
               private router: Router,
               private variables: SharedVariablesService,
               private alert: AlertController,
-              private darkmode: DarkModeService) { }   
+              private darkmode: DarkModeService,
+              private storage: StorageService,
+              private update: UpdateQuestionsDataService) { }   
   
   ionViewDidEnter(): void {
       this.renderMath();
   }
 
-  ionViewWillEnter(): void {
+  async ionViewWillEnter() {
     this.darkmode.init();
     
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
@@ -96,6 +102,10 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
     this.skillId = Number(this.route.snapshot.queryParamMap.get("skillId"));
+
+    this.update.updateQuestionsData(this.sectorId);
+
+    this.mcq_data = (await this.storage.get("questions_data"))[this.sectorId][this.domainId][this.chapterId];
 
     this.score = 0;
 
@@ -146,13 +156,17 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     while ((match = regex.exec(text)) !== null) {
       if (match.index > currentIndex) {
         const beforeText = text.slice(currentIndex, match.index);
-        result.push({ data: beforeText, type: "TEXT" });
+        result.push({
+          data: beforeText,
+          type: "TEXT"});
       }
   
       const matchedText = match[0];
   
       if (matchedText.startsWith('$') && matchedText.endsWith('$')) {
-        result.push({ data: matchedText, type: "LATEX" });
+        result.push({
+          data: matchedText,
+          type: "LATEX"});
       }
       else if (matchedText.startsWith('url(') && matchedText.endsWith(')')) {
         const originalFileName = matchedText.slice(4, -1).trim();
@@ -171,7 +185,9 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
           }
         }
 
-        result.push({ data: foundPath, type: "IMAGE" });
+        result.push({
+          data: foundPath,
+          type: "IMAGE"});
       }
   
       currentIndex = regex.lastIndex;
@@ -179,7 +195,9 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   
     if (currentIndex < text.length) {
       const afterText = text.slice(currentIndex);
-      result.push({ data: afterText, type: "TEXT" });
+      result.push({
+        data: afterText,
+        type: "TEXT"});
     }
   
     return result;
@@ -296,7 +314,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     }, 0);
   }
 
-  checkAnswer(choices: any) {
+  checkAnswer(choices: any, questionId: number) {
     let answers: Boolean[] = [];
     let lastTrueIndex: number = 0;
 
@@ -338,6 +356,18 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
 
     this.showAnswer = true;
 
+    // edit mcq_data
+    this.mcq_data.correct = this.mcq_data.correct.filter((qId: any) => (qId != questionId));
+    this.mcq_data.incorrect = this.mcq_data.incorrect.filter((qId: any) => (qId != questionId));
+    this.mcq_data.unseen = this.mcq_data.unseen.filter((qId: any) => (qId != questionId));
+
+    if(this.answerStatus == "correcte") {
+      this.mcq_data.correct.push(questionId);
+    }
+    else {
+      this.mcq_data.incorrect.push(questionId);
+    }
+
     this.renderMath();
   }
 
@@ -372,7 +402,11 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.renderMath();
   }
 
-  showScore() {
+  async showScore() {
+    let questions_data = (await this.storage.get("questions_data"));
+    questions_data[this.sectorId][this.domainId][this.chapterId] = this.mcq_data;
+    this.storage.set("questions_data", questions_data);
+
     this.questionIndex = 1;
     this.showAnswer = false;
     this.solution = "";

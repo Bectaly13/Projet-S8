@@ -70,7 +70,7 @@
       </p>
 
       @if(!showAnswer) {
-        <ion-button (click)="checkAnswer(choices[$index])">Valider</ion-button>
+        <ion-button (click)="checkAnswer(choices[$index], question.questionId)">Valider</ion-button>
       }
       @else {
         <p>
