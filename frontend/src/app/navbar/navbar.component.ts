@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { IonButtons, IonButton, IonFooter, IonToolbar } from '@ionic/angular/standalone';
+import { IonButtons, IonButton, IonFooter, IonToolbar, IonIcon } from '@ionic/angular/standalone';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
-  imports: [IonButtons, IonButton, IonFooter, IonToolbar]
+  imports: [IonButtons, IonButton, IonFooter, IonToolbar, IonIcon]
 })
 export class NavbarComponent {
   sectorId!: number;
