@@ -12,8 +12,18 @@ export class NavbarComponent {
   sectorId!: number;
   sector!: string;
 
+  get currentRoute(): string {
+    return this.router.url;
+  }
+
   constructor(private router: Router,
               private route: ActivatedRoute) { }
+
+  isActive(path: string): boolean {
+    const url = this.router.url.split('?')[0];
+    const segments = url.split('/').filter(Boolean);
+    return segments[0] === path.replace('/', '');
+  }
 
   goToDomains() {
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
