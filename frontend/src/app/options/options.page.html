@@ -1,8 +1,12 @@
 <app-header [pageTitle]="'Options'" [showBackButton]="false"/>
 
 <ion-content [fullscreen]="true">
-  <ion-toggle [(ngModel)]="paletteToggle" (ionChange)="toggleChange($event)" justify="space-between">Dark Mode</ion-toggle>
-  
+  <ion-toggle [(ngModel)]="paletteToggle" (ionChange)="toggleChange($event)" justify="space-between">Mode sombre</ion-toggle>
+
+  <ion-button (click)="clearProgress()">Effacer ma progression pour cette filière</ion-button>
+
+  <ion-button (click)="clearAllProgress()">Effacer toute ma progression</ion-button>
+
   <ion-button (click)="goToFAQ()">FAQ</ion-button>
 </ion-content>
 
