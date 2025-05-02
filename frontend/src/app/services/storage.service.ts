@@ -28,13 +28,4 @@ export class StorageService {
   public async remove(key: string) {
     let value = await this._storage?.remove(key);
   }
-
-  public async clear() {
-    let value = await this._storage?.clear();
-  }
-
-  public async keys() {
-    let value = await this._storage?.keys();
-    return value;
-  }
 }

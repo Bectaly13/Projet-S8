@@ -15,7 +15,7 @@ export class MessageService {
 
   constructor(private httpClient : HttpClient) { }
 
-  sendMessage (url : string, data : any) : Observable<BackendResponse> {
+  sendMessage(url : string, data : any): Observable<BackendResponse> {
     const fullUrl = this.backendUrl + url;
 
     return this.httpClient.post(fullUrl, data, {withCredentials: true, observe: 'response'}).pipe(map((res: HttpResponse<any>) => ({
