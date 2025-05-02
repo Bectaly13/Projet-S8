@@ -8,6 +8,8 @@ import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
 import { SharedVariablesService } from '../services/shared-variables.service';
 import { DarkModeService } from '../services/dark-mode.service';
+import { StorageService } from '../services/storage.service';
+import { UpdateQuestionsDataService } from '../services/update-questions-data.service';
 
 declare global {
   interface Window {
@@ -74,19 +76,23 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   images: any[] = [];
   questionImagesUrl!: string;
 
+  mcq_data!: any;
+
   constructor(private route: ActivatedRoute,
               private message: MessageService,
               private error: ErrorService,
               private router: Router,
               private variables: SharedVariablesService,
               private alert: AlertController,
-              private darkmode: DarkModeService) { }   
+              private darkmode: DarkModeService,
+              private storage: StorageService,
+              private update: UpdateQuestionsDataService) { }   
   
   ionViewDidEnter(): void {
       this.renderMath();
   }
 
-  ionViewWillEnter(): void {
+  async ionViewWillEnter() {
     this.darkmode.init();
     
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
@@ -96,6 +102,10 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
     this.skillId = Number(this.route.snapshot.queryParamMap.get("skillId"));
+
+    this.update.updateQuestionsData(this.sectorId);
+
+    this.mcq_data = (await this.storage.get("questions_data"))[this.sectorId][this.domainId][this.chapterId];
 
     this.score = 0;
 
@@ -107,7 +117,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
       this.title = "J'apprends";
       this.backendFileName = "getValidLearnQuestions";
       this.mcqSize = this.variables.mcqSize.small;
-      this.data = {sectorId: this.sectorId, skillId: this.skillId, mcqSize : this.mcqSize};
+      this.data = {sectorId: this.sectorId, skillId: this.skillId};
     }
 
     else if(this.chapterId) {
@@ -124,27 +134,107 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.message.sendMessage(this.backendFileName, this.data).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        this.questions = res.data;
-        this.mcqSize = this.questions.length;
+        const question_groups = res.data;
+
+        // we get all the questionGroupIds
+        const groupIds = Object.keys(question_groups);
+
+        // this function lets us pick a random question in a question_group
+        function pickRandomQuestion(questions: Question[]): Question {
+          const index = Math.floor(Math.random() * questions.length);
+          return questions[index];
+        }
+
+        // preparing some useful structures
+        const selectedQuestions: Question[] = [];
+        const usedGroupIds = new Set<string>();
+
+        // we sort question_groups according to the type of the questions in it
+        // we use a hierarchy : unseen > incorrect > correct
+        const unseenGroups: string[] = [];
+        const incorrectGroups: string[] = [];
+        const correctGroups: string[] = [];
+
+        for (const groupId of groupIds) {
+          const questions = question_groups[groupId];
+          const hasUnseen = questions.some((q: Question) => this.mcq_data.unseen.includes(q.questionId));
+          const hasIncorrect = questions.some((q: Question) => this.mcq_data.incorrect.includes(q.questionId));
+          const hasCorrect = questions.some((q: Question) => this.mcq_data.correct.includes(q.questionId));
+
+          if (hasUnseen) unseenGroups.push(groupId);
+          else if (hasIncorrect) incorrectGroups.push(groupId);
+          else if (hasCorrect) correctGroups.push(groupId);
+        }
+
+        // step 1 : we first get unseen questions
+        for (const groupId of unseenGroups) {
+          if (selectedQuestions.length >= this.mcqSize) break;
+          const questions = question_groups[groupId];
+          const unseenQs = questions.filter((q: Question) => this.mcq_data.unseen.includes(q.questionId));
+          if (unseenQs.length > 0) {
+            selectedQuestions.push(pickRandomQuestion(unseenQs));
+            usedGroupIds.add(groupId);
+          }
+        }
+
+        // step 2 : if that's not enough, we get incorrect and correct questions
+        // we try to get 60% incorrect and 40% correct
+        let remaining = this.mcqSize - selectedQuestions.length;
+
+        if (remaining > 0) {
+          let numIncorrect = Math.floor(remaining * 0.6);
+          let numCorrect = remaining - numIncorrect;
+
+          const availableIncorrect = incorrectGroups.filter(gid => !usedGroupIds.has(gid));
+          const availableCorrect = correctGroups.filter(gid => !usedGroupIds.has(gid));
+
+          // if we don't have enough groups available...
+          if (availableIncorrect.length < numIncorrect) {
+            numCorrect += numIncorrect - availableIncorrect.length;
+            numIncorrect = availableIncorrect.length;
+          }
+          if (availableCorrect.length < numCorrect) {
+            numIncorrect += numCorrect - availableCorrect.length;
+            numCorrect = availableCorrect.length;
+          }
+
+          // we add incorrect questions
+          for (const groupId of availableIncorrect) {
+            if (numIncorrect <= 0 || selectedQuestions.length >= this.mcqSize) break;
+            const questions = question_groups[groupId];
+            const incorrectQs = questions.filter((q: Question) => this.mcq_data.incorrect.includes(q.questionId));
+            if (incorrectQs.length > 0) {
+              selectedQuestions.push(pickRandomQuestion(incorrectQs));
+              usedGroupIds.add(groupId);
+              numIncorrect--;
+            }
+          }
+
+          // we add correct questions
+          for (const groupId of availableCorrect) {
+            if (numCorrect <= 0 || selectedQuestions.length >= this.mcqSize) break;
+            const questions = question_groups[groupId];
+            const correctQs = questions.filter((q: Question) => this.mcq_data.correct.includes(q.questionId));
+            if (correctQs.length > 0) {
+              selectedQuestions.push(pickRandomQuestion(correctQs));
+              usedGroupIds.add(groupId);
+              numCorrect--;
+            }
+          }
+        }
+
+        // in learn mode, we may need to adjust this.mcqSize
+        if (this.title === "J'apprends") {
+          this.mcqSize = selectedQuestions.length;
+        }
+
+        // we sort questions by level
+        this.questions = selectedQuestions.sort((a, b) => a.level - b.level);
+
+        // we get all the questionIds and use it to fetch images and choices
         const questionIds = this.questions.map(q => q.questionId);
 
         this.getImages(questionIds);
-
-        this.typedExplanations = this.questions.map(question => {
-          const explanation = question.explanation;
-          return this.parseTypedString(explanation);
-        });
-
-        this.getChoices(questionIds, () => {
-          this.typedChoices = this.choices.map(choiceGroup =>
-            choiceGroup.map((choice: any) => ({
-              choiceOrder: choice.choiceOrder,
-              wordingBefore: this.parseTypedString(choice.wordingBefore),
-              choiceText: this.parseTypedString(choice.choiceText),
-              wordingAfter: this.parseTypedString(choice.wordingAfter)
-            }))
-          );
-        });
       }
       else {
         this.error.errorMessage(res);
@@ -162,13 +252,17 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     while ((match = regex.exec(text)) !== null) {
       if (match.index > currentIndex) {
         const beforeText = text.slice(currentIndex, match.index);
-        result.push({ data: beforeText, type: "TEXT" });
+        result.push({
+          data: beforeText,
+          type: "TEXT"});
       }
   
       const matchedText = match[0];
   
       if (matchedText.startsWith('$') && matchedText.endsWith('$')) {
-        result.push({ data: matchedText, type: "LATEX" });
+        result.push({
+          data: matchedText,
+          type: "LATEX"});
       }
       else if (matchedText.startsWith('url(') && matchedText.endsWith(')')) {
         const originalFileName = matchedText.slice(4, -1).trim();
@@ -187,7 +281,9 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
           }
         }
 
-        result.push({ data: foundPath, type: "IMAGE" });
+        result.push({
+          data: foundPath,
+          type: "IMAGE"});
       }
   
       currentIndex = regex.lastIndex;
@@ -195,7 +291,9 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   
     if (currentIndex < text.length) {
       const afterText = text.slice(currentIndex);
-      result.push({ data: afterText, type: "TEXT" });
+      result.push({
+        data: afterText,
+        type: "TEXT"});
     }
   
     return result;
@@ -276,6 +374,22 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
           const questionId = this.questions[i].questionId;
           this.images[i] = res.data[questionId] || [];
         }
+
+        this.typedExplanations = this.questions.map(question => {
+          const explanation = question.explanation;
+          return this.parseTypedString(explanation);
+        });
+
+        this.getChoices(questionIds, () => {
+          this.typedChoices = this.choices.map(choiceGroup =>
+            choiceGroup.map((choice: any) => ({
+              choiceOrder: choice.choiceOrder,
+              wordingBefore: this.parseTypedString(choice.wordingBefore),
+              choiceText: this.parseTypedString(choice.choiceText),
+              wordingAfter: this.parseTypedString(choice.wordingAfter)
+            }))
+          );
+        });
       } 
       else {
         this.error.errorMessage(res);
@@ -296,7 +410,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     }, 0);
   }
 
-  checkAnswer(choices: any) {
+  checkAnswer(choices: any, questionId: number) {
     let answers: Boolean[] = [];
     let lastTrueIndex: number = 0;
 
@@ -338,6 +452,18 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
 
     this.showAnswer = true;
 
+    // edit mcq_data
+    this.mcq_data.correct = this.mcq_data.correct.filter((qId: any) => (qId != questionId));
+    this.mcq_data.incorrect = this.mcq_data.incorrect.filter((qId: any) => (qId != questionId));
+    this.mcq_data.unseen = this.mcq_data.unseen.filter((qId: any) => (qId != questionId));
+
+    if(this.answerStatus == "correcte") {
+      this.mcq_data.correct.push(questionId);
+    }
+    else {
+      this.mcq_data.incorrect.push(questionId);
+    }
+
     this.renderMath();
   }
 
@@ -372,7 +498,11 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.renderMath();
   }
 
-  showScore() {
+  async showScore() {
+    let questions_data = (await this.storage.get("questions_data"));
+    questions_data[this.sectorId][this.domainId][this.chapterId] = this.mcq_data;
+    this.storage.set("questions_data", questions_data);
+
     this.questionIndex = 1;
     this.showAnswer = false;
     this.solution = "";

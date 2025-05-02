@@ -1,11 +1,40 @@
 .navbar-buttons {
-    display: flex;
-    justify-content: space-between;
-    width: 100%; /* Assure-toi que le conteneur occupe toute la largeur disponible */
-  }
-  
-  .center-button {
-    display: flex;
-    justify-content: center;
-    flex-grow: 1; /* Permet à ce bouton de prendre l'espace disponible */
-  }
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.navbar-button {
+  flex: 1;
+  --padding-start: 0;
+  --padding-end: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  --background: transparent;
+}
+
+.button-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-content ion-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+  color: var(--ion-color-medium);
+}
+
+.button-content span {
+  font-size: 12px;
+  color: var(--ion-color-medium);
+}
+
+.navbar-button.active .button-content ion-icon,
+.navbar-button.active .button-content span {
+  color: var(--vert-qmax);
+  font-weight: bold;
+}

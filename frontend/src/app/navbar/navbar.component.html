@@ -1,11 +1,26 @@
 <ion-footer>
   <ion-toolbar>
     <ion-buttons class="navbar-buttons">
-      <ion-button (click)="goToDomains()">Domaines</ion-button>
-      <div class="center-button">
-        <ion-button (click)="goToStats()">Stats</ion-button>
-      </div>
-      <ion-button (click)="goToOptions()">Options</ion-button>
+      <ion-button (click)="goToDomains()" class="navbar-button" [class.active]="isActive('/domains')">
+        <div class="button-content">
+          <ion-icon name="book-outline"></ion-icon>
+          <span>Domaines</span>
+        </div>
+      </ion-button>
+
+      <ion-button (click)="goToStats()" class="navbar-button" [class.active]="isActive('/stats')">
+        <div class="button-content">
+          <ion-icon name="stats-chart-outline"></ion-icon>
+          <span>Stats</span>
+        </div>
+      </ion-button>
+
+      <ion-button (click)="goToOptions()" class="navbar-button" [class.active]="isActive('/options')">
+        <div class="button-content">
+          <ion-icon name="settings-outline"></ion-icon>
+          <span>Options</span>
+        </div>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, ViewWillEnter, IonAccordionGroup, IonAccordion, IonItem, IonLabel, IonButton } from '@ionic/angular/standalone';
+import { IonContent, ViewWillEnter, IonAccordionGroup, IonAccordion, IonItem, IonLabel, IonButton, IonIcon } from '@ionic/angular/standalone';
 import { Browser } from '@capacitor/browser';
 
 import { MessageService } from '../services/message.service';
@@ -27,7 +27,7 @@ export interface FaqSubitem {
   templateUrl: './faq.page.html',
   styleUrls: ['./faq.page.scss'],
   standalone: true,
-  imports: [HeaderComponent, IonContent, CommonModule, FormsModule, NavbarComponent, IonAccordionGroup, IonAccordion, IonItem, IonLabel, IonButton]
+  imports: [HeaderComponent, IonContent, CommonModule, FormsModule, NavbarComponent, IonAccordionGroup, IonAccordion, IonItem, IonLabel, IonButton, IonIcon]
 })
 export class FaqPage implements ViewWillEnter {
   questionCount!: number;
@@ -77,7 +77,7 @@ export class FaqPage implements ViewWillEnter {
               },
               {
                 title: "Choix de la filière",
-                content: "Cette nouvelle version traite la majeure partie des programmes de première année et de deuxième année, avec un système de filtrage suivant la filière. Pour avoir accès à toutes les questions, sélectionnez la filière No filter."
+                content: "Cette nouvelle version traite la majeure partie des programmes de première année et de deuxième année, avec un système de filtrage suivant la filière. Pour avoir accès à toutes les questions, sélectionnez la filière \"No filter\"."
               },
               {
                 title: "Est-ce que plusieurs réponses à une question peuvent être bonnes ?",
@@ -85,7 +85,7 @@ export class FaqPage implements ViewWillEnter {
               },
               {
                 title: "J'ai vu quelques fautes dans les questions, comment vous les signaler ?",
-                content: "Lorsque vous êtes en train de faire la question et voyez l'erreur, appuyez sur le bouton de signalement. Un message s'ouvre alors à notre adresse, comportant en objet la référence de la question. On accepte aussi les compliments !"
+                content: "Lorsque vous êtes en train de faire la question et voyez l'erreur, appuyez sur le bouton avec l'icone d'enveloppe. Un message s'ouvre alors à notre adresse, comportant en objet la référence de la question. On accepte aussi les compliments !"
               }
             ]
           },
@@ -103,7 +103,7 @@ export class FaqPage implements ViewWillEnter {
               },
               {
                 title: "",
-                content: "En aucun cas l'application ne se substitue aux professeurs, à leurs cours et à leurs exercices. Elle se veut un complément, permettant de réactiver rapidement une notion précise du cours en mode J'apprends ou de se tester sur l'ensemble d'un chapitre en mode Je révise."
+                content: "En aucun cas l'application ne se substitue aux professeurs, à leurs cours et à leurs exercices. Elle se veut un complément, permettant de réactiver rapidement une notion précise du cours en mode \"J'apprends\" ou de se tester sur l'ensemble d'un chapitre en mode \"Je révise\"."
               },
               {
                 title: "",
@@ -113,7 +113,7 @@ export class FaqPage implements ViewWillEnter {
           },
 
           {
-            title: "Mode J'apprends",
+            title: "Mode \"J'apprends\"",
             content: [
               {
                 title: "",
@@ -127,7 +127,7 @@ export class FaqPage implements ViewWillEnter {
           },
 
           {
-            title: "Mode Je révise",
+            title: "Mode \"Je révise\"",
             content: [
               {
                 title: "",
@@ -139,7 +139,28 @@ export class FaqPage implements ViewWillEnter {
           {
             title: "Statistiques",
             content: [
-              // à voir
+              {
+                title: "",
+                content: "Qmax enregistre votre progression et vous permet de consulter à tout moment vos statistiques personnelles. Vous pouvez suivre votre avancement pour chaque domaine et chaque chapitre accessible."
+              },
+              {
+                title: "",
+                content: "Notez que les statistiques ne sont pas partagées entre les différentes filières : vos progrès dans une filière ne sont pas pris en compte dans les autres."
+              }
+            ]
+          },   
+          
+          {
+            title: "Confidentialité et accessibilité",
+            content: [
+              {
+                title: "Où vont mes données ?",
+                content: "Toutes vos données (statistiques, progression, préférences...) sont stockées uniquement en local sur votre appareil. Elles ne sont ni transmises à un serveur distant, ni accessibles aux développeurs de l'application."
+              },
+              {
+                title: "Une appli accessible à tous",
+                content: "Qmax fonctionne sans publicité, sans collecte de données personnelles et sans authentification : votre vie privée est respectée à 100 %. En revanche, son bon fonctionnement nécessite une connexion à Internet."
+              }
             ]
           },
 

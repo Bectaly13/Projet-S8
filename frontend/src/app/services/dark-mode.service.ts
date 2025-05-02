@@ -9,7 +9,7 @@ export class DarkModeService {
 
   constructor(private storage: StorageService) {
     this.init();
-   }
+  }
 
   async init() {
     const dark_mode_data = await this.storage.get("dark_mode_data");

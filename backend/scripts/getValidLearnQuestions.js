@@ -6,17 +6,12 @@ async function getValidLearnQuestions(request, result) {
     console.log("getValidLearnQuestions.js :", data);
     if("skillId" in data) {
         if("sectorId" in data) {
-            if("mcqSize" in data) {
-                const res = await sql.getValidLearnQuestions(data["skillId"], data["sectorId"], data["mcqSize"]);
-                if(res.length) {
-                    return sendMessage(result, res);
-                }
-                else {
-                    return sendError(result, "Couldn't find any valid learn questions");
-                }
+            const res = await sql.getValidLearnQuestions(data["skillId"], data["sectorId"]);
+            if(Object.keys(res).length) {
+                return sendMessage(result, res);
             }
             else {
-                return sendError(result, "MCQ size is required");
+                return sendError(result, "Couldn't find any valid learn questions");
             }
         }
         else {

@@ -1,50 +1,59 @@
 <app-header [pageTitle]="'FAQ'" [showBackButton]="true"/>
 
 <ion-content [fullscreen]="true">
-  Insérer logo en toutes lettres ici
+  <img class="faq-logo" src="assets/icons/fullLogo.png">
 
-  <ion-accordion-group>
+  <ion-accordion-group expand="inset">
     @for(item of faq; track $index) {
-      <ion-accordion>
+      <ion-accordion toggleIcon="chevron-up-circle-outline">
         <ion-item class="faq-item" slot="header">
           <ion-label class="faq-label">{{item.title}}</ion-label>
         </ion-item>
         
-        <div class="faq-div" slot="content">
+        <div slot="content">
           @for(subitem of item.content; track subitem) {
-            <p>
+            <div class="faq-subitem-title">
               {{subitem.title}}
-            </p>
+            </div>
 
-            <p>
+            @if(subitem.title != "") {
+              <img class="faq-separator" src="assets/icons/separator.png">
+            }
+
+            <div class="faq-subitem-content">
               {{subitem.content}}
               @if(subitem.title == "Camille Ulrich") {
                 <a (click)="openBrowser(camilleUlrich)">{{camilleUlrichShort}}</a>.
               }
-            </p>
+            </div>
           }
         </div>
       </ion-accordion>
     }
   </ion-accordion-group>
 
-  <p>
-    <ion-button href="mailto:{{mail}}?subject={{subject}}">
-      Nous contacter
-    </ion-button>
-  </p>
+  <div class="faq-buttons">
+    <div class="faq-button">
+      <ion-button href="mailto:{{mail}}?subject={{subject}}">
+        Nous contacter
+        <ion-icon slot="end" name="mail-outline"></ion-icon>
+      </ion-button>
+    </div>
 
-  <p>
-    <ion-button (click)="openBrowser(site)">
-      Notre site Internet
-    </ion-button>
-  </p>
+    <div class="faq-button">
+      <ion-button (click)="openBrowser(site)">
+        Notre site Internet
+        <ion-icon slot="end" name="globe-outline"></ion-icon>
+      </ion-button>
+    </div>
 
-  <p>
-    <ion-button (click)="openBrowser(facebook)">
-      Notre page Facebook
-    </ion-button>
-  </p>
+    <div class="faq-button">
+      <ion-button (click)="openBrowser(facebook)">
+        Notre page Facebook
+        <ion-icon slot="end" name="logo-facebook"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
 </ion-content>
 
 <app-navbar/>
