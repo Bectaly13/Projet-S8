@@ -1,4 +1,8 @@
-.domain-name {
+.sector {
+    margin: 15px;
+}
+
+.domain {
     color: var(--ion-color-grey-highest-contrast);
 }
 
@@ -8,5 +12,9 @@ ion-card {
 
     ion-card-header {
         background-color: var(--ion-color-grey-low-contrast);
+    }
+
+    ion-button {
+        --border-radius: 20px;
     }
 }

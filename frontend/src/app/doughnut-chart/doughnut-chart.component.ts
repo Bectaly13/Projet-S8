@@ -7,7 +7,7 @@ Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
   selector: 'app-doughnut-chart',
   templateUrl: './doughnut-chart.component.html',
   styleUrls: ['./doughnut-chart.component.scss'],
-  inputs: ['correct', 'incorrect', 'unseen', 'domainId', 'dark'],
+  inputs: ['correct', 'incorrect', 'unseen', 'domainId'],
   styles: ['canvas {max-width: 300px; max-height: 300px;}']
 })
 export class DoughnutChartComponent implements OnChanges {
@@ -17,7 +17,6 @@ export class DoughnutChartComponent implements OnChanges {
   incorrect!: number;
   unseen!: number;
   domainId!: number;
-  dark!: boolean;
 
   chart!: Chart;
 

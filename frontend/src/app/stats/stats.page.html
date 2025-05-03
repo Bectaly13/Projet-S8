@@ -1,16 +1,18 @@
 <app-header [pageTitle]="'Statistiques'" [showBackButton]="false"/>
 
 <ion-content [fullscreen]="true">
-  <p>Ma filière : {{sector}}</p>
+  <div class="sector">
+      Ma filière : {{sector}}
+  </div>
 
   @for(domain of domains; track $index) {
     <ion-card>
       <ion-card-header>
-        <ion-card-title class="domain-name">{{domain.name}} : {{stats[$index].correct / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100 | number:'1.1-1'}} %</ion-card-title>
+        <ion-card-title class="domain">{{domain.name}} : {{stats[$index].correct / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100 | number:'1.1-1'}} %</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
-        <app-doughnut-chart [correct]="stats[$index].correct" [incorrect]="stats[$index].incorrect" [unseen]="stats[$index].unseen" [domainId]="domain.domainId" [dark]="dark_mode_data"/>
+        <app-doughnut-chart [correct]="stats[$index].correct" [incorrect]="stats[$index].incorrect" [unseen]="stats[$index].unseen" [domainId]="domain.domainId"/>
 
         <ion-button expand="block" (click)="goToStatsDomain(domain.domainId, domain.name, $index)">
           Voir en détails

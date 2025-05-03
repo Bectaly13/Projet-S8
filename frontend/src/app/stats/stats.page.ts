@@ -40,8 +40,6 @@ export class StatsPage implements ViewWillEnter {
   sector!: string;
   mcqSize!: number;
 
-  dark_mode_data!: boolean;
-
   constructor(private darkmode: DarkModeService,
               private message: MessageService,
               private error: ErrorService,
@@ -59,8 +57,6 @@ export class StatsPage implements ViewWillEnter {
 
     this.domains = [];
     this.stats = [];
-
-    this.dark_mode_data = await this.storage.get("dark_mode_data");
 
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
