@@ -20,7 +20,7 @@
 }
 
 .question-number {
-    background-color: var(--ion-color-grey-low-contrast);
+    background-color: var(--ion-color-grey-medium-contrast);
     padding: 12px;
     border-radius: 12px;
 }
@@ -57,7 +57,7 @@
   
 
 .answer {
-    background-color: var(--ion-color-grey-low-contrast);
+    background-color: var(--ion-color-grey-medium-contrast);
     border-radius: 12px;
     padding: 12px;
     margin-top: 10px;
@@ -83,7 +83,7 @@
     align-items: center;
 
     img {
-        background-color: white;
+        //background-color: white;
         max-width: 100%;
         height: auto;
         display: block;

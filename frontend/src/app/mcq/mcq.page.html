@@ -107,21 +107,23 @@
             }
           </div>
           
-          <div class="explanation">
-            @for (string of typedExplanations[$index]; track string) {
-              @if(string.type == "TEXT") {
-                <span>{{string.data}}</span>
+          @if(typedExplanations[$index].length) {
+            <div class="explanation">
+              @for (string of typedExplanations[$index]; track string) {
+                @if(string.type == "TEXT") {
+                  <span>{{string.data}}</span>
+                }
+                @if(string.type == "LATEX") {
+                  <span>{{string.data}}</span>
+                }
+                @if(string.type == "IMAGE") {
+                  <div class="image">
+                    <img src="{{string.data}}">
+                  </div>
+                }
               }
-              @if(string.type == "LATEX") {
-                <span>{{string.data}}</span>
-              }
-              @if(string.type == "IMAGE") {
-                <div class="image">
-                  <img src="{{string.data}}">
-                </div>
-              }
-            }
-          </div>
+            </div>
+          }
         }
 
         <div class="button-bar">
