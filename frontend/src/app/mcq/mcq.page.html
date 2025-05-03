@@ -11,107 +11,147 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  @for(question of questions; track $index) {
-    @if(questionIndex == $index + 1) {
-      <p>Question {{$index + 1}}/{{mcqSize}}</p>
-      <p>
-        @for (choice of typedChoices[$index]; track choice) {
-          <p>
-            @for (string of choice.wordingBefore; track string) {
-              @if (string.type == 'TEXT') {
-                <span>{{string.data}}</span>
-              }
-              @if (string.type == 'LATEX') {
-                <span>{{string.data}}</span>
-              }
-              @if (string.type == 'IMAGE') {
-                <p>
-                  <img src="{{string.data}}">
-                </p>
-              }
-            }
-          </p>
+  <div class="domain">
+    {{domain}}
+  </div>
 
-          <p>
-            <ion-checkbox [(ngModel)]="toggledChoices[choice.choiceOrder - 1]" [disabled]="showAnswer"></ion-checkbox>
-            {{choiceLabels[choice.choiceOrder - 1]}}.
-      
-            @for (string of choice.choiceText; track string) {
-              @if (string.type == 'TEXT') {
-                <span>{{string.data}}</span>
-              }
-              @if (string.type == 'LATEX') {
-                <span>{{string.data}}</span>
-              }
-              @if (string.type == 'IMAGE') {
-                <p>
-                  <img src="{{string.data}}">
-                </p>
-              }
-            }
-          </p>
-    
-          <p>
-            @for (string of choice.wordingAfter; track string) {
-              @if (string.type == 'TEXT') {
-                <span>{{string.data}}</span>
-              }
-              @if (string.type == 'LATEX') {
-                <span>{{string.data}}</span>
-              }
-              @if (string.type == 'IMAGE') {
-                <p>
-                  <img src="{{string.data}}">
-                </p>
-              }
-            }
-          </p>
-        }    
-      </p>
+  <div class="chapter">
+    {{chapter}}
 
-      @if(!showAnswer) {
-        <ion-button (click)="checkAnswer(choices[$index], question.questionId)">Valider</ion-button>
-      }
-      @else {
-        <p>
-          Réponse {{answerStatus}} !
-        </p>
-
-        @if(answerStatus == "incorrecte") {
-          <p>
-            Solution : {{solution}}
-          </p>
-        }
-        
-        <p>
-          @for (string of typedExplanations[$index]; track string) {
-            @if (string.type == 'TEXT') {
-              <span>{{string.data}}</span>
-            }
-            @if (string.type == 'LATEX') {
-              <span>{{string.data}}</span>
-            }
-            @if (string.type == 'IMAGE') {
-              <p>
-                <img src="{{string.data}}">
-              </p>
-            }
-          }
-        </p>
-        
-        @if(questionIndex == mcqSize) {
-          <ion-button (click)="showScore()">Voir mes résultats</ion-button>
-        }        
-        @else {
-          <ion-button (click)="nextQuestion()">Suivant</ion-button>
-        }
-      }
-
-      <p>
-        <ion-button href="mailto:{{mail}}?subject=Commentaire sur la question {{question.questionId}}">
-          <ion-icon name="mail-outline"></ion-icon>
-        </ion-button>
-      </p>
+    @if(skill != "null") {
+      : 
+      <span class="skill">
+        {{skill}}
+      </span>
     }
-  }
+  </div>
+
+  <div class="mcq">
+    @for(question of questions; track $index) {
+      @if(questionIndex == $index + 1) {
+        <div class="question-number">
+          <span>Question {{$index + 1}}/{{mcqSize}}</span>
+        </div>
+        
+        <div class="question">
+          @for (choice of typedChoices[$index]; track choice) {
+
+            @if(choice.wordingBefore != "") {
+              <div class="wording-before">
+                @for (string of choice.wordingBefore; track string) {
+                  @if(string.type == "TEXT") {
+                    <span>{{string.data}}</span>
+                  }
+                  @if(string.type == "LATEX") {
+                    <span>{{string.data}}</span>
+                  }
+                  @if(string.type == "IMAGE") {
+                    <div class="image">
+                      <img src="{{string.data}}">
+                    </div>
+                  }
+                }
+              </div>
+            }
+
+            <div class="choice" [class.rounded-bottom]="shouldHaveRoundedBottom($index, choice)">
+              <ion-checkbox [(ngModel)]="toggledChoices[choice.choiceOrder - 1]" [disabled]="showAnswer"></ion-checkbox>
+              {{choiceLabels[choice.choiceOrder - 1]}}.
+        
+              @for (string of choice.choiceText; track string) {
+                @if(string.type == "TEXT") {
+                  <span>{{string.data}}</span>
+                }
+                @if(string.type == "LATEX") {
+                  <span>{{string.data}}</span>
+                }
+                @if(string.type == "IMAGE") {
+                  <div class="image">
+                    <img src="{{string.data}}">
+                  </div>
+                }
+              }
+            </div>
+      
+            @if(choice.wordingAfter != "") {
+              <div class="wording-after">
+                @for (string of choice.wordingAfter; track string) {
+                  @if(string.type == "TEXT") {
+                    <span>{{string.data}}</span>
+                  }
+                  @if(string.type == "LATEX") {
+                    <span>{{string.data}}</span>
+                  }
+                  @if(string.type == "IMAGE") {
+                    <div class="image">
+                      <img src="{{string.data}}">
+                    </div>
+                  }
+                }
+              </div>
+            }
+
+          }    
+        </div>
+
+        @if(showAnswer) {
+          <div class="answer">
+            <div class="answer-status">
+              Réponse {{answerStatus}} !
+            </div>
+
+            @if(answerStatus == "incorrecte") {
+              <div class="solution">
+                Solution : <span>{{solution}}</span>
+              </div>
+            }
+          </div>
+          
+          <div class="explanation">
+            @for (string of typedExplanations[$index]; track string) {
+              @if(string.type == "TEXT") {
+                <span>{{string.data}}</span>
+              }
+              @if(string.type == "LATEX") {
+                <span>{{string.data}}</span>
+              }
+              @if(string.type == "IMAGE") {
+                <div class="image">
+                  <img src="{{string.data}}">
+                </div>
+              }
+            }
+          </div>
+        }
+
+        <div class="button-bar">
+
+          <div class="button-left">
+    
+            @if(!showAnswer) {
+              <ion-button (click)="checkAnswer(choices[$index], question.questionId)">Valider</ion-button>
+            }
+    
+            @else {
+              @if(questionIndex == mcqSize) {
+                <ion-button (click)="showScore()">Voir mes résultats</ion-button>
+              }
+              @else {
+                <ion-button (click)="nextQuestion()">Suivant</ion-button>
+              }
+            }
+    
+          </div>
+        
+          <div class="button-right">
+    
+            <ion-button href="mailto:{{mail}}?subject=Commentaire sur la question {{question.questionId}}">
+              <ion-icon name="mail-outline"></ion-icon>
+            </ion-button>
+    
+          </div>
+        </div>
+      }
+    }
+  </div>
 </ion-content>
