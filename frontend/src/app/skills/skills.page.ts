@@ -89,7 +89,7 @@ export class SkillsPage implements ViewWillEnter {
     })
   }
 
-  startMCQ(skillId: number) {
+  startMCQ(skillId: number, skill: string) {
     this.router.navigate(["mcq"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector,
@@ -97,7 +97,8 @@ export class SkillsPage implements ViewWillEnter {
       domainId: this.domainId,
       chapterId: this.chapterId,
       chapter: this.chapter,
-      skillId: skillId
+      skillId: skillId,
+      skill: skill
     }})
   }
 

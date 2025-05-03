@@ -16,7 +16,7 @@
     // Couleurs de l'IHM
     --ion-color-grey-highest-contrast: #000000;
     --ion-color-grey-high-contrast: #646464;
-    --ion-color-grey-medium-contrast: #dedede;
+    --ion-color-grey-medium-contrast: #cbcbcb;
     --ion-color-grey-low-contrast: #f1f1f1;
     --ion-color-grey-no-contrast: #ffffff;
 
@@ -154,12 +154,11 @@
     --ion-color-color22-tint: #95ff95;
   }
 
-
 // Dark mode
 .ion-palette-dark {
   --ion-color-grey-no-contrast: #000000;
-  --ion-color-grey-low-contrast: #646464;
-  --ion-color-grey-medium-contrast: #dedede;
+  --ion-color-grey-low-contrast: #545454;
+  --ion-color-grey-medium-contrast: #787878;
   --ion-color-grey-high-contrast: #f1f1f1;
   --ion-color-grey-highest-contrast: #ffffff;
 }
