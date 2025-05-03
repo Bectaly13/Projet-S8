@@ -1,0 +1,11 @@
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+  
+canvas {
+    max-width: 250px;
+    max-height: 250px;
+}

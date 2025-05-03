@@ -1,0 +1,12 @@
+.domain-name {
+    color: var(--ion-color-grey-highest-contrast);
+}
+
+ion-card {
+    border-radius : 12px;
+    margin: 20px;
+
+    ion-card-header {
+        background-color: var(--ion-color-grey-low-contrast);
+    }
+}

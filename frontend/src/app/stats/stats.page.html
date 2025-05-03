@@ -1,30 +1,24 @@
 <app-header [pageTitle]="'Statistiques'" [showBackButton]="false"/>
 
 <ion-content [fullscreen]="true">
-  <p>
-    Ma filière : {{sector}}
-  </p>
-  
+  <p>Ma filière : {{sector}}</p>
+
   @for(domain of domains; track $index) {
-    <p>
-      Domaine : {{domain.name}}
-      <ion-button (click)="goToStatsDomain(domain.domainId, domain.name, $index)">Voir en détails</ion-button>
-    </p>
-  
-    <p>
-      Questions bien répondues : {{stats[$index].correct}} ({{(stats[$index].correct / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100) | number:'1.0-0'}}%)
-    </p>
-    <p>
-      Questions mal répondues : {{stats[$index].incorrect}} ({{(stats[$index].incorrect / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100) | number:'1.0-0'}}%)
-    </p>
-    <p>
-      Questions non découvertes : {{stats[$index].unseen}} 
-      ({{(stats[$index].unseen / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100) | number:'1.0-0'}}%)
-    </p>
-    <p>
-      Questions dans ce domaine : {{(stats[$index].correct + stats[$index].incorrect + stats[$index].unseen)}}
-    </p>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="domain-name">{{domain.name}} : {{stats[$index].correct / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100 | number:'1.1-1'}} %</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <app-doughnut-chart [correct]="stats[$index].correct" [incorrect]="stats[$index].incorrect" [unseen]="stats[$index].unseen" [domainId]="domain.domainId" [dark]="dark_mode_data"/>
+
+        <ion-button expand="block" (click)="goToStatsDomain(domain.domainId, domain.name, $index)">
+          Voir en détails
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
   }
 </ion-content>
+
 
 <app-navbar/>
