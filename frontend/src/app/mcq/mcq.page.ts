@@ -362,7 +362,6 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   
         if (callback) {
           callback();
-          console.log("typedchoices", this.typedChoices);
         }
       } 
       else {

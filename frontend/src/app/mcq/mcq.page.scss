@@ -20,7 +20,7 @@
 }
 
 .question-number {
-    background-color: var(--ion-color-grey-medium-contrast);
+    background-color: var(--ion-color-grey-low-contrast);
     padding: 12px;
     border-radius: 12px;
 }
@@ -57,14 +57,10 @@
   
 
 .answer {
-    background-color: var(--ion-color-grey-medium-contrast);
+    background-color: var(--ion-color-grey-low-contrast);
     border-radius: 12px;
     padding: 12px;
     margin-top: 10px;
-}
-
-.answer-status {
-    
 }
 
 .solution {
@@ -81,11 +77,17 @@
 }
 
 .image {
+    display: flex;
+    justify-content: center;
     padding: 10px;
-}
+    align-items: center;
 
-img {
-    background-color: white;
+    img {
+        background-color: white;
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
 }
 
 ion-checkbox {
