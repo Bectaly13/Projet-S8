@@ -11,7 +11,7 @@
 
   <ion-card>
     <ion-card-header [style]="'background-color: var(--ion-color-color' + domainId + ');'">
-      <ion-card-title class="domain" [style]="'color: var(--ion-color-color' + domainId + '-contrast);'">{{domain}} : {{correct / (correct + incorrect + unseen) * 100 | number:'1.1-1'}} %</ion-card-title>
+      <ion-card-title class="domain" [style]="'color: var(--ion-color-color' + domainId + '-contrast);'">{{domain}} : {{correct / (correct + incorrect + unseen) * 100 | number:'1.1-1'}}%</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
@@ -30,7 +30,7 @@
   @for(chapter of chapters; track $index) {
     <ion-card>
       <ion-card-header [style]="'background-color: var(--ion-color-color' + domainId + ');'">
-        <ion-card-title class="chapter" [style]="'color: var(--ion-color-color' + domainId + '-contrast);'">{{chapter.name}} : {{stats[$index].correct / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100 | number:'1.1-1'}} %</ion-card-title>
+        <ion-card-title class="chapter" [style]="'color: var(--ion-color-color' + domainId + '-contrast);'">{{chapter.name}} : {{stats[$index].correct / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100 | number:'1.1-1'}}%</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>

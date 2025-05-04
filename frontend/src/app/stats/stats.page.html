@@ -8,7 +8,7 @@
   @for(domain of domains; track $index) {
     <ion-card>
       <ion-card-header [style]="'background-color: var(--ion-color-color' + domain.domainId + ');'">
-        <ion-card-title class="domain" [style]="'color: var(--ion-color-color' + domain.domainId + '-contrast);'">{{domain.name}} : {{stats[$index].correct / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100 | number:'1.1-1'}} %</ion-card-title>
+        <ion-card-title class="domain" [style]="'color: var(--ion-color-color' + domain.domainId + '-contrast);'">{{domain.name}} : {{stats[$index].correct / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100 | number:'1.1-1'}}%</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
