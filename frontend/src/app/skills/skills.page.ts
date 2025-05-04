@@ -36,6 +36,8 @@ export class SkillsPage implements ViewWillEnter {
   domainsImageUrl!: string;
   domainsImageName!: string;
 
+  skillValidationThreshold!: number;
+
   skills!: Skill[];
   skillStats: number[] = [];
 
@@ -58,6 +60,7 @@ export class SkillsPage implements ViewWillEnter {
     this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
 
     this.domainsImageUrl = this.variables.domainsImageUrl;
+    this.skillValidationThreshold = this.variables.skillValidationThreshold;
 
     this.domainsImageName = this.domainsImageUrl + "domains" + this.domainId + ".jpg";
 
