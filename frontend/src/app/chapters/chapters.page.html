@@ -1,19 +1,23 @@
 <app-header [pageTitle]="'Choix du chapitre'" [showBackButton]="true"/>
 
 <ion-content [fullscreen]="true">
-  <p>
-    Domaine : {{domain}}
-  </p>
+  <div class="domain-container">
+    <div class="domain" [style]="'background-color: var(--ion-color-color' + domainId + '); color: var(--ion-color-color' + domainId + '-contrast);'">
+      Domaine : {{domain}}
+    </div>
+  </div>
 
-  <ion-list>
+  <div class="chapters-container">
     @for(chapter of chapters; track $index) {
-      <ion-item>
+      <div class="button-container">
         <ion-button (click)="goToMCQ(chapter.chapterId, chapter.name)">{{chapter.name}}</ion-button>
-      </ion-item>
+      </div>
     }
-  </ion-list>
+  </div>
 
-  <img [src]="domainsImageName">
+  <div class="image-container">
+    <img [src]="domainsImageName">
+  </div>
 </ion-content>
 
 <app-navbar/>
