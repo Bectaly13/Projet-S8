@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, ViewWillEnter } from '@ionic/angular/standalone';
+import { IonContent, ViewWillEnter, IonCard, IonCardHeader, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
 
 import { DarkModeService } from '../services/dark-mode.service';
@@ -12,6 +12,7 @@ import { SharedVariablesService } from '../services/shared-variables.service';
 
 import { HeaderComponent } from '../header/header.component';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { DoughnutChartComponent } from '../doughnut-chart/doughnut-chart.component';
 
 export interface Chapter {
   chapterId: number;
@@ -29,7 +30,7 @@ export interface ChapterStats {
   templateUrl: './stats-domain.page.html',
   styleUrls: ['./stats-domain.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, HeaderComponent, NavbarComponent]
+  imports: [IonContent, CommonModule, FormsModule, HeaderComponent, NavbarComponent, DoughnutChartComponent, IonCard, IonCardHeader, IonCardTitle, IonCardContent]
 })
 export class StatsDomainPage implements ViewWillEnter {
   chapters: Chapter[] = [];
@@ -50,8 +51,15 @@ export class StatsDomainPage implements ViewWillEnter {
               private error: ErrorService,
               private variables: SharedVariablesService) { }
 
-  async ionViewWillEnter() {
+  ionViewWillEnter() {
+    this.getDomainStats();
+  }
+
+  async getDomainStats() {
     this.darkmode.init();
+
+    this.chapters = [];
+    this.stats = [];
 
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
@@ -68,7 +76,15 @@ export class StatsDomainPage implements ViewWillEnter {
     this.message.sendMessage("getChapters", {domainId: this.domainId, sectorId: this.sectorId, mcqSize: mcqSize}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        this.chapters = res.data.map((item: Chapter) => {
+        const sortedData = res.data.sort((a: Chapter, b: Chapter) => {
+          const matchA = a.name.match(/^(\d+)\)/);
+          const matchB = b.name.match(/^(\d+)\)/);
+          const numberA = matchA ? Number(matchA[1]) : 9999;
+          const numberB = matchB ? Number(matchB[1]) : 9999;
+          return numberA - numberB;
+        });
+      
+        this.chapters = sortedData.map((item: Chapter) => {
           const match = item.name.match(/^\d+\)\s*(.+)/);
           return {
             chapterId: item.chapterId,
