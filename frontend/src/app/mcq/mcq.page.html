@@ -34,7 +34,7 @@
         </div>
         
         <div class="question">
-          @for (choice of typedChoices[$index]; track choice) {
+          @for(choice of typedChoices[$index]; track choice) {
 
             @if(choice.wordingBefore != "") {
               <div class="wording-before">
@@ -58,7 +58,7 @@
               <ion-checkbox [(ngModel)]="toggledChoices[choice.choiceOrder - 1]" [disabled]="showAnswer"></ion-checkbox>
               {{choiceLabels[choice.choiceOrder - 1]}}.
         
-              @for (string of choice.choiceText; track string) {
+              @for(string of choice.choiceText; track string) {
                 @if(string.type == "TEXT") {
                   <span>{{string.data}}</span>
                 }

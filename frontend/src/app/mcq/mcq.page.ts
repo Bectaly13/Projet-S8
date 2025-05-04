@@ -547,5 +547,4 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   
     return !hasWordingAfter && (isLastChoice || nextHasWordingBefore);
   }
-  
 }
