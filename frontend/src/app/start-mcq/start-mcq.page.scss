@@ -1,0 +1,32 @@
+.data-container {
+    padding: 20px;
+}
+
+.domain {
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.chapter {
+    padding: 10px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    gap: 10px;
+}
+  
+.side-button {
+    flex: 1;
+    max-width: 48%;
+    justify-content: center;
+} 
+
+.image-container img {
+    width: 100%;
+    height: auto;
+}
