@@ -1,26 +1,28 @@
 <app-header [pageTitle]="'Commencer le QCM'" [showBackButton]="true"/>
 
 <ion-content class="content" [fullscreen]="true">
-  <div class="data-container">
-    <div class="data">
-      <div class="domain" [style]="'background-color: var(--ion-color-color' + domainId + '); color: var(--ion-color-color' + domainId + '-contrast);'">
-        Domaine : {{domain}}
-      </div>
+  <div class="page-wrapper">
+    <div class="data-container">
+      <div class="data">
+        <div class="domain" [style]="'background-color: var(--ion-color-color' + domainId + '); color: var(--ion-color-color' + domainId + '-contrast);'">
+          Domaine : {{domain}}
+        </div>
 
-      <div class="chapter">
-        Chapitre : {{chapter}}
+        <div class="chapter">
+          Chapitre : {{chapter}}
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="buttons-container">
-    <ion-button (click)="goToSkills()" class="side-button">J'apprends</ion-button>
+    <div class="buttons-container">
+      <ion-button (click)="goToSkills()" class="side-button">J'apprends</ion-button>
 
-    <ion-button (click)="startMCQ()" class="side-button">Je révise</ion-button>
-  </div>
+      <ion-button (click)="startMCQ()" class="side-button">Je révise</ion-button>
+    </div>
 
-  <div class="image-container">
-    <img [src]="domainsImageName">
+    <div class="image-container">
+      <img [src]="domainsImageName">
+    </div>
   </div>
 </ion-content>
 

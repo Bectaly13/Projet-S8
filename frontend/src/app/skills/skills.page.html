@@ -1,36 +1,38 @@
 <app-header [pageTitle]="'Choix de la compétence'" [showBackButton]="true"/>
 
 <ion-content [fullscreen]="true">
-  <div class="data-container">
-    <div class="data">
-      <div class="domain" [style]="'background-color: var(--ion-color-color' + domainId + '); color: var(--ion-color-color' + domainId + '-contrast);'">
-        Domaine : {{domain}}
-      </div>
-
-      <div class="chapter">
-        Chapitre : {{chapter}}
-      </div>
-    </div>
-  </div>
-
-  <div class="skills-container">
-    @for(skill of skills; track $index) {
-      <div class="button-container">
-        <ion-button (click)="startMCQ(skill.skillId, skill.name)">{{skill.name}}</ion-button>
-
-        <div class="percentage">
-          {{skillStats[$index] | number:'1.0-0'}}%
+  <div class="page-wrapper">
+    <div class="data-container">
+      <div class="data">
+        <div class="domain" [style]="'background-color: var(--ion-color-color' + domainId + '); color: var(--ion-color-color' + domainId + '-contrast);'">
+          Domaine : {{domain}}
         </div>
 
-        @if(skillStats[$index] >= skillValidationThreshold) {
-          <img class="success" src="assets/icons/success.png">
-        }
+        <div class="chapter">
+          Chapitre : {{chapter}}
+        </div>
       </div>
-    }
-  </div>
+    </div>
 
-  <div class="image-container">
-    <img [src]="domainsImageName">
+    <div class="skills-container">
+      @for(skill of skills; track $index) {
+        <div class="button-container">
+          <ion-button (click)="startMCQ(skill.skillId, skill.name)">{{skill.name}}</ion-button>
+
+          <div class="percentage">
+            {{skillStats[$index] | number:'1.0-0'}}%
+          </div>
+
+          @if(skillStats[$index] >= skillValidationThreshold) {
+            <img class="success" src="assets/icons/success.png">
+          }
+        </div>
+      }
+    </div>
+
+    <div class="image-container">
+      <img [src]="domainsImageName">
+    </div>
   </div>
 </ion-content>
 

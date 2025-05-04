@@ -1,3 +1,9 @@
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
 .domain-container {
     padding: 20px;
 }
@@ -15,6 +21,12 @@
 
 .button-container {
     padding-bottom: 10px;
+}
+
+.image-container {
+    display: block;
+    align-items: self-end;
+    margin-top: auto;
 }
 
 .image-container img {
