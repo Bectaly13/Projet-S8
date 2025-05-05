@@ -1,0 +1,128 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>mcq-debug</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">mcq-debug</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="mcq">
+
+    <div>
+      <ion-input [(ngModel)]="questionIndex"></ion-input>
+      <ion-button (click)="prev()">-</ion-button>
+      <ion-button (click)="next()">+</ion-button>
+      <ion-button (click)="renderMath()">Latex</ion-button>
+      <ion-button (click)="debug()">Debug</ion-button>
+    </div>
+
+    @for(question of questions; track $index) {
+      @if(questionIndex == $index + 1) {
+
+        <div>
+          questionId : {{question.questionId}} ; questionIndex : {{questionIndex}}
+        </div>
+        
+        <div class="question-number">
+          <span>Question {{$index + 1}}/{{mcqSize}} ; {{($index + 1)/mcqSize*100}}%</span>
+        </div>
+        
+        <div class="question">
+          @for(choice of typedChoices[$index]; track choice) {
+
+            @if(choice.wordingBefore != "") {
+              <div class="wording-before">
+                @for (string of choice.wordingBefore; track string) {
+                  @if(string.type == "TEXT") {
+                    <span>{{string.data}}</span>
+                  }
+                  @if(string.type == "LATEX") {
+                    <span>{{string.data}}</span>
+                  }
+                  @if(string.type == "IMAGE") {
+                    <div class="image">
+                      <img src="{{string.data}}">
+                    </div>
+                  }
+                }
+              </div>
+            }
+
+            <div class="choice" [class.rounded-bottom]="shouldHaveRoundedBottom($index, choice)">
+              <ion-checkbox [(ngModel)]="toggledChoices[choice.choiceOrder - 1]"></ion-checkbox>
+              {{choiceLabels[choice.choiceOrder - 1]}}.
+        
+              @for(string of choice.choiceText; track string) {
+                @if(string.type == "TEXT") {
+                  <span>{{string.data}}</span>
+                }
+                @if(string.type == "LATEX") {
+                  <span>{{string.data}}</span>
+                }
+                @if(string.type == "IMAGE") {
+                  <div class="image">
+                    <img src="{{string.data}}">
+                  </div>
+                }
+              }
+            </div>
+      
+            @if(choice.wordingAfter != "") {
+              <div class="wording-after">
+                @for (string of choice.wordingAfter; track string) {
+                  @if(string.type == "TEXT") {
+                    <span>{{string.data}}</span>
+                  }
+                  @if(string.type == "LATEX") {
+                    <span>{{string.data}}</span>
+                  }
+                  @if(string.type == "IMAGE") {
+                    <div class="image">
+                      <img src="{{string.data}}">
+                    </div>
+                  }
+                }
+              </div>
+            }
+
+          }    
+        </div>
+         
+        @if(typedExplanations[$index].length) {
+          <div class="explanation">
+            @for (string of typedExplanations[$index]; track string) {
+              @if(string.type == "TEXT") {
+                <span>{{string.data}}</span>
+              }
+              @if(string.type == "LATEX") {
+                <span>{{string.data}}</span>
+              }
+              @if(string.type == "IMAGE") {
+                <div class="image">
+                  <img src="{{string.data}}">
+                </div>
+              }
+            }
+          </div>
+        }
+
+        <div>
+          <ion-input [(ngModel)]="questionIndex"></ion-input>
+          <ion-button (click)="prev()">-</ion-button>
+          <ion-button (click)="next()">+</ion-button>
+          <ion-button (click)="renderMath()">Latex</ion-button>
+          <ion-button (click)="debug()">Debug</ion-button>
+        </div>
+
+        <div>
+          questionId : {{question.questionId}} ; questionIndex : {{questionIndex}}
+        </div>
+      }
+    }
+  </div>
+</ion-content>

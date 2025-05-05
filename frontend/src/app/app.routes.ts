@@ -54,4 +54,8 @@ export const routes: Routes = [
     path: 'stats-domain',
     loadComponent: () => import('./stats-domain/stats-domain.page').then( m => m.StatsDomainPage)
   },
+  {
+    path: 'mcq-debug',
+    loadComponent: () => import('./mcq-debug/mcq-debug.page').then( m => m.McqDebugPage)
+  },
 ];
