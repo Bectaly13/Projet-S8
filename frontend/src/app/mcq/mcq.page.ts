@@ -253,6 +253,11 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
         this.getImages(questionIds);
       }
       else {
+        this.questions = [];
+        this.typedChoices = [];
+        this.choices = [];
+        this.images = [];
+        this.typedExplanations = [];
         this.error.errorMessage(res);
       }
     })
