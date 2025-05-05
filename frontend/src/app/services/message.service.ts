@@ -13,12 +13,10 @@ export interface BackendResponse {
   providedIn: 'root'
 })
 export class MessageService {
-  
+  private backendUrl: string = this.variables.backendUrl;  
 
   constructor(private httpClient: HttpClient,
               private variables: SharedVariablesService) { }
-
-              private backendUrl: string = this.variables.backendUrl;
 
   sendMessage(url : string, data : any): Observable<BackendResponse> {
     const fullUrl = this.backendUrl + url;
