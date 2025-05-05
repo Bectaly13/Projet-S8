@@ -1,6 +1,10 @@
 <app-header [pageTitle]="'Options'" [showBackButton]="false"/>
 
 <ion-content [fullscreen]="true">
+  <div class="sector">
+    Ma filière : {{sector}}
+  </div>
+
   <div class="options-container">
 
     <div class="toggle-container">
@@ -23,10 +27,10 @@
       <ion-button (click)="goToFAQ()">FAQ</ion-button>
     </div>
 
-    <div class="version-container">
-      Qmax, version {{version}}
-    </div>
+  </div>
 
+  <div class="version-container">
+    Qmax, version {{version}}
   </div>
 </ion-content>
 
