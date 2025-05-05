@@ -1,26 +1,28 @@
 <app-header [pageTitle]="'Score'" [showBackButton]="false"/>
 
 <ion-content [fullscreen]="true">
-  <div class="text-container">
-    <div class="text">
-      <div class="score">
-        Score : {{score}}/{{mcqSize}}
+  <div class="page-wrapper">
+    <div class="text-container">
+      <div class="text">
+        <div class="score">
+          Score : {{score}}/{{mcqSize}}
+        </div>
+
+        <div class="message">
+          {{message}}
+        </div>  
       </div>
-
-      <div class="message">
-        {{message}}
-      </div>  
     </div>
-  </div>
 
-  <div class="buttons-container">
-    <ion-button (click)="retry()" class="side-button">Retravailler ce chapitre</ion-button>
+    <div class="buttons-container">
+      <ion-button (click)="retry()" class="side-button">Retravailler ce chapitre</ion-button>
 
-    <ion-button (click)="backToMenu()" class="side-button">Retour au menu</ion-button>
-  </div>
+      <ion-button (click)="backToMenu()" class="side-button">Retour au menu</ion-button>
+    </div>
 
-  <div class="image-container">
-    <img [src]="scoreImageName">
+    <div class="image-container">
+      <img [src]="scoreImageName">
+    </div>
   </div>
 </ion-content>
 
