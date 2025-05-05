@@ -95,6 +95,7 @@ export class StatsPage implements ViewWillEnter {
         }
       }
       else {
+        this.domains = [];
         this.error.errorMessage(res);
       }
     })

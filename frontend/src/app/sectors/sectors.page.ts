@@ -43,7 +43,8 @@ export class SectorsPage implements ViewWillEnter {
         this.sectors = res.data;
       }
       else {
-        console.log(this.error.errorMessage(res));
+        this.sectors = [];
+        this.error.errorMessage(res);
       }
     })
   }

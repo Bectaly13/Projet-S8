@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonButtons, IonCheckbox, IonButton, ViewDidEnter, IonProgressBar, AlertController, IonIcon } from '@ionic/angular/standalone';
-import { ActivatedRoute, Router } from '@angular/router';
+
+import { IonContent, IonHeader, IonTitle, IonToolbar, ViewWillEnter, IonCheckbox, IonButton, ViewDidEnter, AlertController, IonInput } from '@ionic/angular/standalone';
+import { Router } from '@angular/router';
 
 import { MessageService } from '../services/message.service';
 import { ErrorService } from '../services/error.service';
@@ -37,13 +38,13 @@ export interface typedChoice {
 }
 
 @Component({
-  selector: 'app-mcq',
-  templateUrl: './mcq.page.html',
-  styleUrls: ['./mcq.page.scss'],
+  selector: 'app-mcq-debug',
+  templateUrl: './mcq-debug.page.html',
+  styleUrls: ['./mcq-debug.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonCheckbox, IonButton, IonProgressBar, IonIcon]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonCheckbox, IonInput]
 })
-export class MCQPage implements ViewWillEnter, ViewDidEnter {
+export class McqDebugPage implements ViewWillEnter, ViewDidEnter {
   title!: string;
   backendFileName!: string;
   data!: any;
@@ -79,8 +80,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
 
   mcq_data!: any;
 
-  constructor(private route: ActivatedRoute,
-              private message: MessageService,
+  constructor(private message: MessageService,
               private error: ErrorService,
               private router: Router,
               private variables: SharedVariablesService,
@@ -96,156 +96,18 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   async ionViewWillEnter() {
     this.darkmode.init();
     
-    this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
-    this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
-    this.domain = String(this.route.snapshot.queryParamMap.get("domain"));
-    this.domainId = Number(this.route.snapshot.queryParamMap.get("domainId"));
-    this.chapterId = Number(this.route.snapshot.queryParamMap.get("chapterId"));
-    this.chapter = String(this.route.snapshot.queryParamMap.get("chapter"));
-    this.skillId = Number(this.route.snapshot.queryParamMap.get("skillId"));
-    this.skill = String(this.route.snapshot.queryParamMap.get("skill"));
-
-    this.update.updateQuestionsData(this.sectorId);
-
-    this.mcq_data = (await this.storage.get("questions_data"))[this.sectorId][this.domainId][this.chapterId];
-
-    this.score = 0;
-
-    this.mail = this.variables.mail;
     this.choiceLabels = this.variables.choiceLabels;
     this.questionImagesUrl = this.variables.questionImagesUrl;
 
-    if(this.skillId) {
-      this.title = "J'apprends";
-      this.backendFileName = "getValidLearnQuestions";
-      this.mcqSize = this.variables.mcqSize.small;
-      this.data = {sectorId: this.sectorId, skillId: this.skillId};
-    }
-
-    else if(this.chapterId) {
-      this.title = "Je révise";
-      this.backendFileName = "getValidStudyQuestions";
-      this.mcqSize = this.variables.mcqSize.large;
-      this.data = {sectorId: this.sectorId, chapterId: this.chapterId, mcqSize : this.mcqSize};
-    }
-
-    else {
-      console.error("Error : no study mode given");
-    }
-
-    this.message.sendMessage(this.backendFileName, this.data).subscribe(res => {
+    this.message.sendMessage("getAllQuestions", {}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        const question_groups = res.data;
+        let selectedQuestions = res.data;
 
-        // we get all the questionGroupIds
-        const groupIds = Object.keys(question_groups);
+        this.mcqSize = res.data.length;
 
-        // this function lets us pick a random question in a question_group
-        function pickRandomQuestion(questions: Question[]): Question {
-          const index = Math.floor(Math.random() * questions.length);
-          return questions[index];
-        }
-
-        // preparing some useful structures
-        const selectedQuestions: Question[] = [];
-        const usedGroupIds = new Set<string>();
-
-        // we sort question_groups according to the type of the questions in it
-        // we use a hierarchy : unseen > incorrect > correct
-        const unseenGroups: string[] = [];
-        const incorrectGroups: string[] = [];
-        const correctGroups: string[] = [];
-
-        for(const groupId of groupIds) {
-          const questions = question_groups[groupId];
-          const hasUnseen = questions.some((q: Question) => this.mcq_data.unseen.includes(q.questionId));
-          const hasIncorrect = questions.some((q: Question) => this.mcq_data.incorrect.includes(q.questionId));
-          const hasCorrect = questions.some((q: Question) => this.mcq_data.correct.includes(q.questionId));
-
-          if(hasUnseen) unseenGroups.push(groupId);
-          else if(hasIncorrect) incorrectGroups.push(groupId);
-          else if(hasCorrect) correctGroups.push(groupId);
-        }
-
-        // this function shuffles the groups to add randomness
-        function shuffle<T>(array: T[]): T[] {
-          return array
-            .map(value => ({value, sort: Math.random()}))
-            .sort((a, b) => a.sort - b.sort)
-            .map(({value}) => value);
-        }
-
-        // shuffle the groups so the selection is more randomized
-        const shuffledUnseenGroups = shuffle(unseenGroups);
-        const shuffledIncorrectGroups = shuffle(incorrectGroups);
-        const shuffledCorrectGroups = shuffle(correctGroups);
-       
-
-        // step 1 : we first get unseen questions
-        for(const groupId of shuffledUnseenGroups) {
-          if(selectedQuestions.length >= this.mcqSize) break;
-          const questions = question_groups[groupId];
-          const unseenQs = questions.filter((q: Question) => this.mcq_data.unseen.includes(q.questionId));
-          if(unseenQs.length > 0) {
-            selectedQuestions.push(pickRandomQuestion(unseenQs));
-            usedGroupIds.add(groupId);
-          }
-        }
-
-        // step 2 : if that's not enough, we get incorrect and correct questions
-        // we try to get 60% incorrect and 40% correct
-        let remaining = this.mcqSize - selectedQuestions.length;
-
-        if(remaining > 0) {
-          let numIncorrect = Math.ceil(remaining * 0.6);
-          let numCorrect = remaining - numIncorrect;
-
-          const availableIncorrect = shuffledIncorrectGroups.filter(gid => !usedGroupIds.has(gid));
-          const availableCorrect = shuffledCorrectGroups.filter(gid => !usedGroupIds.has(gid));
-
-          // if we don't have enough groups available...
-          if(availableIncorrect.length < numIncorrect) {
-            numCorrect += numIncorrect - availableIncorrect.length;
-            numIncorrect = availableIncorrect.length;
-          }
-          if(availableCorrect.length < numCorrect) {
-            numIncorrect += numCorrect - availableCorrect.length;
-            numCorrect = availableCorrect.length;
-          }
-
-          // we add incorrect questions
-          for(const groupId of availableIncorrect) {
-            if(numIncorrect <= 0 || selectedQuestions.length >= this.mcqSize) break;
-            const questions = question_groups[groupId];
-            const incorrectQs = questions.filter((q: Question) => this.mcq_data.incorrect.includes(q.questionId));
-            if(incorrectQs.length > 0) {
-              selectedQuestions.push(pickRandomQuestion(incorrectQs));
-              usedGroupIds.add(groupId);
-              numIncorrect--;
-            }
-          }
-
-          // we add correct questions
-          for(const groupId of availableCorrect) {
-            if(numCorrect <= 0 || selectedQuestions.length >= this.mcqSize) break;
-            const questions = question_groups[groupId];
-            const correctQs = questions.filter((q: Question) => this.mcq_data.correct.includes(q.questionId));
-            if(correctQs.length > 0) {
-              selectedQuestions.push(pickRandomQuestion(correctQs));
-              usedGroupIds.add(groupId);
-              numCorrect--;
-            }
-          }
-        }
-
-        // in learn mode, we may need to adjust this.mcqSize
-        if(this.title == "J'apprends") {
-          this.mcqSize = selectedQuestions.length;
-        }
-
-        // we sort questions by level
-        this.questions = selectedQuestions.sort((a, b) => a.level - b.level);
+        // we sort questions by questionId
+        this.questions = selectedQuestions.sort((a: any, b: any) => a.questionId - b.questionId);
 
         // we get all the questionIds and use it to fetch images and choices
         const questionIds = this.questions.map(q => q.questionId);
@@ -253,11 +115,6 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
         this.getImages(questionIds);
       }
       else {
-        this.questions = [];
-        this.typedChoices = [];
-        this.choices = [];
-        this.images = [];
-        this.typedExplanations = [];
         this.error.errorMessage(res);
       }
     })
@@ -318,7 +175,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     }
   
     return result;
-  }     
+  }
 
   getChoices(questionIds: number[], callback?: () => void) {
     this.message.sendMessage("getChoices", {questionIds: questionIds}).subscribe(res => {
@@ -551,5 +408,23 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     const nextHasWordingBefore = nextChoice && nextChoice.wordingBefore && nextChoice.wordingBefore.length > 0;
   
     return !hasWordingAfter && (isLastChoice || nextHasWordingBefore);
+  }
+
+  next() {
+    this.questionIndex++;
+    this.renderMath();
+  }
+
+  prev() {
+    this.questionIndex--;
+    this.renderMath();
+  }
+
+  debug() {
+    console.log("this.choices", this.choices);
+    console.log("this.typedChoices", this.typedChoices);
+    console.log("this.questions", this.questions);
+    console.log("this.typedExplanations", this.typedExplanations);
+    console.log("this.images", this.images);
   }
 }

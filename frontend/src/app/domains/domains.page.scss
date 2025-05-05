@@ -34,6 +34,11 @@ $minwidth_smartphone: 333px;
   grid-template-columns: 1fr; // mobile : 1 colonne
   gap: clamp(12px, 4vw, 20px); // fluid gap
   padding: clamp(16px, 5vw, 24px);
+  background-color: transparent;
+}
+
+.item_list_domains {
+  --background: transparent;
 }
 
 .button_list_domains {

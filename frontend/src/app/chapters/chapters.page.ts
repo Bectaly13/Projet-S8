@@ -77,6 +77,7 @@ export class ChaptersPage implements ViewWillEnter {
         });
       }
       else {
+        this.chapters = [];
         this.error.errorMessage(res);
       }
     })

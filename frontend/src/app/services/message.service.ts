@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 
+import { SharedVariablesService } from './shared-variables.service';
+
 export interface BackendResponse {
   status: number;
   data: any; 
@@ -11,9 +13,10 @@ export interface BackendResponse {
   providedIn: 'root'
 })
 export class MessageService {
-  private backendUrl = "http://127.0.0.1:3000/"
+  private backendUrl: string = this.variables.backendUrl;  
 
-  constructor(private httpClient : HttpClient) { }
+  constructor(private httpClient: HttpClient,
+              private variables: SharedVariablesService) { }
 
   sendMessage(url : string, data : any): Observable<BackendResponse> {
     const fullUrl = this.backendUrl + url;

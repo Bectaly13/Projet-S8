@@ -100,6 +100,35 @@ export class OptionsPage implements ViewWillEnter {
     await alert.present();
   }
 
+  async clearOtherProgress() {
+    const alert = await this.alert.create({
+      header: "Supprimer vos données pour les autres filières ?",
+      message: "Cette action est irréversible.",
+      buttons: [
+        {
+          text: "Annuler",
+          role: "cancel",
+        },
+        {
+          text: "Supprimer",
+          handler: async () => {
+            let questions_data = await this.storage.get("questions_data");
+            
+            for(let sectorId of Object.keys(questions_data)) {
+              if(Number(sectorId) != this.sectorId) {
+                delete questions_data[sectorId];
+              }
+            }
+
+            this.storage.set("questions_data", questions_data);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
   async clearAllProgress() {
     const alert = await this.alert.create({
       header: "Supprimer toutes vos données ?",

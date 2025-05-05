@@ -110,6 +110,7 @@ export class StatsDomainPage implements ViewWillEnter {
         }
       }
       else {
+        this.chapters = [];
         this.error.errorMessage(res);
       }
     })
