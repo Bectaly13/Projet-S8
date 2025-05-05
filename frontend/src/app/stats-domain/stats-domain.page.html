@@ -1,48 +1,42 @@
 <app-header [pageTitle]="'Statistiques du domaine'" [showBackButton]="true"/>
 
 <ion-content [fullscreen]="true">
-  <p>
+  <div class="sector">
     Ma filière : {{sector}}
-  </p>
+  </div>
 
-  <p>
-    Statistiques de : {{domain}}
-  </p>
+  <div class="domain-title">
+    Statistiques du domaine :
+  </div>
 
-  <p>
-    Questions bien répondues : {{correct}} ({{correct / (correct + incorrect + unseen) * 100 | number:'1.0-0'}}%)
-  </p>
+  <ion-card>
+    <ion-card-header [style]="'background-color: var(--ion-color-color' + domainId + ');'">
+      <ion-card-title class="domain" [style]="'color: var(--ion-color-color' + domainId + '-contrast);'">{{domain}} : {{correct / (correct + incorrect + unseen) * 100 | number:'1.1-1'}}%</ion-card-title>
+    </ion-card-header>
 
-  <p>
-    Question mal répondues : {{incorrect}} ({{incorrect / (correct + incorrect + unseen) * 100 | number:'1.0-0'}}%)
-  </p>
+    <ion-card-content>
+      <app-doughnut-chart [correct]="correct" [incorrect]="incorrect" [unseen]="unseen" [domainId]="domainId"/>
+    </ion-card-content>
+  </ion-card>
 
-  <p>
-    Question non découvertes : {{unseen}} ({{unseen / (correct + incorrect + unseen) * 100 | number:'1.0-0'}}%)
-  </p>
+  <div class="separator" [style]="'background-color: var(--ion-color-color' + domainId + '); color: var(--ion-color-color' + domainId + ');'">
+    .
+  </div>
 
-  <p>
-    Questions dans ce domaine : {{correct + incorrect + unseen}}
-  </p>
+  <div class="chapters-title">
+    Statistiques des chapitres :
+  </div>
 
   @for(chapter of chapters; track $index) {
-    <p>
-      Chapitre : {{chapter.name}}
-    </p>
-  
-    <p>
-      Questions bien répondues : {{stats[$index].correct}} ({{(stats[$index].correct / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100) | number:'1.0-0'}}%)
-    </p>
-    <p>
-      Questions mal répondues : {{stats[$index].incorrect}} ({{(stats[$index].incorrect / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100) | number:'1.0-0'}}%)
-    </p>
-    <p>
-      Questions non découvertes : {{stats[$index].unseen}} 
-      ({{(stats[$index].unseen / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100) | number:'1.0-0'}}%)
-    </p>
-    <p>
-      Questions dans ce chapitre : {{stats[$index].correct + stats[$index].incorrect + stats[$index].unseen}}
-    </p>
+    <ion-card>
+      <ion-card-header [style]="'background-color: var(--ion-color-color' + domainId + ');'">
+        <ion-card-title class="chapter" [style]="'color: var(--ion-color-color' + domainId + '-contrast);'">{{chapter.name}} : {{stats[$index].correct / (stats[$index].correct + stats[$index].incorrect + stats[$index].unseen) * 100 | number:'1.1-1'}}%</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <app-doughnut-chart [correct]="stats[$index].correct" [incorrect]="stats[$index].incorrect" [unseen]="stats[$index].unseen" [domainId]="domainId"/>
+      </ion-card-content>
+    </ion-card>
   }
 </ion-content>
 

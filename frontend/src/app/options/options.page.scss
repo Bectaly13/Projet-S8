@@ -1,0 +1,25 @@
+.options-container {
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.toggle-container {
+    padding: 10px;
+}
+
+.button-container {
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.version-container {
+    padding: 10px;
+    color: var(--ion-color-grey-high-contrast);
+}
+
+ion-button {
+    --border-radius: 20px;
+}

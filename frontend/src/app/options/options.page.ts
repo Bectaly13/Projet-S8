@@ -28,6 +28,7 @@ export class OptionsPage implements ViewWillEnter {
   sector!: string;
 
   mcqSize!: number;
+  version!: string;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -42,6 +43,7 @@ export class OptionsPage implements ViewWillEnter {
     this.darkmode.init();
 
     this.mcqSize = this.variables.mcqSize.large;
+    this.version = this.variables.version;
 
     const dark_mode_data = await this.storage.get("dark_mode_data");
     if(dark_mode_data != null) {

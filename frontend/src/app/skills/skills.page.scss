@@ -1,0 +1,56 @@
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.data-container {
+    padding: 20px;
+}
+
+.data {
+    background-color: var(--ion-color-grey-low-contrast);
+    border-radius: 12px;
+}
+
+.domain {
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.chapter {
+    padding: 10px;
+}
+
+.skills-container {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+
+.button-container {
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.percentage {
+    white-space: nowrap;
+}
+
+.success {
+    width: auto;
+    height: auto;
+}
+
+.image-container {
+    display: block;
+    align-items: self-end;
+    margin-top: auto;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+}

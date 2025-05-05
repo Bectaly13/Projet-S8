@@ -1,0 +1,30 @@
+.sector {
+    margin: 15px;
+}
+
+.domain-title {
+    margin: 15px;
+}
+
+.chapters-title {
+    margin: 15px;
+}
+
+.domain {
+    color: var(--ion-color-grey-highest-contrast);
+}
+
+.chapter {
+    color: var(--ion-color-grey-highest-contrast);
+}
+
+ion-card {
+    border-radius: 12px;
+    margin: 20px;
+}
+
+.separator {
+    font-size: 0.1rem;
+    border-radius: 10px;
+    margin: 20px;
+}

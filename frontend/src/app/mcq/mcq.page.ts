@@ -157,23 +157,23 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
         const incorrectGroups: string[] = [];
         const correctGroups: string[] = [];
 
-        for (const groupId of groupIds) {
+        for(const groupId of groupIds) {
           const questions = question_groups[groupId];
           const hasUnseen = questions.some((q: Question) => this.mcq_data.unseen.includes(q.questionId));
           const hasIncorrect = questions.some((q: Question) => this.mcq_data.incorrect.includes(q.questionId));
           const hasCorrect = questions.some((q: Question) => this.mcq_data.correct.includes(q.questionId));
 
-          if (hasUnseen) unseenGroups.push(groupId);
-          else if (hasIncorrect) incorrectGroups.push(groupId);
-          else if (hasCorrect) correctGroups.push(groupId);
+          if(hasUnseen) unseenGroups.push(groupId);
+          else if(hasIncorrect) incorrectGroups.push(groupId);
+          else if(hasCorrect) correctGroups.push(groupId);
         }
 
         // this function shuffles the groups to add randomness
         function shuffle<T>(array: T[]): T[] {
           return array
-            .map(value => ({ value, sort: Math.random() }))
+            .map(value => ({value, sort: Math.random()}))
             .sort((a, b) => a.sort - b.sort)
-            .map(({ value }) => value);
+            .map(({value}) => value);
         }
 
         // shuffle the groups so the selection is more randomized
@@ -183,11 +183,11 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
        
 
         // step 1 : we first get unseen questions
-        for (const groupId of shuffledUnseenGroups) {
-          if (selectedQuestions.length >= this.mcqSize) break;
+        for(const groupId of shuffledUnseenGroups) {
+          if(selectedQuestions.length >= this.mcqSize) break;
           const questions = question_groups[groupId];
           const unseenQs = questions.filter((q: Question) => this.mcq_data.unseen.includes(q.questionId));
-          if (unseenQs.length > 0) {
+          if(unseenQs.length > 0) {
             selectedQuestions.push(pickRandomQuestion(unseenQs));
             usedGroupIds.add(groupId);
           }
@@ -197,29 +197,29 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
         // we try to get 60% incorrect and 40% correct
         let remaining = this.mcqSize - selectedQuestions.length;
 
-        if (remaining > 0) {
-          let numIncorrect = Math.floor(remaining * 0.6);
+        if(remaining > 0) {
+          let numIncorrect = Math.ceil(remaining * 0.6);
           let numCorrect = remaining - numIncorrect;
 
           const availableIncorrect = shuffledIncorrectGroups.filter(gid => !usedGroupIds.has(gid));
           const availableCorrect = shuffledCorrectGroups.filter(gid => !usedGroupIds.has(gid));
 
           // if we don't have enough groups available...
-          if (availableIncorrect.length < numIncorrect) {
+          if(availableIncorrect.length < numIncorrect) {
             numCorrect += numIncorrect - availableIncorrect.length;
             numIncorrect = availableIncorrect.length;
           }
-          if (availableCorrect.length < numCorrect) {
+          if(availableCorrect.length < numCorrect) {
             numIncorrect += numCorrect - availableCorrect.length;
             numCorrect = availableCorrect.length;
           }
 
           // we add incorrect questions
-          for (const groupId of availableIncorrect) {
-            if (numIncorrect <= 0 || selectedQuestions.length >= this.mcqSize) break;
+          for(const groupId of availableIncorrect) {
+            if(numIncorrect <= 0 || selectedQuestions.length >= this.mcqSize) break;
             const questions = question_groups[groupId];
             const incorrectQs = questions.filter((q: Question) => this.mcq_data.incorrect.includes(q.questionId));
-            if (incorrectQs.length > 0) {
+            if(incorrectQs.length > 0) {
               selectedQuestions.push(pickRandomQuestion(incorrectQs));
               usedGroupIds.add(groupId);
               numIncorrect--;
@@ -227,11 +227,11 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
           }
 
           // we add correct questions
-          for (const groupId of availableCorrect) {
-            if (numCorrect <= 0 || selectedQuestions.length >= this.mcqSize) break;
+          for(const groupId of availableCorrect) {
+            if(numCorrect <= 0 || selectedQuestions.length >= this.mcqSize) break;
             const questions = question_groups[groupId];
             const correctQs = questions.filter((q: Question) => this.mcq_data.correct.includes(q.questionId));
-            if (correctQs.length > 0) {
+            if(correctQs.length > 0) {
               selectedQuestions.push(pickRandomQuestion(correctQs));
               usedGroupIds.add(groupId);
               numCorrect--;
@@ -240,7 +240,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
         }
 
         // in learn mode, we may need to adjust this.mcqSize
-        if (this.title === "J'apprends") {
+        if(this.title == "J'apprends") {
           this.mcqSize = selectedQuestions.length;
         }
 
@@ -547,5 +547,4 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   
     return !hasWordingAfter && (isLastChoice || nextHasWordingBefore);
   }
-  
 }
