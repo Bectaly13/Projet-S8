@@ -1,4 +1,5 @@
 .error-page {
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,7 +10,6 @@
       align-items: center;
       text-align: center;
       padding: 20px;
-      height: 100%;
     }
   
     .icon {
@@ -26,7 +26,7 @@
   
     p {
       font-size: 16px;
-      color: var(--ion-color-medium);
+      color: var(--ion-color-grey-high-contrast);
       margin-bottom: 24px;
     }
   
