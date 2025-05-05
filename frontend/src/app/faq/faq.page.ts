@@ -58,7 +58,6 @@ export class FaqPage implements ViewWillEnter {
     this.mail = this.variables.mail;
     this.subject = this.variables.faqSubject;
     this.site = this.variables.site;
-    this.facebook = this.variables.facebook;
 
     this.camilleUlrichShort = this.camilleUlrich.replace(/^https?:\/\//, '').replace(/\/$/, '');
 
