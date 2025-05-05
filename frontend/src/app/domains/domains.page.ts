@@ -56,6 +56,7 @@ export class DomainsPage implements ViewWillEnter {
       }
       else {
         this.domains = [];
+        this.storage.remove("sector_data");
         this.error.errorMessage(res);
       }
     })

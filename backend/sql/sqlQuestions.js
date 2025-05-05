@@ -84,13 +84,13 @@ async function getValidLearnQuestions(skillId, sectorId) {
 
 async function getQuestionCount() {
     // This method is used to display accurate data in the FAQ.
-    // It shows how many validated questions exist in the database.
-    const query = `SELECT COUNT(questionId)
+    // It counts how many question_groups contain at least one validated question.
+    const query = `SELECT COUNT(DISTINCT questionGroupId)
         FROM ${qst}
         WHERE validated = 1`;
     
     const data = [];
-    return await mysqlConnect.query(query, data);  
+    return await mysqlConnect.query(query, data);
 }
 
 async function getDefaultQuestionsData(sectorId, mcqSize) {

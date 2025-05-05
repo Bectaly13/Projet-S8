@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { BackendResponse } from './message.service';
 
@@ -7,9 +8,11 @@ import { BackendResponse } from './message.service';
 })
 export class ErrorService {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   errorMessage(res: BackendResponse) {
     console.error("Error " + res.status + " : " + res.data);
+
+    this.router.navigate(["error"]);
   }
 }

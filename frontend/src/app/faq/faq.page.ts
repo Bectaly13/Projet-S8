@@ -58,14 +58,13 @@ export class FaqPage implements ViewWillEnter {
     this.mail = this.variables.mail;
     this.subject = this.variables.faqSubject;
     this.site = this.variables.site;
-    this.facebook = this.variables.facebook;
 
     this.camilleUlrichShort = this.camilleUlrich.replace(/^https?:\/\//, '').replace(/\/$/, '');
 
     this.message.sendMessage("getQuestionCount", {}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        this.questionCount = res.data[0]["COUNT(questionId)"];
+        this.questionCount = res.data[0]["COUNT(DISTINCT questionGroupId)"];
 
         this.faq = [
           {
@@ -73,7 +72,7 @@ export class FaqPage implements ViewWillEnter {
             content: [
               {
                 title: "À quoi sert cette application ?",
-                content: "Qmax vous permet d'apprendre et de réviser votre cours de physique-chimie de CPGE par des QCM. " + this.questionCount + " questions classées et corrigées vous sont proposées gratuitement, sans publicité ni exploitation de données personnelles."
+                content: "Qmax vous permet d'apprendre et de réviser votre cours de physique-chimie de CPGE par des QCM. " + this.questionCount + " questions classées et corrigées vous sont proposées gratuitement, sans publicité, sans authentification et sans exploitation de données personnelles."
               },
               {
                 title: "Choix de la filière",
@@ -140,26 +139,22 @@ export class FaqPage implements ViewWillEnter {
             title: "Statistiques",
             content: [
               {
-                title: "",
+                title: "Comment voir mes progrès ?",
                 content: "Qmax enregistre votre progression et vous permet de consulter à tout moment vos statistiques personnelles. Vous pouvez suivre votre avancement pour chaque domaine et chaque chapitre accessible."
               },
               {
-                title: "",
+                title: "Synchronisation des données entre filières",
                 content: "Notez que les statistiques ne sont pas partagées entre les différentes filières : vos progrès dans une filière ne sont pas pris en compte dans les autres."
               }
             ]
           },   
           
           {
-            title: "Confidentialité et accessibilité",
+            title: "Confidentialité",
             content: [
               {
                 title: "Où vont mes données ?",
                 content: "Toutes vos données (statistiques, progression, préférences...) sont stockées uniquement en local sur votre appareil. Elles ne sont ni transmises à un serveur distant, ni accessibles aux développeurs de l'application."
-              },
-              {
-                title: "Une appli accessible à tous",
-                content: "Qmax fonctionne sans publicité, sans collecte de données personnelles et sans authentification : votre vie privée est respectée à 100 %. En revanche, son bon fonctionnement nécessite une connexion à Internet."
               }
             ]
           },

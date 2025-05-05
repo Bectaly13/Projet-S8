@@ -22,7 +22,6 @@ export class SharedVariablesService {
   faqSubject: string = "Demande d'information";
   
   site: string = "https://appli.qmax.fr/";
-  facebook: string = "https://www.facebook.com/appli.qmax/";
 
   camilleUlrich: string = "https://www.camilleulrich.fr/";
 

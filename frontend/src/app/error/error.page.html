@@ -1,0 +1,16 @@
+<app-header [pageTitle]="'Erreur'" [showBackButton]="false"/>
+
+<ion-content [fullscreen]="true" class="error-page">
+  <div class="container">
+    <ion-icon name="warning-outline" class="icon"></ion-icon>
+
+    <h2>Connexion perdue</h2>
+    <p>Nous n'avons pas pu contacter le serveur.<br>
+      Veuillez vérifier votre connexion internet.
+    </p>
+
+    <ion-button expand="block" (click)="goHome()">
+      Recharger l'application
+    </ion-button>
+  </div>
+</ion-content>
