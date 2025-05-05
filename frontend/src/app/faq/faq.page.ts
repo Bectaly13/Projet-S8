@@ -65,7 +65,7 @@ export class FaqPage implements ViewWillEnter {
     this.message.sendMessage("getQuestionCount", {}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
-        this.questionCount = res.data[0]["COUNT(questionId)"];
+        this.questionCount = res.data[0]["COUNT(DISTINCT questionGroupId)"];
 
         this.faq = [
           {
