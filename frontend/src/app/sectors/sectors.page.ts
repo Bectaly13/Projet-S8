@@ -92,6 +92,11 @@ export class SectorsPage implements ViewWillEnter {
     this.searchQuery = '';  // Réinitialiser la recherche si nécessaire
     this.filteredSectors = [...this.sectors];  // Réinitialiser la liste filtrée
   }
+  clearSearch() {
+    this.dropdownOpen = false;
+    this.searchQuery = '';
+    this.filteredSectors = [...this.sectors]; // Réinitialise les secteurs filtrés
+  }
 
 
 /// Pour une jolie MeP

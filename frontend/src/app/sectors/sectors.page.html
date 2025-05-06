@@ -14,8 +14,17 @@
   }
 
   <!-- Zone de recherche avec la croix -->
-  @if (dropdownOpen) {
-    <div class="dropdown">
+  <!-- Zone de recherche avec la croix -->
+<!-- Zone de recherche avec la croix -->
+@if (dropdownOpen) {
+  <div class="dropdown">
+    <!-- Conteneur avec l'input et la croix -->
+    <div class="input-container">
+      <!-- Croix pour effacer la recherche -->
+      <button class="clear-icon" (click)="clearSearch()">
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+      
       <ion-input
         type="text"
         [(ngModel)]="searchQuery"
@@ -23,27 +32,25 @@
         placeholder="Je suis en..."
         class="search-input">
       </ion-input>
-  
-      <!-- Croix pour effacer la recherche -->
-      <button class="clear-icon" (click)="closeDropdown()">
-        <ion-icon name="close-circle"></ion-icon>
-      </button>
-  
-      <div class="dropdown-list">
-        <!-- Vérification si filteredSectors contient des éléments -->
-        @if (filteredSectors && filteredSectors.length > 0) {
-          <!-- Boucle sur filteredSectors -->
-          @for (sector of filteredSectors; track $index) {
-            <div class="dropdown-item">
-              <button class="sector-button" (pointerdown)="handlePress($event)" (click)="goToDomains(sector.sectorId, sector.name)">
-                {{ sector.name }}
-              </button>
-            </div>
-          }
-        } @else {
-          <div class="no-results">Aucun secteur trouvé</div>
-        }
-      </div>
     </div>
-  }
+
+    <div class="dropdown-list">
+      <!-- Vérification si filteredSectors contient des éléments -->
+      @if (filteredSectors && filteredSectors.length > 0) {
+        <!-- Boucle sur filteredSectors -->
+        @for (sector of filteredSectors; track $index) {
+          <div class="dropdown-item">
+            <button class="sector-button" (pointerdown)="handlePress($event)" (click)="goToDomains(sector.sectorId, sector.name)">
+              {{ sector.name }}
+            </button>
+          </div>
+        }
+      } @else {
+        <div class="no-results">Aucun secteur trouvé</div>
+      }
+    </div>
+  </div>
+}
+
+
 </ion-content>
