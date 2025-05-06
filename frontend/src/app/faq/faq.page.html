@@ -1,7 +1,9 @@
 <app-header [pageTitle]="'FAQ'" [showBackButton]="true"/>
 
 <ion-content [fullscreen]="true">
-  <img class="faq-logo" src="assets/icons/fullLogo.png">
+  <div class="faq-logo-container">
+    <img class="faq-logo" src="assets/icons/fullLogo.png">
+  </div>
 
   <ion-accordion-group expand="inset">
     @for(item of faq; track $index) {
