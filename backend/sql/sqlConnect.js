@@ -16,6 +16,8 @@ function connect(){
 // This is how SQL queries are interpreted.
 // Since these are prepared statements, queries and data arrays are dissiocated.
 function query(query, data) {
+    // We connect to the database if we not connected
+    if (db==0) connect();
     return new Promise((resolve, reject) => {
         db.query(
             query,
@@ -28,7 +30,11 @@ function query(query, data) {
     });
 }
 
-// We connect to the database
-connect();
+function deconnect(){
+    db.end();
+    db==0
+}
+
 
 module.exports.query = query;
+module.exports.deconnect=deconnect;

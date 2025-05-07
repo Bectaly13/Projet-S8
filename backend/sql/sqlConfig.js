@@ -7,7 +7,7 @@ module.exports = {
   config:
   {
     sqlHost: "127.0.0.1",
-    sqlDatabase: "qmaxfrhpwsteam",
+    sqlDatabase: "projet",
     charset: "utf8",
     sqlLogin: "root",
     sqlPassword: ""
