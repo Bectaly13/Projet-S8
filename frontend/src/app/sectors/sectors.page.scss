@@ -114,10 +114,6 @@
   padding: 0 16px;
 }
 
-.search-input {
-  margin-bottom: 12px;
-}
-
 .dropdown-list {
   max-height: 200px;
   overflow-y: auto;
@@ -142,13 +138,14 @@ ion-item {
 
 .clear-icon {
   position: absolute;
-  top: -20px;  /* Positionne la croix au-dessus de l'input */
+  top: 20px;  /* Positionne la croix au niveau de l'input */
   right: 10px; /* Espace à droite de l'input */
   background: none;
   border: none;
   color: var(--ion-color-dark);
   font-size: 18px;
   cursor: pointer;
+  z-index: 100;
 }
 
 .clear-icon ion-icon {
