@@ -3,57 +3,53 @@
 <ion-content [fullscreen]="true">
   <h1 id="welcome-title">Bienvenue dans Qmax !</h1>
 
-  <span id="sectors-subtitle">Indiquez votre filière pour commencer vos révisions !</span>
+  <div id="sectors-subtitle">Indiquez votre filière pour commencer vos révisions !</div>
 
   <div id="sectors-manager">
-  <!-- Afficher le bouton si dropdown n'est pas ouvert -->
-  @if (!dropdownOpen) {
-    <div class="dropdown-trigger">
-      <button class="button-dropdown-trigger" (pointerdown)="handlePress($event)" (click)="toggleDropdown()">
-        <span>Je suis en...</span>
-        <img src="../../assets/icons/arrow/right_arrow_transparent.png" class="arrow-icon" />
-      </button>
-    </div>
-  }
 
-  <!-- Zone de recherche avec la croix -->
-  <!-- Zone de recherche avec la croix -->
-<!-- Zone de recherche avec la croix -->
-@if (dropdownOpen) {
-  <div class="dropdown">
-    <!-- Conteneur avec l'input et la croix -->
-    <div class="input-container">
-      <!-- Croix pour effacer la recherche -->
-      <button class="clear-icon" (click)="clearSearch()">
-        <ion-icon name="close-circle"></ion-icon>
-      </button>
-      
-      <ion-input
-        type="text"
-        [(ngModel)]="searchQuery"
-        (ngModelChange)="filterSectors()"
-        placeholder="Je suis en..."
-        class="search-input">
-      </ion-input>
-    </div>
+    @if (!dropdownOpen) {
+      <div class="dropdown-trigger">
+        <button class="button-dropdown-trigger" (pointerdown)="handlePress($event)" (click)="toggleDropdown()">
+          <span>Je suis en...</span>
+          <img src="assets/icons/arrow/right_arrow_transparent.png" class="arrow-icon" />
+        </button>
+      </div>
+    }
 
-    <div class="dropdown-list">
-      <!-- Vérification si filteredSectors contient des éléments -->
-      @if (filteredSectors && filteredSectors.length > 0) {
-        <!-- Boucle sur filteredSectors -->
-        @for (sector of filteredSectors; track $index) {
-          <div class="dropdown-item">
-            <button class="sector-button" (pointerdown)="handlePress($event)" (click)="goToDomains(sector.sectorId, sector.name)">
-              {{ sector.name }}
-            </button>
-          </div>
-        }
-      } @else {
-        <div class="no-results">Aucun secteur trouvé</div>
-      }
-    </div>
+    @else {
+      <div class="dropdown">
+        <div class="input-container">
+          <button class="clear-icon" (click)="clearSearch()">
+            <ion-icon name="close-circle"></ion-icon>
+          </button>
+          
+          <ion-input
+            type="text"
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="filterSectors()"
+            placeholder="Je suis en..."
+            class="search-input">
+          </ion-input>
+        </div>
+
+        <div class="dropdown-list">
+          @if (filteredSectors && filteredSectors.length > 0) {
+            @for (sector of filteredSectors; track $index) {
+              <div class="dropdown-item">
+                <button class="sector-button" (pointerdown)="handlePress($event)" (click)="goToDomains(sector.sectorId, sector.name)">
+                  {{ sector.name }}
+                </button>
+              </div>
+            }
+          }
+          
+          @else {
+            <div class="no-results">Aucun secteur trouvé</div>
+          }
+        </div>
+      </div>
+    }
+
   </div>
-}
-</div>
 
 </ion-content>
