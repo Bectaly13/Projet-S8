@@ -40,7 +40,7 @@ Projet-S8/
 1. **Cloner le dépôt**
 
 ```bash
-git clone https://github.com/<utilisateur>/Projet-S8.git
+git clone https://github.com/Bectaly13/Projet-S8.git
 cd Projet-S8
 ```
 
