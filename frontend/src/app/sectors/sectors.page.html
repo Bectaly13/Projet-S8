@@ -3,8 +3,9 @@
 <ion-content [fullscreen]="true">
   <h1 id="welcome-title">Bienvenue dans Qmax !</h1>
 
-  <span>Indiquez votre filière pour commencer vos révisions !</span>
+  <span id="sectors-subtitle">Indiquez votre filière pour commencer vos révisions !</span>
 
+  <div id="sectors-manager">
   <!-- Afficher le bouton si dropdown n'est pas ouvert -->
   @if (!dropdownOpen) {
     <div class="dropdown-trigger">
@@ -53,6 +54,6 @@
     </div>
   </div>
 }
-
+</div>
 
 </ion-content>
