@@ -36,7 +36,9 @@ export class StartMCQPage implements ViewWillEnter {
               private darkmode: DarkModeService) { }
 
   ionViewWillEnter(): void {
-    this.darkmode.init();
+    this.darkmode.init(); // récupération des préférences relatives au thème sombre
+
+    // récupération des variables transmises par la page parent
     
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
@@ -52,6 +54,7 @@ export class StartMCQPage implements ViewWillEnter {
   }
 
   startMCQ() {
+    // on commence le QCM pour le chapitre choisi
     this.router.navigate(["mcq"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector,
@@ -63,6 +66,7 @@ export class StartMCQPage implements ViewWillEnter {
   }
 
   goToSkills() {
+    // on dirige l'utilisateur vers la page de sélection des compétences pour le chapitre choisi
     this.router.navigate(["skills"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector,

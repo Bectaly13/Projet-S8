@@ -26,23 +26,27 @@ export class HomePage implements ViewWillEnter {
               private update: UpdateQuestionsDataService) { }
 
   async ionViewWillEnter() {
-    this.darkmode.init();
+    this.darkmode.init(); // récupération des préférences relatives au thème sombre
 
     this.version = this.variables.version;
     
     let questions_data = await this.storage.get("questions_data");
     if(!questions_data) {
+      // Si l'utilisateur n'a pas de données relatives aux questions (première utilisation), on crée un objet vide.
       questions_data = {};
       this.storage.set("questions_data", questions_data);
     }
 
     const sector_data = await this.storage.get("sector_data");
     if(sector_data) {
+      // Si l'utilisateur a une filière enregistrée...
       const sectorId: number = sector_data.sectorId;
       const sector: string = sector_data.sector;
 
+      // ...on met à jour les questions relatives à cette filière (si modification de la BDD)...
       this.update.updateQuestionsData(sectorId);
 
+      // ...et on l'envoie directement sur l'écran de sélection des domaines.
       setTimeout(() => {
         this.router.navigate(["domains"], {queryParams: {
           sectorId: sectorId,
@@ -51,6 +55,7 @@ export class HomePage implements ViewWillEnter {
       }, 2000);      
     }
     else {
+      // Sinon, on l'envoie sur l'écran de sélection des filières.
       setTimeout(() => {
         this.router.navigate(["sectors"]);
       }, 2000);  

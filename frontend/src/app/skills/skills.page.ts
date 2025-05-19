@@ -50,7 +50,9 @@ export class SkillsPage implements ViewWillEnter {
               private storage: StorageService) { }
 
   async ionViewWillEnter() {
-    this.darkmode.init();
+    this.darkmode.init(); // récupération des préférences relatives au thème sombre
+
+    // récupération des variables transmises par la page parent
     
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
@@ -67,11 +69,13 @@ export class SkillsPage implements ViewWillEnter {
     const chapter_data = (await this.storage.get("questions_data"))[this.sectorId][this.domainId][this.chapterId];
 
     this.message.sendMessage("getSkills", {chapterId: this.chapterId, sectorId: this.sectorId}).subscribe(res => {
+      // on récupère les skills pour le chapitre sélectionné
       console.log(res);
       if(res.status == 200) {
         this.skills = res.data;
 
         this.message.sendMessage("getSkillQuestions", {chapterId: this.chapterId, sectorId: this.sectorId}).subscribe(res => {
+          // on récupère les questions pour chaque skill afin de calculer les pourcentages de progression
           console.log(res);
           if(res.status == 200) {
             const correctSet = new Set(chapter_data.correct);
@@ -93,6 +97,7 @@ export class SkillsPage implements ViewWillEnter {
   }
 
   startMCQ(skillId: number, skill: string) {
+    // on commence le QCM pour le skill choisi
     this.router.navigate(["mcq"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector,

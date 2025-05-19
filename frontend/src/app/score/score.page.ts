@@ -31,12 +31,13 @@ export class ScorePage implements ViewWillEnter {
   scoreImageName!: string;
 
   messages: string[] = [
-    "Ça ne va pas du tout !", // correct answers ratio in [limits[0] ; limits[1][
-    "Pas mal, mais tu peux mieux faire !", // correct answers ration in [limits[1] ; limits[2][
+    "Ça ne va pas du tout !", // le ratio de bonnes réponses est dans [limits[0] ; limits[1][
+    "Pas mal, mais tu peux mieux faire !", // le ratio de bonnes réponses est dans [limits[1] ; limits[2][
     "Tu es sur la bonne voie !",
-    "Tu as tout bon !" // correct answers ratio = 1 (perfect)
+    "Tu as tout bon !" // le ratio de bonnes réponses vaut 1 (score parfait)
   ];
   limits: number[] = [
+    // on délimite ici les différents paliers de données réponses
     0,
     0.3,
     0.6,
@@ -51,7 +52,9 @@ export class ScorePage implements ViewWillEnter {
               private darkmode: DarkModeService) { }
 
   ionViewWillEnter(): void {
-    this.darkmode.init();
+    this.darkmode.init(); // récupération des préférences relatives au thème sombre
+
+    // récupération des variables transmises par la page parent
 
     this.score = Number(this.route.snapshot.queryParamMap.get("score"));
     this.mcqSize = Number(this.route.snapshot.queryParamMap.get("mcqSize"));
@@ -76,6 +79,7 @@ export class ScorePage implements ViewWillEnter {
   }
 
   retry() {
+    // cette méthode permet de ramener l'utilisateur à l'écran de sélection du mode de révision
     this.router.navigate(["start-mcq"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector,
@@ -87,6 +91,7 @@ export class ScorePage implements ViewWillEnter {
   }
 
   backToMenu() {
+    // cette méthode permet de ramener l'utilisaeur à l'écran de sélection du domaine
     this.router.navigate(["domains"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector

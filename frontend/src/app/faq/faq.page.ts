@@ -50,7 +50,9 @@ export class FaqPage implements ViewWillEnter {
               private variables: SharedVariablesService) { }
 
   ionViewWillEnter(): void {
-    this.darkmode.init();
+    this.darkmode.init(); // récupération des préférences relatives au thème sombre
+
+    // récupération des variables globales
 
     this.mcqSize = this.variables.mcqSize;
     this.skillValidationThreshold = this.variables.skillValidationThreshold;
@@ -195,7 +197,8 @@ export class FaqPage implements ViewWillEnter {
       }
     })
   }
-
+  
+  // Cette méthode ouvre le navigateur sur l'appareil de l'utilisateur.
   async openBrowser(link: string) {
     await Browser.open({url: link});
   }

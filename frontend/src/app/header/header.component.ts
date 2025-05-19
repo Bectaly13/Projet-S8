@@ -12,8 +12,9 @@ import { IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton } from '@ion
   inputs: ['pageTitle', 'showBackButton'],
 })
 export class HeaderComponent {
-  pageTitle: string = "";
-  showBackButton: boolean = false;
+  // Un header ne contient que deux attributs
+  pageTitle: string = ""; // son titre
+  showBackButton: boolean = false; // un booléen indiquant si un back button doit s'afficher
 
   constructor() { }
 

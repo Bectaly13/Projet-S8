@@ -53,10 +53,13 @@ export class StatsPage implements ViewWillEnter {
   }
 
   async getStats() {
-    this.darkmode.init();
+    this.darkmode.init(); // récupération des préférences relatives au thème sombre
 
+    // on réinitialise les variables de la page pour éviter des problèmes d'actualisation
     this.domains = [];
     this.stats = [];
+
+    // récupération des variables transmises par la page parent
 
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
@@ -66,11 +69,13 @@ export class StatsPage implements ViewWillEnter {
     let sector_data = (await this.storage.get("questions_data"))[this.sectorId];
 
     this.message.sendMessage("getDomains", {sectorId: this.sectorId, mcqSize: this.mcqSize}).subscribe(res => {
+      // on récupère les domaines disponibles pour la filière
       console.log(res);
       if(res.status == 200) {
         this.domains = res.data;
 
         for(let domain of this.domains) {
+          // pour chaque domaine, on construit les stats
           let correct: number = 0;
           let incorrect: number = 0;
           let unseen: number = 0;
@@ -79,18 +84,24 @@ export class StatsPage implements ViewWillEnter {
           let domain_data = sector_data[domainId];
 
           for(let chapterId of Object.keys(domain_data)) {
+            // pour chaque chapitre du domaine, on regarde combien de questions sont :
+            // unseen (jamais vues)
+            // incorrect (dernièrement mal répondues)
+            // correct (dernièrement bien répondues)
             let chapter = domain_data[chapterId];
             correct += chapter.correct.length;
             incorrect += chapter.incorrect.length;
             unseen += chapter.unseen.length;
           }
 
+          // on crée l'objet de stats pour le domaine en question
           let stats: DomainStats = {
             correct: correct,
             incorrect: incorrect,
             unseen: unseen
           };
 
+          // on ajoute cet objet aux stats globales
           this.stats.push(stats);
         }
       }
@@ -102,6 +113,7 @@ export class StatsPage implements ViewWillEnter {
   }
 
   goToStatsDomain(domainId: number, name: string, index: number) {
+    // cette méthode permet de voir en détail les stats d'un domaine
     this.router.navigate(["stats-domain"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector,

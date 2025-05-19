@@ -45,7 +45,9 @@ export class ChaptersPage implements ViewWillEnter {
               private darkmode: DarkModeService) { }
 
   ionViewWillEnter(): void {
-    this.darkmode.init();
+    this.darkmode.init(); // récupération des préférences relatives au thème sombre
+
+    // récupération des variables transmises par la page parent
 
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
@@ -61,6 +63,9 @@ export class ChaptersPage implements ViewWillEnter {
       console.log(res);
       if(res.status == 200) {
         const sortedData = res.data.sort((a: Chapter, b: Chapter) => {
+          // Les noms des chapitres sont sont la forme :
+          // X) nom_chapitre
+          // On ne récupère que le nom du chapitre, mais on se sert du numéro X pour ordonner les chapitres.
           const matchA = a.name.match(/^(\d+)\)/);
           const matchB = b.name.match(/^(\d+)\)/);
           const numberA = matchA ? Number(matchA[1]) : 9999;
@@ -84,6 +89,7 @@ export class ChaptersPage implements ViewWillEnter {
   }
 
   goToMCQ(index: number, chapter: string) {
+    // Une fois le chapitre sélectionné, on va sur la page de sélection du mode de révision.
     this.router.navigate(['/start-mcq'], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector,

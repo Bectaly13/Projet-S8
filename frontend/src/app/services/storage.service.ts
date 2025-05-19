@@ -5,6 +5,8 @@ import { Storage } from '@ionic/storage-angular';
   providedIn: 'root'
 })
 export class StorageService {
+  // ce service de stockage contient les méthodes classiques de gestion de données utilisateur
+
   private _storage: Storage | null = null;
 
   constructor(private storage: Storage) {

@@ -42,7 +42,9 @@ export class DomainsPage implements ViewWillEnter {
               private darkmode: DarkModeService) { }
 
   ionViewWillEnter() {
-    this.darkmode.init();
+    this.darkmode.init(); // récupération des préférences relatives au thème sombre
+
+    // récupération des variables transmises par la page parent
     
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
@@ -56,13 +58,15 @@ export class DomainsPage implements ViewWillEnter {
       }
       else {
         this.domains = [];
-        this.storage.remove("sector_data");
+        this.storage.remove("sector_data"); // En cas d'erreur, on supprime le choix de filière du stockage.
+        // Cela permet de directement suggérer à l'utilisateur de changer de filière.
         this.error.errorMessage(res);
       }
     })
   }
 
   goToChapters(index: number, domain: string) {
+    // Une fois le domaine choisi, on se retrouve sur l'écran de choix des chapitres (de ce domaine).
     this.router.navigate(["chapters"], {queryParams: {
       domainId: index,
       domain: domain,
@@ -72,6 +76,7 @@ export class DomainsPage implements ViewWillEnter {
   }
 
   goToSectors() {
+    // Permet de revenir à l'écran de choix des filières.
     this.storage.remove("sector_data");
 
     this.router.navigate(["sectors"]);

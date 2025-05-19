@@ -17,6 +17,7 @@ export class ErrorPage {
 
   constructor(private router: Router) { }
 
+  // L'unique méthode de cette page permet de recharger l'application (du début).
   goHome() {
     this.router.navigate(["home"]);
   }

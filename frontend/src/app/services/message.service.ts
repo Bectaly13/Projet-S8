@@ -19,8 +19,10 @@ export class MessageService {
               private variables: SharedVariablesService) { }
 
   sendMessage(url : string, data : any): Observable<BackendResponse> {
+    // on construit l'URL sur laquelle on va envoyer la requête au serveur
     const fullUrl = this.backendUrl + url;
 
+    // à l'aide d'un post, on récupère la réponse du serveur
     return this.httpClient.post(fullUrl, data, {withCredentials: true, observe: 'response'}).pipe(map((res: HttpResponse<any>) => ({
       status: res.status,
       data: res.body.data

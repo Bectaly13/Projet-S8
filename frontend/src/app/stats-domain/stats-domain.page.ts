@@ -56,10 +56,12 @@ export class StatsDomainPage implements ViewWillEnter {
   }
 
   async getDomainStats() {
-    this.darkmode.init();
+    this.darkmode.init(); // récupération des préférences relatives au thème sombre    
 
     this.chapters = [];
     this.stats = [];
+    
+    // récupération des variables transmises par la page parent
 
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
@@ -76,6 +78,9 @@ export class StatsDomainPage implements ViewWillEnter {
     this.message.sendMessage("getChapters", {domainId: this.domainId, sectorId: this.sectorId, mcqSize: mcqSize}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
+        // on récupère les noms des chapitres, qui sont de la forme :
+        // X) nom_chapitre
+        // on ne veut afficher que nom_chapitre, mais les chapitres doivent être ordonnés en fonction de X
         const sortedData = res.data.sort((a: Chapter, b: Chapter) => {
           const matchA = a.name.match(/^(\d+)\)/);
           const matchB = b.name.match(/^(\d+)\)/);
@@ -93,6 +98,10 @@ export class StatsDomainPage implements ViewWillEnter {
         });
     
         for(let chapter of this.chapters) {
+          // pour chaque chapitre, on regarde combien de questions sont :
+            // unseen (jamais vues)
+            // incorrect (dernièrement mal répondues)
+            // correct (dernièrement bien répondues)
           const chapterId = chapter["chapterId"];
           const chapter_data = domain_data[chapterId];
 
@@ -100,13 +109,14 @@ export class StatsDomainPage implements ViewWillEnter {
           let incorrect:number = chapter_data.incorrect.length;
           let unseen:number = chapter_data.unseen.length;
 
+          // on crée l'objet de stats pour ce chapitre
           const stats: ChapterStats = {
             correct: correct,
             incorrect: incorrect,
             unseen: unseen
           };
     
-          this.stats.push(stats);
+          this.stats.push(stats); // on ajoute les stats à la liste de stats
         }
       }
       else {

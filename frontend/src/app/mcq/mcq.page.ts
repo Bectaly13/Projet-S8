@@ -94,7 +94,9 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   }
 
   async ionViewWillEnter() {
-    this.darkmode.init();
+    this.darkmode.init(); // récupération des préférences relatives au thème sombre
+
+    // récupération des variables transmises par la page parent
     
     this.sectorId = Number(this.route.snapshot.queryParamMap.get("sectorId"));
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
@@ -105,54 +107,57 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
     this.skillId = Number(this.route.snapshot.queryParamMap.get("skillId"));
     this.skill = String(this.route.snapshot.queryParamMap.get("skill"));
 
-    this.update.updateQuestionsData(this.sectorId);
+    this.update.updateQuestionsData(this.sectorId); // on remet à jour les questions disponibles pour la filière de l'utilisateur.
 
     this.mcq_data = (await this.storage.get("questions_data"))[this.sectorId][this.domainId][this.chapterId];
 
-    this.score = 0;
+    this.score = 0; // on initialise le score à 0
 
+    // on récupère des variables globales
     this.mail = this.variables.mail;
     this.choiceLabels = this.variables.choiceLabels;
     this.questionImagesUrl = this.variables.questionImagesUrl;
 
-    if(this.skillId) {
+    if(this.skillId) { // si un skillId est donné, c'est que l'on est en mode J'apprends
       this.title = "J'apprends";
       this.backendFileName = "getValidLearnQuestions";
       this.mcqSize = this.variables.mcqSize.small;
       this.data = {sectorId: this.sectorId, skillId: this.skillId};
     }
 
-    else if(this.chapterId) {
+    else if(this.chapterId) { // sinon, si un chapterId est donné, c'est que l'on est en mode Je révise
       this.title = "Je révise";
       this.backendFileName = "getValidStudyQuestions";
       this.mcqSize = this.variables.mcqSize.large;
       this.data = {sectorId: this.sectorId, chapterId: this.chapterId, mcqSize : this.mcqSize};
     }
 
-    else {
+    else { // ce cas ne devrait jamais ce produire, mais une erreur console est prévue.
       console.error("Error : no study mode given");
     }
 
+    // en fonction du mode de révision, on va interroger le serveur pour récupérer des questions adéquates.
     this.message.sendMessage(this.backendFileName, this.data).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
         const question_groups = res.data;
 
-        // we get all the questionGroupIds
+        // on récupère tous les questionGroupIds pertinents.
         const groupIds = Object.keys(question_groups);
 
-        // this function lets us pick a random question in a question_group
+        // cette méthode permet de sélectionner une question aléatoire dans un question_group.
         function pickRandomQuestion(questions: Question[]): Question {
           const index = Math.floor(Math.random() * questions.length);
           return questions[index];
         }
 
-        // preparing some useful structures
+        // on prépare quelques structures
         const selectedQuestions: Question[] = [];
         const usedGroupIds = new Set<string>();
 
-        // we sort question_groups according to the type of the questions in it
-        // we use a hierarchy : unseen > incorrect > correct
+        // on utilise une hiérarchie pour récupérer les questions.
+        // d'abord les questions jamais traitées (unseen), puis les questions dernièrement mal répondues
+        // (incorrect), et enfin les question dernièrement bien répondues (correct).
         const unseenGroups: string[] = [];
         const incorrectGroups: string[] = [];
         const correctGroups: string[] = [];
@@ -168,7 +173,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
           else if(hasCorrect) correctGroups.push(groupId);
         }
 
-        // this function shuffles the groups to add randomness
+        // pour ajouter de l'aléatoire à chaque QCM, cette méthode permet de mélanger les questions.
         function shuffle<T>(array: T[]): T[] {
           return array
             .map(value => ({value, sort: Math.random()}))
@@ -176,13 +181,13 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
             .map(({value}) => value);
         }
 
-        // shuffle the groups so the selection is more randomized
+        // on mélange donc chaque catégorie.
         const shuffledUnseenGroups = shuffle(unseenGroups);
         const shuffledIncorrectGroups = shuffle(incorrectGroups);
         const shuffledCorrectGroups = shuffle(correctGroups);
        
 
-        // step 1 : we first get unseen questions
+        // étape 1 : on récupère des questions unseen.
         for(const groupId of shuffledUnseenGroups) {
           if(selectedQuestions.length >= this.mcqSize) break;
           const questions = question_groups[groupId];
@@ -193,8 +198,8 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
           }
         }
 
-        // step 2 : if that's not enough, we get incorrect and correct questions
-        // we try to get 60% incorrect and 40% correct
+        // étape 2 : si on n'a pas assez d'unseen, on pioche parmi les incorrect et les correct.
+        // idéalement, on récupère 60% d'incorrect et 40% de correct.
         let remaining = this.mcqSize - selectedQuestions.length;
 
         if(remaining > 0) {
@@ -204,7 +209,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
           const availableIncorrect = shuffledIncorrectGroups.filter(gid => !usedGroupIds.has(gid));
           const availableCorrect = shuffledCorrectGroups.filter(gid => !usedGroupIds.has(gid));
 
-          // if we don't have enough groups available...
+          // si on n'a pas assez de groupes disponibles...
           if(availableIncorrect.length < numIncorrect) {
             numCorrect += numIncorrect - availableIncorrect.length;
             numIncorrect = availableIncorrect.length;
@@ -214,7 +219,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
             numCorrect = availableCorrect.length;
           }
 
-          // we add incorrect questions
+          // ...on ajoute des incorrect
           for(const groupId of availableIncorrect) {
             if(numIncorrect <= 0 || selectedQuestions.length >= this.mcqSize) break;
             const questions = question_groups[groupId];
@@ -226,7 +231,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
             }
           }
 
-          // we add correct questions
+          // ...puis on ajoute des correct
           for(const groupId of availableCorrect) {
             if(numCorrect <= 0 || selectedQuestions.length >= this.mcqSize) break;
             const questions = question_groups[groupId];
@@ -239,17 +244,18 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
           }
         }
 
-        // in learn mode, we may need to adjust this.mcqSize
+        // en mode J'apprends, on peut avoir besoin d'ajuster la taille du QCM (qui peut être inférieure à this.variables.mcqSize.small)
         if(this.title == "J'apprends") {
           this.mcqSize = selectedQuestions.length;
         }
 
-        // we sort questions by level
+        // on trie les questions sélectionnées par difficulté
         this.questions = selectedQuestions.sort((a, b) => a.level - b.level);
 
-        // we get all the questionIds and use it to fetch images and choices
+        // on récupère les questionIds
         const questionIds = this.questions.map(q => q.questionId);
 
+        // on se sert des questionIds pour récupérer les images et autres informations relatives aux questions
         this.getImages(questionIds);
       }
       else {
@@ -264,6 +270,10 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   }
 
   parseTypedString(text: string): typedString[] {
+    // cette méthode permet de scanner les textes dans les questions, afin de les découper en trois catégories :
+    // TEXT : texte normal
+    // LATEX : texte à interprété en LaTeX, délimimté par $ et $
+    // IMAGE : texte à remplacer par une image, de la forme url(...)
     const result: typedString[] = [];
     let currentIndex = 0;
   
@@ -321,6 +331,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   }     
 
   getChoices(questionIds: number[], callback?: () => void) {
+    // on récupère les choix relatifs à une liste de questionId
     this.message.sendMessage("getChoices", {questionIds: questionIds}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
@@ -377,6 +388,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   
 
   shuffle<T>(array: T[]): T[] {
+    // cette méthode permet d'ajouter de l'aléatoire dans l'ordre des choix des questions (si nécessaire)
     const shuffled = [...array];
 
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -388,6 +400,8 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   }
 
   getImages(questionIds: number[]) {
+    // cette méthode permet de récupérer les images pour les questions.
+    // elle appelle également this.getChoices() et this.parseTypedStrgin()
     this.message.sendMessage("getImages", {questionIds: questionIds}).subscribe(res => {
       console.log(res);
       if(res.status == 200) {
@@ -419,6 +433,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   }
 
   renderMath() {
+    // cette méthode permet de faire le rendu LaTeX
     setTimeout(() => {
       if (window.MathJax && window.MathJax.typesetPromise) {
         window.MathJax.typesetClear?.();
@@ -432,10 +447,11 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   }
 
   checkAnswer(choices: any, questionId: number) {
+    // cette méthode permet de vérifier si la réponse fournie est la bonne
     let answers: Boolean[] = [];
     let lastTrueIndex: number = 0;
 
-    for(let i=0; i<choices.length; i++) { // get correct answers
+    for(let i=0; i<choices.length; i++) { // on récupère la bonne réponse
       if(choices[i].isCorrect) {
         answers.push(true);
         lastTrueIndex = i;
@@ -445,7 +461,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
       }
     }
 
-    for(let i=0; i<lastTrueIndex + 1; i++) { // prepare solution string
+    for(let i=0; i<lastTrueIndex + 1; i++) { // on crée la chaîne de caractère contenant la bonne réponse
       if(answers[i]) {
         if(i == lastTrueIndex) {
           this.solution += this.choiceLabels[choices[i].choiceOrder - 1];
@@ -460,20 +476,20 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
       this.solution = "aucune de ces réponses";
     }
 
-    for(let i=0; i<answers.length; i++) { // update answer status
+    for(let i=0; i<answers.length; i++) { // on met à jour le statut de la réponse
       if(this.toggledChoices[i] != answers[i]) {
         this.answerStatus = "incorrecte";
         break;
       }
     }
 
-    if(this.answerStatus == "correcte") { // update score
+    if(this.answerStatus == "correcte") { // on met à jour le score
       this.score ++;
     }
 
     this.showAnswer = true;
 
-    // edit mcq_data
+    // on met à jour mcq_data
     this.mcq_data.correct = this.mcq_data.correct.filter((qId: any) => (qId != questionId));
     this.mcq_data.incorrect = this.mcq_data.incorrect.filter((qId: any) => (qId != questionId));
     this.mcq_data.unseen = this.mcq_data.unseen.filter((qId: any) => (qId != questionId));
@@ -489,6 +505,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   }
 
   async goBack() {
+    // si l'utilisateur souhaite quitter le QCM, une alerte le prévient que son progrès ne sera pas sauvegardé
     const alert = await this.alert.create({
       header: "Quitter le QCM ?",
       message: "Tous les progrès seront perdus.",
@@ -510,6 +527,7 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   }
 
   nextQuestion() {
+    // on passe à la question suivante en réinitialisant certains paramètres.
     this.questionIndex ++;
     this.showAnswer = false;
     this.solution = "";
@@ -520,16 +538,19 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   }
 
   async showScore() {
+    // on met à jour le questions_data de l'utilisateur à l'aide de this.mcq_data
     let questions_data = (await this.storage.get("questions_data"));
     questions_data[this.sectorId][this.domainId][this.chapterId] = this.mcq_data;
     this.storage.set("questions_data", questions_data);
 
+    // on réinitialise les paramètres du qcm (a priori c'est inutile)
     this.questionIndex = 1;
     this.showAnswer = false;
     this.solution = "";
     this.toggledChoices = [false, false, false, false];
     this.answerStatus = "correcte";
 
+    // on affiche la page de score
     this.router.navigate(["score"], {queryParams: {
       score: this.score,
       mcqSize: this.mcqSize,
@@ -543,6 +564,8 @@ export class MCQPage implements ViewWillEnter, ViewDidEnter {
   }
 
   shouldHaveRoundedBottom(index: number, choice: any): boolean {
+    // cette méthode permet d'appliquer un style CSS particulier à certaines réponses.
+    // la logique est trop complexe pour figurer dans le template HTML
     const currentChoice = this.typedChoices[this.questionIndex - 1][index];
     const nextChoice = this.typedChoices[this.questionIndex - 1][index + 1];
   

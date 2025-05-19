@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 
+// ce service permet de stocker des variables globales dans l'application.
+// au fur et à mesure des mises à jour, il suffira de les modifier ici pour qu'elles se mettent à jour partout.
+
 @Injectable({
   providedIn: 'root'
 })

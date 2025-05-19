@@ -40,7 +40,7 @@ export class OptionsPage implements ViewWillEnter {
               private variables: SharedVariablesService) { }
 
   async ionViewWillEnter() {
-    this.darkmode.init();
+    this.darkmode.init(); // récupération des préférences relatives au thème sombre
 
     this.mcqSize = this.variables.mcqSize.large;
     this.version = this.variables.version;
@@ -57,6 +57,8 @@ export class OptionsPage implements ViewWillEnter {
     this.sector = String(this.route.snapshot.queryParamMap.get("sector"));
   }
 
+  // les deux méthodes suivantes permettent de gérer le bouton toggle relatif au thème sombre
+
   toggleChange(event: CustomEvent) {
     const shouldAdd: boolean = event.detail.checked;
 
@@ -68,6 +70,8 @@ export class OptionsPage implements ViewWillEnter {
   toggleDarkPalette(shouldAdd: boolean) {
     document.documentElement.classList.toggle('ion-palette-dark', shouldAdd);
   }
+
+  // les trois méthodes suivantes permettent d'ouvrir des alertes quand l'utilisateur souhaite supprimer ses données.
 
   async clearProgress() {
     const alert = await this.alert.create({
@@ -159,6 +163,7 @@ export class OptionsPage implements ViewWillEnter {
   }
 
   goToFAQ() {
+    // cette méthode permet de naviguer vers la FAQ
     this.router.navigate(["faq"], {queryParams: {
       sectorId: this.sectorId,
       sector: this.sector

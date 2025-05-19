@@ -31,9 +31,12 @@ export class DoughnutChartComponent implements OnChanges {
   }
 
   private createChart(): void {
+    // On s'assure que les variables d'input on bien été transmises par le parent.
     if (this.correct == null || this.incorrect == null || this.unseen == null || this.domainId == null) {
       return;
     }
+
+    // On crée ensuite l'objet "chart".
 
     const ctx = this.chartCanvas.nativeElement.getContext('2d');
 
