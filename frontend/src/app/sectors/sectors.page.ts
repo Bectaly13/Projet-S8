@@ -42,8 +42,6 @@ export class SectorsPage implements ViewWillEnter {
       if(res.status == 200) {
         this.sectors = res.data;
         this.filteredSectors = [...res.data]; // ajouté pour menu déroulant
-        console.log('Secteurs initialisés:', this.sectors);
-        console.log('Secteurs filtrés initiaux:', this.filteredSectors);
       }
       else {
         this.sectors = [];
@@ -98,53 +96,52 @@ export class SectorsPage implements ViewWillEnter {
     this.filteredSectors = [...this.sectors]; // Réinitialise les secteurs filtrés
   }
 
+  /// Pour une jolie MeP
 
-/// Pour une jolie MeP
+  handlePress(event: PointerEvent) {
+    this.rippleEffect(event); // Appliquer l'effet ripple
+    
+    const button = event.currentTarget as HTMLElement;
+    button.classList.add('bounce'); // Appliquer l'effet bounce
+    
+    setTimeout(() => {
+      button.classList.remove('bounce'); // Supprimer l'effet bounce après 600ms
+    }, 600);
+  }
 
-handlePress(event: PointerEvent) {
-  this.rippleEffect(event); // Appliquer l'effet ripple
-  
-  const button = event.currentTarget as HTMLElement;
-  button.classList.add('bounce'); // Appliquer l'effet bounce
-  
-  setTimeout(() => {
-    button.classList.remove('bounce'); // Supprimer l'effet bounce après 600ms
-  }, 600);
-}
-
-rippleEffect(event: MouseEvent) {
-  const button = event.currentTarget as HTMLElement;
-  const ripple = document.createElement('span');
-  
-  const rect = button.getBoundingClientRect();
-  const size = Math.max(button.offsetWidth, button.offsetHeight);
-  const x = event.clientX - rect.left - size / 2;
-  const y = event.clientY - rect.top - size / 2;
-  
-  ripple.style.width = ripple.style.height = `${size}px`;
-  ripple.style.left = `${x}px`;
-  ripple.style.top = `${y}px`;
-  ripple.style.position = 'absolute';
-  ripple.style.borderRadius = '50%';
-  ripple.style.backgroundColor = 'var(--ion-color-primary)';
-  ripple.style.opacity = '0.2';
-  ripple.style.transform = 'scale(0)';
-  ripple.style.pointerEvents = 'none';
-  ripple.style.transition = 'transform 1s ease-out, opacity 0.6s ease-out';
-  
-  ripple.classList.add('ripple');
-  
-  button.appendChild(ripple);
-  
-  requestAnimationFrame(() => {
-    ripple.style.transform = 'scale(5)';
-    ripple.style.opacity = '0';
-  });
-  
-  setTimeout(() => {
-    ripple.remove();
-  }, 600);
-}
+  rippleEffect(event: MouseEvent) {
+    const button = event.currentTarget as HTMLElement;
+    const ripple = document.createElement('span');
+    
+    const rect = button.getBoundingClientRect();
+    const size = Math.max(button.offsetWidth, button.offsetHeight);
+    const x = event.clientX - rect.left - size / 2;
+    const y = event.clientY - rect.top - size / 2;
+    
+    ripple.style.width = ripple.style.height = `${size}px`;
+    ripple.style.left = `${x}px`;
+    ripple.style.top = `${y}px`;
+    ripple.style.position = 'absolute';
+    ripple.style.borderRadius = '50%';
+    ripple.style.backgroundColor = 'var(--ion-color-primary)';
+    ripple.style.opacity = '0.2';
+    ripple.style.transform = 'scale(0)';
+    ripple.style.pointerEvents = 'none';
+    ripple.style.transition = 'transform 1s ease-out, opacity 0.6s ease-out';
+    
+    ripple.classList.add('ripple');
+    
+    button.appendChild(ripple);
+    
+    requestAnimationFrame(() => {
+      ripple.style.transform = 'scale(5)';
+      ripple.style.opacity = '0';
+    });
+    
+    setTimeout(() => {
+      ripple.remove();
+    }, 600);
+  }
 
 
 }
