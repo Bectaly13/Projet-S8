@@ -35,6 +35,7 @@ export class SectorsPage implements ViewWillEnter {
               private update: UpdateQuestionsDataService) { }
 
   ionViewWillEnter() {
+    this.dropdownOpen = false;
     this.darkmode.init(); // récupération des préférences relatives au thème sombre
 
     this.message.sendMessage("getSectors", {}).subscribe(res => {
