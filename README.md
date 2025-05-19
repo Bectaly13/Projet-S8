@@ -31,7 +31,7 @@ Projet-S8/
     - `sqlConfig.js`, `sqlConnect.js` : connexion à la base de données
     - `sql*.js` : fichiers de requêtes SQL (ex : `sqlQuestions.js`, `sqlSkills.js`)
   - `util/message.js` : méthodes utilitaires pour répondre au frontend (`sendMessage`, `sendError`)
-  - `data/` : éventuels fichiers de données statiques
+  - `data/` : fichiers de données statiques
 
 ---
 
@@ -91,7 +91,7 @@ Le frontend sera accessible à l'adresse : [http://127.0.0.1:8100](http://127.0.
 ### Backend
 
 - Node.js / Express
-- MySQL (via `mysql2` ou autre librairie de connexion)
+- MySQL (via `mysql2`)
 
 ### Frontend
 

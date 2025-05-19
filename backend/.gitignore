@@ -12,8 +12,6 @@ $RECYCLE.BIN/
 *.log
 log.txt
 
-/data
-
 /.sourcemaps
 /.versions
 /coverage
