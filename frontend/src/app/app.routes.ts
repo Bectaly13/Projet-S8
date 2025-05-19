@@ -55,10 +55,6 @@ export const routes: Routes = [
     loadComponent: () => import('./stats-domain/stats-domain.page').then( m => m.StatsDomainPage)
   },
   {
-    path: 'mcq-debug',
-    loadComponent: () => import('./mcq-debug/mcq-debug.page').then( m => m.McqDebugPage)
-  },
-  {
     path: 'error',
     loadComponent: () => import('./error/error.page').then( m => m.ErrorPage)
   },
