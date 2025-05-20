@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonButton, IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonButton, IonIcon, ViewWillEnter } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
+
+import { DarkModeService } from '../services/dark-mode.service';
 
 import { HeaderComponent } from '../header/header.component';
 
@@ -13,9 +15,14 @@ import { HeaderComponent } from '../header/header.component';
   standalone: true,
   imports: [IonContent, CommonModule, FormsModule, HeaderComponent, IonButton, IonIcon]
 })
-export class ErrorPage {
+export class ErrorPage implements ViewWillEnter {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private darkmode: DarkModeService) { }
+
+  ionViewWillEnter(): void {
+    this.darkmode.init();
+  }
 
   // L'unique méthode de cette page permet de recharger l'application (du début).
   goHome() {
