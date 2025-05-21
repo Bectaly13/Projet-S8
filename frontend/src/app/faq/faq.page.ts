@@ -38,7 +38,6 @@ export class FaqPage implements ViewWillEnter {
   mail!: string;
   subject!: string;
   site!: string;
-  facebook!: string;
 
   camilleUlrichShort!: string;
 
